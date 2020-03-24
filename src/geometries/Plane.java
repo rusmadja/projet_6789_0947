@@ -8,10 +8,15 @@ public class Plane implements Geometry {
     Vector _normal;
 
     public Plane(Point3D vertex1, Point3D vertex2, Point3D vertex3) {
-        Vector _vector1 = new Vector(vertex1,vertex2);
-        Vector _vector2 = new Vector(vertex1,vertex3);
-        this._p = new Point3D(vertex1.get_x(),vertex1.get_y(),vertex1.get_z());
-        this._normal= null/*new Vector(_vector1.crossProduct(_vector2))*/;
+        _p = new Point3D(vertex1);
+
+        Vector U = new Vector(vertex1, vertex2);
+        Vector V = new Vector(vertex1, vertex3);
+        Vector N = U.crossProduct(V);
+        N.normalize();
+
+        _normal = N.scale(-1);
+
     }
     public Plane(Point3D _p, Vector _normal) {
         this._p = new Point3D(_p.get_x(),_p.get_y(),_p.get_z());
@@ -20,7 +25,11 @@ public class Plane implements Geometry {
     @Override
     public Vector getNormal(Point3D _point3D)
     {
-        return new Vector(_normal.get_head());
+        return new Vector(_normal);
+    }
+    //because polygon
+    public Vector getNormal() {
+        return getNormal(null);
     }
 
     @Override
@@ -30,4 +39,6 @@ public class Plane implements Geometry {
                 ", _normal=" + _normal +
                 '}';
     }
+
+
 }

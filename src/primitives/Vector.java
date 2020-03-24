@@ -16,7 +16,7 @@ public class Vector {
      */
     public Vector(Point3D p) {
         if (p.equals(Point3D.ZERO)) {
-            throw new IllegalArgumentException("ZERO point not valid for vector");
+            throw new IllegalArgumentException("Point3D(0,0,0) not valid for vector head");
         }
         this._head = new Point3D(p._x._coord, p._y._coord, p._z._coord);
     }
@@ -46,26 +46,26 @@ public class Vector {
     /**
      * @param vector
      */
-    public void add(Vector vector) {
-        this._head.add(vector);
+    public Vector add(Vector vector) {
+        return new Vector( this._head.add(vector));
     }
 
     /**
      * @param vector
      */
-    public void subtract(Vector vector) {
-        this._head.subtract(vector._head);
+    public Vector subtract(Vector vector) {
+        return this._head.subtract(vector._head);
     }
 
     /**
-     * @param scalingFacor
+     * @param factorScale
      */
-    public Vector scale(double scalingFacor) {
+    public Vector scale(double factorScale) {
         return new Vector(
                 new Point3D(
-                        new Coordinate(scalingFacor * _head._x._coord),
-                        new Coordinate(scalingFacor * _head._y._coord),
-                        new Coordinate(scalingFacor * _head._z._coord)));
+                        new Coordinate(factorScale * _head._x._coord),
+                        new Coordinate(factorScale * _head._y._coord),
+                        new Coordinate(factorScale * _head._z._coord)));
     }
 
     /**
@@ -103,7 +103,9 @@ public class Vector {
     }
 
     /**
-     * @return
+     * @return lenght² of our vector
+     * with
+     * operation x² + y² + z²
      */
     public double lengthSquared() {
         double xx = this._head._x._coord * this._head._x._coord;
@@ -115,7 +117,9 @@ public class Vector {
     }
 
     /**
-     * @return
+     * @return lenght of our vector
+     * with
+     * operation sqrt(x² + y² + z²)
      */
     public double length() {
         return Math.sqrt(lengthSquared());
@@ -148,96 +152,5 @@ public class Vector {
         vector.normalize();
         return vector;
     }
+
 }
-/*package primitives;
-import java.lang.Math;
-
-public class Vector {
-    Point3D head;
-
-    public Vector subtract(Vector other)
-    {
-        return new Vector(
-                other.head.x._coord-this.head.x._coord,
-                other.head.y._coord-this.head.y._coord,
-                other.head.z._coord-this.head.z._coord);
-    }
-    public Vector add(Vector other)
-    {
-        return new Vector(this.head.x._coord + other.head.x._coord,
-                this.head.y._coord + other.head.y._coord,
-                this.head.z._coord + other.head.z._coord);
-    }
-    public Vector scale(int a)
-    {
-        return new Vector(this.head.x._coord*a,
-                this.head.y._coord*a,
-                this.head.z._coord*a);
-    }
-
-    public double dotProduct(Vector other){
-        return (this.head.x._coord * other.head.x._coord +
-         this.head.y._coord * other.head.y._coord +
-         this.head.z._coord * other.head.z._coord );
-    }
-
-    public Vector crossProduct(Vector other){
-        return new Vector( this.head.y._coord * other.head.z._coord - this.head.z._coord * other.head.y._coord ,
-                            this.head.z._coord * other.head.x._coord - this.head.x._coord * other.head.z._coord ,
-                            this.head.x._coord * other.head.y._coord - this.head.y._coord * other.head.x._coord );
-    }
-    public double lengthSquared(){
-        return
-                ((this.head.x._coord)*(this.head.x._coord)+
-                (this.head.y._coord)*(this.head.y._coord)+
-                (this.head.z._coord)*(this.head.z._coord));
-    }
-    public double length(){
-        return  Math.sqrt(lengthSquared());
-    }
-    public Vector  normalize(){
-        //TODO
-        return this;
-    }
-    public Vector  normalized(){
-        //TODO
-        return this;
-    }
-
-    public Vector(Point3D OTHER)
-            throws IllegalArgumentException{
-        this(OTHER.getX(),OTHER.getY(),OTHER.getZ());
-    }
-    public Vector(Coordinate x,Coordinate y, Coordinate z)
-            throws IllegalArgumentException{
-        this.head = new Point3D(x,y,z);
-    }
-    public Vector(double x,double y, double z)
-            throws IllegalArgumentException {
-        this.head = new Point3D(x,y,z);
-    }
-    // pas de throws ici
-    public Vector(Vector other) {
-        if(! (other == null))
-            this.head = other.head;
-    }
-
-    public Point3D gethead() {
-        return head;
-    }
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if(o==null) return false;
-        if (!(o instanceof Vector)) return false;
-        Vector vector = (Vector) o;
-        return this.head.equals(vector.head);
-    }
-    @Override
-    public String toString() {
-        return "Vector{" +
-                "head=" + head.toString() +
-                '}';
-    }
-
-}*/

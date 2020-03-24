@@ -1,8 +1,10 @@
 package geometries;
 
-import primitives.Point3D;
-import primitives.Vector;
-
+/**
+ * @author raph et reouven
+ * RadialGeometry is ana abstract class that defines
+ * all radial geometries.
+ */
 abstract class RadialGeometry implements Geometry {
    double _radius;
 

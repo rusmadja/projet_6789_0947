@@ -1,7 +1,7 @@
 package geometries;
 
-import primitives.Point3D;
-import primitives.Vector;
+import primitives.*;
+
 
 public class Sphere extends RadialGeometry {
     Point3D _center;
@@ -18,7 +18,14 @@ public class Sphere extends RadialGeometry {
     public Point3D get_center() {
         return new Point3D(_center.get_x(),_center.get_y(),_center.get_z());
     }
-
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null ) return false;
+        if (!(o instanceof Sphere)) return  false;
+        Sphere other = (Sphere) o;
+        return this._center.equals(other._center) && (Util.isZero(this._radius - other._radius));
+    }
     @Override
     public String toString() {
         return "Sphere{" +

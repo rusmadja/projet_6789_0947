@@ -81,4 +81,13 @@ public class Point3D {
                 _z.equals(point3D._z);
     }
 
+    @Override
+    public String toString() {
+        return "Point3D{" +
+                "_x=" + _x +
+                ", _y=" + _y +
+                ", _z=" + _z +
+                '}';
+    }
+
 }

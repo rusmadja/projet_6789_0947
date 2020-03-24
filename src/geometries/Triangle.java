@@ -1,9 +1,32 @@
 package geometries;
 
-import primitives.*;
+        import primitives.*;
 public class Triangle extends Polygon
 {
-    public Triangle(Point3D _vertex1, Point3D _vertex2, Point3D _vertex3) {
-        super(_vertex1,_vertex2,_vertex3);
+    public Triangle(Point3D p1, Point3D p2, Point3D p3) {
+        super(new Point3D[]{p1, p2, p3});
     }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (!(obj instanceof Triangle)) return false;
+        Triangle tr = (Triangle) obj;
+
+        return _vertices.get(0).equals(tr._vertices.get(0)) &&
+                _vertices.get(1).equals(tr._vertices.get(1)) &&
+                _vertices.get(2).equals(tr._vertices.get(2));
+    }
+
+
+    @Override
+    public String toString() {
+        String result = "";
+        for (Point3D p : _vertices ) {
+            result += p.toString();
+        }
+        return  result;
+    }
+
+
 }
