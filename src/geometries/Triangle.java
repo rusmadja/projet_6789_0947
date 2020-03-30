@@ -28,5 +28,8 @@ public class Triangle extends Polygon
         return  result;
     }
 
-
+    @Override
+    public Vector getNormal(Point3D point) {
+        return super.getNormal(point);
+    }
 }

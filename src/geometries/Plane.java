@@ -15,7 +15,7 @@ public class Plane implements Geometry {
         Vector N = U.crossProduct(V);
         N.normalize();
 
-        _normal = N.scale(-1);
+        //_normal = N.scale(-1);
 
     }
     public Plane(Point3D _p, Vector _normal) {

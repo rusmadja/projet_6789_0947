@@ -1,8 +1,11 @@
 package geometries;
 
+import primitives.Point3D;
+import primitives.Vector;
+
 import java.util.List;
-import primitives.*;
-import static primitives.Util.*;
+
+import static primitives.Util.isZero;
 
 /**
  * Polygon class represents two-dimensional polygon in 3D Cartesian coordinate
