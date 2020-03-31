@@ -12,6 +12,7 @@ public class Plane implements Geometry {
 
         Vector U = new Vector(vertex1, vertex2);
         Vector V = new Vector(vertex1, vertex3);
+        //N = U x V
         Vector N = U.crossProduct(V);
         N.normalize();
 

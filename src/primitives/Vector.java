@@ -83,6 +83,7 @@ public class Vector {
     /**
      * @param v
      * @return
+     * U . V
      */
     public double dotProduct(Vector v) {
         return (this._head._x._coord * v._head._x._coord +
@@ -93,6 +94,7 @@ public class Vector {
     /**
      * @param v
      * @return
+     * U x V
      */
     public Vector crossProduct(Vector v) {
         double w1 = this._head._y._coord * v._head._z._coord - this._head._z._coord * v._head._y._coord;
