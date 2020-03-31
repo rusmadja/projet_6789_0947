@@ -6,7 +6,7 @@ import static primitives.Util.isZero;
 
 /**
  * Unit tests for primitives.Vector class
- * @author Dan
+ * @author reouven and raphael
  */
 
 public class VectorTest{
@@ -45,12 +45,51 @@ public class VectorTest{
      */
     @Test
     public void testScale() {
+        Vector v1 = new Vector(1.0, 1.0, 1.0);
+        Vector v2 = new Vector(-1.0, -1.0, -1.0);
+        Vector v3 = new Vector(-1.0, -1.5, -1.5);
+        try {
+            assertEquals(v1.scale(-1), v2);
+        }catch(IllegalArgumentException e)
+        {
+            fail("(1,1,1) * -1 must be (-1,-1,-1)");
+        }
+        try {
+            assertFalse(v1.scale(-2)== v2);
+        }catch(IllegalArgumentException e)
+        {
+            fail("(1,1,1) * -2 must be (-2,-2,-2) and not be  (-1,-1,-1) ");
+        }
+        try {
+            assertFalse(v1.scale(-1)== v3);
+        }catch(IllegalArgumentException e)
+        {
+            fail("(1,1,1) * -1 must be (-1,-1,-1) and not be  (-1,-1.5,-1.5) ");
+        }
+
     }
     /**
      * Test method for {@link primitives.Vector#dotProduct(primitives.Vector)}.
      */
     @Test
     public void testDotProduct() {
+        Vector v1 = new Vector(1, 2, 3);
+        Vector v2 = new Vector(3, 2, 1);
+        Vector v3 = new Vector(-2, -4, -6);
+
+        try{
+            assertTrue(v1.dotProduct(v2)==10.0);
+        }catch (AssertionError e)
+        {
+            fail("1*3+2*2+3*1=10 and not an other result");
+        }
+
+        try{
+            assertFalse(v1.dotProduct(v3)==22);
+        }catch (AssertionError e)
+        {
+            fail("1*(-2)+2*(-4)+3*(-6)=-22 and not an other result");
+        }
 
     }
 
@@ -86,13 +125,47 @@ public class VectorTest{
      * Test method for {@link Vector#lengthSquared()}.
      */
     @Test
-    public void testLengthSquared() {
+    public void testLengthSquared()
+    {
+        Vector v1= new primitives.Vector(1.0,0.0,0.0);
+        Vector v2 = new primitives.Vector(0.0,5.0,0.0);
+
+        try{
+            assertTrue(v1.lengthSquared()==1);
+        }catch(IllegalArgumentException e)
+        {
+            fail("1²+0²+0²=1 and not an other result");
+        }
+        try{
+            assertTrue(v2.lengthSquared()==25);
+        }catch(IllegalArgumentException e)
+        {
+            fail("0²+5²+0²=25 and not an other result");
+        }
+
+
+
     }
     /**
      * Test method for {@link Vector#length()}.
      */
     @Test
     public void testLength() {
+        Vector v1= new primitives.Vector(1.0,0.0,0.0);
+        Vector v2 = new primitives.Vector(0.0,5.0,0.0);
+
+        try{
+            assertTrue(v1.length()==1);
+        }catch(IllegalArgumentException e)
+        {
+            fail("sqrt(1²+0²+0²)=1 and not an other result");
+        }
+        try{
+            assertTrue(v2.length()==5);
+        }catch(IllegalArgumentException e)
+        {
+            fail("sqrt(0²+5²+0²)=5 and not an other result");
+        }
     }
     /**
      * Test method for {@link Vector#normalize()}.
@@ -108,7 +181,7 @@ public class VectorTest{
             v.normalize();
             fail("Didn't throw divide by zero exception!");
         } catch (IllegalArgumentException ex) {
-            assertEquals("Point3D(0.0,0.0,0.0) not valid for vector head", ex.getMessage());
+            assertEquals("Point3D(0,0,0) not valid for vector head", ex.getMessage());
         }
         assertTrue(true);
     }
@@ -117,5 +190,6 @@ public class VectorTest{
      */
     @Test
     public void testNormalized() {
+
     }
 }
