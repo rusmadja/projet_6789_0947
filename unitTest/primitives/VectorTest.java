@@ -30,6 +30,15 @@ public class VectorTest{
      */
     @Test
     public void testSubtract() {
+        Vector v1 = new Vector(1.0, 1.0, 1.0);
+        Vector v2 = new Vector(-1.0, -1.0, -1.0);
+        Vector v3 = new Vector(-1.0, -1.0, -1.0);
+
+        assertEquals(new Vector(2.0,2.0,2.0),v1.subtract(v2));
+
+        assertEquals(new Vector(-2.0, -2.0, -2.0),v2.subtract(v1));
+
+        assertFalse(new Vector(-3.0, -2.0, -2.0)==v3.subtract(v1));
     }
     /**
      * Test method for {@link primitives.Vector#scale(double)}.

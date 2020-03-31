@@ -1,6 +1,7 @@
 package geometries;
 
-        import primitives.*;
+import primitives.*;
+
 public class Triangle extends Polygon
 {
     public Triangle(Point3D p1, Point3D p2, Point3D p3) {

@@ -12,7 +12,6 @@ public class SphereTest extends Polygon {
         Sphere s1 = new Sphere(4, new Point3D(0,0,0));
         Sphere s2 = new Sphere(1, new primitives.Point3D(1,1,1));
 
-
         assertTrue(s1.getNormal(new Point3D(0,0,4)).equals(new Vector(new Point3D(0,0,1))));
         assertTrue(s1.getNormal(new Point3D(0,0,-4)).equals(new Vector(new Point3D(0,0,-1))));
         assertTrue(s1.getNormal(new Point3D(0,4,0)).equals(new Vector(new Point3D(0,1,0))));

@@ -19,6 +19,10 @@ public class Rectangle extends Polygon {
                 _vertices.get(3).equals(tr._vertices.get(3));
     }
 
+    @Override
+    public primitives.Vector getNormal(Point3D point) {
+        return super.getNormal(point);
+    }
 
     @Override
     public String toString() {

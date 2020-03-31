@@ -1,6 +1,6 @@
 package geometries;
 
-        import primitives.Point3D;
+import primitives.Point3D;
 import primitives.Ray;
 import primitives.Util;
 import primitives.Vector;
@@ -87,8 +87,6 @@ public class Tube extends RadialGeometry {
         Vector check = point.subtract(o);
         return check.normalize();
     }
-    @Override
-    public java.util.List<primitives.Point3D> findIntersections(Ray ray) {
-        return null;
-    }
+
+
 }
