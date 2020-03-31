@@ -13,10 +13,8 @@ public class Plane implements Geometry {
         Vector U = new Vector(vertex1, vertex2);
         Vector V = new Vector(vertex1, vertex3);
         //N = U x V
-        Vector N = U.crossProduct(V);
-        N.normalize();
-
-        //_normal = N.scale(-1);
+        _normal = U.crossProduct(V);
+        _normal.normalize();
 
     }
     public Plane(Point3D _p, Vector _normal) {
@@ -30,7 +28,7 @@ public class Plane implements Geometry {
     }
     //because polygon
     public Vector getNormal() {
-        return getNormal(null);
+            return new Vector(_normal);
     }
 
     @Override

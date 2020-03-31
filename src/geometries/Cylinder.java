@@ -68,11 +68,11 @@ public class Cylinder extends Tube {
         return  super.equals((Tube)o) && isZero(this._height - this._height);
     }
 
-    @Override
+   /* @Override
     public List<Point3D> findIntersections(Ray ray) {
         return super.findIntersections(ray);
     }
-
+*/
 
     public double get_height() {
         return _height;
