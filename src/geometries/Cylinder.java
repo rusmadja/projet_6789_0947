@@ -10,7 +10,7 @@ import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
 /**
- *  Cylinder is a finite Tube with a certain _height
+ *  Cylinder: Finite Tube with a certain _height
  */
 public class Cylinder extends Tube {
     /**
@@ -28,7 +28,10 @@ public class Cylinder extends Tube {
         super(_radius, _axisRay);
         this._height = _height;
     }
-
+    public Cylinder(Cylinder other) {
+        super(other._radius, other._axisRay);
+        this._height = other._height;
+    }
       /**
      * @param point point to calculate the normal
      * @return normal
@@ -52,6 +55,17 @@ public class Cylinder extends Tube {
 
         o = o.add(v.scale(t));
         return point.subtract(o).normalize();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Cylinder cylinder = (Cylinder) o;
+
+        return  super.equals((Tube)o) && isZero(this._height - this._height);
     }
 
     @Override

@@ -9,6 +9,6 @@ import primitives.Vector;
  * @author raph et ouriel
  */
 
-public interface Geometry {
+public interface Geometry extends Intersection{
     Vector getNormal(Point3D _point3D);
 }

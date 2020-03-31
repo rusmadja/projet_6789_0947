@@ -26,4 +26,14 @@ public abstract class RadialGeometry implements Geometry{
     public double get_radius() {
         return _radius;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RadialGeometry that = (RadialGeometry) o;
+
+        return isZero(this._radius -that._radius);
+    }
 }
