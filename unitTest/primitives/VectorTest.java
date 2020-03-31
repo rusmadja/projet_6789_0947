@@ -15,6 +15,15 @@ public class VectorTest{
      */
     @Test
     public void testAdd() {
+        Vector v1 = new Vector(1.0, 1.0, 1.0);
+        Vector v2 = new Vector(-1.0, -1.0, -1.5);
+
+        v1 = v1.add(v2);
+        assertEquals(new Vector(0.0,0.0,-0.5),v1);
+
+        v2 = v2.add(v1);
+        assertEquals(new Vector(-1.0, -1.0, -2.0),v2);
+
     }
     /**
      * Test method for {@link primitives.Vector#subtract(primitives.Vector)}.
@@ -81,6 +90,18 @@ public class VectorTest{
      */
     @Test
     public void testNormalize() {
+        Vector v = new Vector(3.5, -5, 10);
+        v.normalize();
+        assertEquals(1, v.length(), 1e-10);
+
+        try {
+            Vector v1 = new Vector(0, 0, 0);
+            v.normalize();
+            fail("Didn't throw divide by zero exception!");
+        } catch (IllegalArgumentException ex) {
+            assertEquals("Point3D(0.0,0.0,0.0) not valid for vector head", ex.getMessage());
+        }
+        assertTrue(true);
     }
     /**
      * Test method for {@link Vector#normalized()}.

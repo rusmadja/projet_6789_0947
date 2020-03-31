@@ -1,34 +1,70 @@
 package geometries;
 
 import primitives.Point3D;
+import primitives.Ray;
 import primitives.Vector;
 
+import java.util.List;
+
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
+
 /**
- *
- * Finite Cylinder
+ *  Cylinder is a finite Tube with a certain _height
  */
-public class Cylinder  extends Tube{
-
-    double _height;
-    public Cylinder(double _radius) {
-        super(_radius);
-    }
-    // get Finite Cylinder normal
-
+public class Cylinder extends Tube {
     /**
      *
-     * @param _point3D=middle of our cylinder
-     * @returnget Finite Cylinder normal
      */
-    public Vector getNormal(Point3D _point3D) {
-        //TO VERIFY
-        // _p = _point3D + _axisRay.vector
-       Point3D _p =_point3D.add(_axisRay.get_dir());
-       // return the new vector _p - _point3D
-        return new primitives.Vector(_p.subtract(_point3D));
+    private double _height;
+
+    /** Cylinder constructor
+     *
+     * @param _radius
+     * @param _axisRay
+     * @param _height
+     */
+    public Cylinder(double _radius, Ray _axisRay, double _height) {
+        super(_radius, _axisRay);
+        this._height = _height;
     }
 
+      /**
+     * @param point point to calculate the normal
+     * @return normal
+     */
+    @Override
+    public Vector getNormal(Point3D point) {
+        Point3D o = _axisRay.getPoint();
+        Vector v = _axisRay.getDirection();
+
+        // projection of P-O on the ray:
+        double t;
+        try {
+            t = alignZero(point.subtract(o).dotProduct(v));
+        } catch (IllegalArgumentException e) { // P = O
+            return v;
+        }
+
+        // if the point is at a base
+        if (t == 0 || isZero(_height - t)) // if it's close to 0, we'll get ZERO vector exception
+            return v;
+
+        o = o.add(v.scale(t));
+        return point.subtract(o).normalize();
+    }
+
+    @Override
+    public List<Point3D> findIntersections(Ray ray) {
+        return super.findIntersections(ray);
+    }
+
+
+    public double get_height() {
+        return _height;
+    }
 }
+
 
 
 
