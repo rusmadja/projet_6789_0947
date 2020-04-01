@@ -29,6 +29,7 @@ public class SphereTest {
 
         assertFalse(s1.getNormal(new Point3D(7,7,7))==null);
 
+
     }
 }
 

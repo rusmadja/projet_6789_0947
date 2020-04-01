@@ -155,4 +155,10 @@ public class Vector {
         return vector;
     }
 
+    @Override
+    public String toString() {
+        return "Vector{" +
+                "_head=" + _head +
+                '}';
+    }
 }

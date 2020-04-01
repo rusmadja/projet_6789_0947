@@ -67,6 +67,7 @@ public class Tube extends RadialGeometry {
      * @param point point to calculate the normal
      * @return returns normal vector
      */
+
     @Override
     public Vector getNormal(Point3D point) {
         //The vector from the point of the cylinder to the given point

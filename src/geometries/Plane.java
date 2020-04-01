@@ -22,11 +22,13 @@ public class Plane implements Geometry {
         this._p = new Point3D(_p.get_x(),_p.get_y(),_p.get_z());
         this._normal = new Vector (_normal.get_head());
     }
+
     @Override
     public Vector getNormal(Point3D _point3D)
     {
         return new Vector(_normal);
     }
+
     //because polygon
     public Vector getNormal() {
         return getNormal(null);
