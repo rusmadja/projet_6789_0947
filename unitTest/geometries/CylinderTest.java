@@ -20,7 +20,7 @@ public class CylinderTest {
         Point3D p3=new Point3D(1,2,0);
         Vector v2 = new Vector(new Point3D(1.0,0.0,0.0));
 
-        Cylinder c1 = new Cylinder(2,r1,4 );
+        Cylinder c1 = new Cylinder(1,r1,4 );
 
         try{
             assertEquals( c1.getNormal(p3),v2);

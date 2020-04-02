@@ -71,22 +71,25 @@ public class Tube extends RadialGeometry {
     @Override
     public Vector getNormal(Point3D point) {
         //The vector from the point of the cylinder to the given point
-        Point3D o = _axisRay.getPoint();
+        Point3D p0 = _axisRay.getPoint();
         Vector v = _axisRay.getDirection();
-
-        Vector vector1 = point.subtract(o);
+        Point3D O = new Point3D(0,0,0);
 
         //We need the projection to multiply the _direction unit vector
-        double projection = vector1.dotProduct(v);
-        if(!isZero(projection))
+        //𝑡 = 𝑣 ∙ (𝑃 − 𝑃0)
+
+        double t = v.dotProduct(point.subtract(p0));
+        if(!isZero(t))
         {
             // projection of P-O on the ray:
-            o.add(v.scale(projection));
+            //𝑂 = 𝑃0 + 𝑡 ∙ 𝑣
+            O = p0.add(v.scale(t));
         }
 
         //This vector is orthogonal to the _direction vector.
-        Vector check = point.subtract(o);
-        return check.normalize();
+        //n = normalize(P - O)
+        Vector n = point.subtract(O);
+        return n.normalize();
     }
 
 
