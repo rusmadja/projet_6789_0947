@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 /**
- * Testing Polygons
+ * Testing Polygon
  * @author Dan
  *
  */
@@ -23,6 +23,7 @@ public class PolygonTest {
      * Test method for
      * {@link geometries.Polygon#Polygon(primitives.Point3D...)}.
      */
+
     @Test
     public void testConstructor() {
         // ============ Equivalence Partitions Tests ==============
@@ -85,13 +86,39 @@ public class PolygonTest {
      * Test method for {@link geometries.Polygon#getNormal(primitives.Point3D)}.
      */
     @Test
-    public void testGetNormal() {
-        // ============ Equivalence Partitions Tests ==============
-        // TC01: There is a simple single test here
+    public void testGetNormal()
+    {
+       //we take the four sides polygon his normal is (0.57,0.57,0.57)
         Polygon pl = new Polygon(new Point3D(0, 0, 1), new Point3D(1, 0, 0), new Point3D(0, 1, 0),
                 new Point3D(-1, 1, 1));
-        double sqrt3 = Math.sqrt(1d / 3);
-        assertEquals("Bad normal to trinagle", new Vector(sqrt3, sqrt3, sqrt3), pl.getNormal(new Point3D(0, 0, 1)));
+        double sqrt3 = Math.sqrt(1d / 3); //=> sqrt3 = 0.5773......
+        // if pl.gerNormal return (0.57,0.57,0.57) it's gooooooodddd
+        assertEquals( new Vector(sqrt3, sqrt3, sqrt3), pl.getNormal(new Point3D(0, 1, 1)));
+    }
+    @Test
+    public void testGetNormal_invalid()
+    {
+        /**
+         *
+         * we create a polygon who is in the X and Y axes that's mean
+         * that his vector normal is a vector who is parallel to the Z axe
+         */
+
+        Polygon pl = new Polygon(new Point3D(0, 0, 0), new Point3D(3, 0, 0),
+                new Point3D(3, 1, 0),new Point3D(0, 1, 0));
+
+        //we use an invalid Vector in order to verify if its reject an exception
+        try{
+            assertEquals(new Vector(1, 0, 1), pl.getNormal(new Point3D(0, 1, 1)));
+
+        }catch(AssertionError e)
+        {
+            // if an error has rejected here that's mean that the the two vectors are different
+            return;
+        }
+        // if no error are catch that's mean that the assertEqual run well
+        // and the two vectors are the same and they need to be different
+        fail("the vector normal to the polygon need to be (0,0,1)  ");
     }
 
 }

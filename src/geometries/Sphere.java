@@ -16,8 +16,7 @@ public class Sphere extends RadialGeometry {
     }
 
     public Point3D get_center() {
-        return _center;
-                /*new Point3D(_center.get_x(),_center.get_y(),_center.get_z());*/
+        return new Point3D(_center.get_x(),_center.get_y(),_center.get_z());
     }
     @Override
     public boolean equals(Object o) {
@@ -39,7 +38,8 @@ public class Sphere extends RadialGeometry {
     @Override
     public Vector getNormal(Point3D _point3D) {
         Vector v = _point3D.subtract(get_center());
-        return v.normalize();
+        v =  v.normalize();
+        return v ;
     }
 
 

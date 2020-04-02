@@ -1,15 +1,17 @@
 package primitives;
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 import static primitives.Util.isZero;
 
 /**
  * Unit tests for primitives.Vector class
+ *
  * @author reouven and raphael
  */
 
-public class VectorTest{
+public class VectorTest {
     /**
      * Test method for {@link primitives.Vector#add(primitives.Vector)}.
      */
@@ -18,13 +20,22 @@ public class VectorTest{
         Vector v1 = new Vector(1.0, 1.0, 1.0);
         Vector v2 = new Vector(-1.0, -1.0, -1.5);
 
-        v1 = v1.add(v2);
-        assertEquals(new Vector(0.0,0.0,-0.5),v1);
+        try {
+            v1 = v1.add(v2);
+            assertEquals(new Vector(0.0, 0.0, -0.5), v1);
+        } catch (ArithmeticException e) {
+            fail(" the new vector v1 need to be (-1+1 , -1+1 , -1.5+1) == ( 0,0,-0.5)");
+        }
 
-        v2 = v2.add(v1);
-        assertEquals(new Vector(-1.0, -1.0, -2.0),v2);
+        try {
+            v2 = v2.add(v1);
+            assertTrue(new Vector(-1.0, -1.0, -2.0) != v2);
+        } catch (ArithmeticException e) {
+            fail(" the new vector v2 need to be (-1+1 , -1+1 , -1.5+1) == ( 0,0,-0.5)");
+        }
 
     }
+
     /**
      * Test method for {@link primitives.Vector#subtract(primitives.Vector)}.
      */
@@ -34,12 +45,28 @@ public class VectorTest{
         Vector v2 = new Vector(-1.0, -1.0, -1.0);
         Vector v3 = new Vector(-1.0, -1.0, -1.0);
 
-        assertEquals(new Vector(2.0,2.0,2.0),v1.subtract(v2));
+        try {
+            assertEquals(new Vector(2.0, 2.0, 2.0), v1.subtract(v2));
 
-        assertEquals(new Vector(-2.0, -2.0, -2.0),v2.subtract(v1));
+        } catch (ArithmeticException e) {
+            fail(" v1 - v2 is : (1-(-1) , 1-(-1) , 1-(-1)) = (2,2,2) ");
+        }
 
-        assertFalse(new Vector(-3.0, -2.0, -2.0)==v3.subtract(v1));
+        try {
+            assertEquals(new Vector(-2.0, -2.0, -2.0), v2.subtract(v1));
+
+        } catch (ArithmeticException e) {
+            fail(" v2 - v1 is : ((-1)-(-1) , (-1)-(-1) , (-1)-(-1)) = (-2,-2,-2)");
+        }
+
+        try {
+            assertFalse(new Vector(-3.0, -2.0, -2.0) == v3.subtract(v1));
+
+        } catch (ArithmeticException e) {
+            fail(" v3 - v1 is : ((-1)-(-1) , (-1)-(-1) , (-1)-(-1)) = (-2,-2,-2) ");
+        }
     }
+
     /**
      * Test method for {@link primitives.Vector#scale(double)}.
      */
@@ -50,24 +77,22 @@ public class VectorTest{
         Vector v3 = new Vector(-1.0, -1.5, -1.5);
         try {
             assertEquals(v1.scale(-1), v2);
-        }catch(IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             fail("(1,1,1) * -1 must be (-1,-1,-1)");
         }
         try {
-            assertFalse(v1.scale(-2)== v2);
-        }catch(IllegalArgumentException e)
-        {
+            assertFalse(v1.scale(-2) == v2);
+        } catch (IllegalArgumentException e) {
             fail("(1,1,1) * -2 must be (-2,-2,-2) and not be  (-1,-1,-1) ");
         }
         try {
-            assertFalse(v1.scale(-1)== v3);
-        }catch(IllegalArgumentException e)
-        {
+            assertFalse(v1.scale(-1) == v3);
+        } catch (IllegalArgumentException e) {
             fail("(1,1,1) * -1 must be (-1,-1,-1) and not be  (-1,-1.5,-1.5) ");
         }
 
     }
+
     /**
      * Test method for {@link primitives.Vector#dotProduct(primitives.Vector)}.
      */
@@ -77,17 +102,15 @@ public class VectorTest{
         Vector v2 = new Vector(3, 2, 1);
         Vector v3 = new Vector(-2, -4, -6);
 
-        try{
-            assertTrue(v1.dotProduct(v2)==10.0);
-        }catch (AssertionError e)
-        {
+        try {
+            assertTrue(v1.dotProduct(v2) == 10.0);
+        } catch (AssertionError e) {
             fail("1*3+2*2+3*1=10 and not an other result");
         }
 
-        try{
-            assertFalse(v1.dotProduct(v3)==22);
-        }catch (AssertionError e)
-        {
+        try {
+            assertFalse(v1.dotProduct(v3) == 22);
+        } catch (AssertionError e) {
             fail("1*(-2)+2*(-4)+3*(-6)=-22 and not an other result");
         }
 
@@ -117,7 +140,8 @@ public class VectorTest{
         try {
             v1.crossProduct(v2);
             fail("crossProduct() for parallel vectors does not throw an exception");
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
 
 
@@ -125,48 +149,44 @@ public class VectorTest{
      * Test method for {@link Vector#lengthSquared()}.
      */
     @Test
-    public void testLengthSquared()
-    {
-        Vector v1= new primitives.Vector(1.0,0.0,0.0);
-        Vector v2 = new primitives.Vector(0.0,5.0,0.0);
+    public void testLengthSquared() {
+        Vector v1 = new primitives.Vector(1.0, 0.0, 0.0);
+        Vector v2 = new primitives.Vector(0.0, 5.0, 0.0);
 
-        try{
-            assertTrue(v1.lengthSquared()==1);
-        }catch(IllegalArgumentException e)
-        {
+        try {
+            assertTrue(v1.lengthSquared() == 1);
+        } catch (IllegalArgumentException e) {
             fail("1²+0²+0²=1 and not an other result");
         }
-        try{
-            assertTrue(v2.lengthSquared()==25);
-        }catch(IllegalArgumentException e)
-        {
+        try {
+            assertTrue(v2.lengthSquared() == 25);
+        } catch (IllegalArgumentException e) {
             fail("0²+5²+0²=25 and not an other result");
         }
 
 
-
     }
+
     /**
      * Test method for {@link Vector#length()}.
      */
     @Test
     public void testLength() {
-        Vector v1= new primitives.Vector(1.0,0.0,0.0);
-        Vector v2 = new primitives.Vector(0.0,5.0,0.0);
+        Vector v1 = new primitives.Vector(1.0, 0.0, 0.0);
+        Vector v2 = new primitives.Vector(0.0, 5.0, 0.0);
 
-        try{
-            assertTrue(v1.length()==1);
-        }catch(IllegalArgumentException e)
-        {
+        try {
+            assertTrue(v1.length() == 1);
+        } catch (IllegalArgumentException e) {
             fail("sqrt(1²+0²+0²)=1 and not an other result");
         }
-        try{
-            assertTrue(v2.length()==5);
-        }catch(IllegalArgumentException e)
-        {
+        try {
+            assertTrue(v2.length() == 5);
+        } catch (IllegalArgumentException e) {
             fail("sqrt(0²+5²+0²)=5 and not an other result");
         }
     }
+
     /**
      * Test method for {@link Vector#normalize()}.
      */
@@ -185,11 +205,19 @@ public class VectorTest{
         }
         assertTrue(true);
     }
+
     /**
      * Test method for {@link Vector#normalized()}.
      */
     @Test
     public void testNormalized() {
+        Vector v = new Vector(0, 2, 0);
+        Vector v2 = new Vector(0, 1, 0);
 
+        try {
+            assertEquals(v.normalized(), v2);
+        } catch (ArithmeticException e) {
+            fail("the normalize of the vector v need to be 3");
+        }
     }
 }

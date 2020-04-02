@@ -11,11 +11,11 @@ public class Plane implements Geometry {
     public Plane(Point3D vertex1, Point3D vertex2, Point3D vertex3) {
         _p = new Point3D(vertex1);
 
-        Vector U = new Vector(vertex1, vertex2);
-        Vector V = new Vector(vertex1, vertex3);
+        Vector U = new Vector(vertex1,vertex2);
+        Vector V = new Vector(vertex1,vertex3);
         //N = U x V
         _normal = U.crossProduct(V);
-        _normal.normalize();
+        _normal =_normal.normalize();
 
     }
     public Plane(Point3D _p, Vector _normal) {

@@ -4,11 +4,16 @@ import primitives.Point3D;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.fail;
-// tester avec des valleur fausse
+
+/**
+ * Testing Triangle
+ * @author Reouven & raphael
+ *
+ */
 public class TriangleTest{
     /**
      * Test method for
-     * {@link geometries.Triangle#getNormal(Point3D)}.
+     * {@link geometries.Triangle#getNormal(primitives.Point3D)}.
      *
      */
     @org.junit.Test
@@ -29,7 +34,7 @@ public class TriangleTest{
             assertFalse(s1.getNormal(new primitives.Point3D(0.0,0.0,1.0))==s2.getNormal(new primitives.Point3D(1.0,0.0,0.0)));
         }catch(AssertionError e)
         {
-            fail("isn't the same triangle and must havn't the same normal ");
+            fail("isn't the same triangle and must have not the same normal ");
         }
 
 
