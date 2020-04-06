@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
  * @author Reouven & raphael
  *
  */
-public class PlaneTest {
+public class PlaneTest{
     /**
      Test method for
      * {@link geometries.Plane#getNormal(primitives.Point3D)}.
@@ -65,4 +65,7 @@ public class PlaneTest {
 
     }
 
+    @org.junit.Test
+    public void testFindIntsersections() {
+    }
 }

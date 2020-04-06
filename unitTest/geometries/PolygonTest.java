@@ -121,4 +121,7 @@ public class PolygonTest {
         fail("the vector normal to the polygon need to be (0,0,1)  ");
     }
 
+    @org.junit.Test
+    public void testFindIntsersections() {
+    }
 }

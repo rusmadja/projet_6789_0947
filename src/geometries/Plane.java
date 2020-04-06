@@ -43,4 +43,8 @@ public class Plane implements Geometry {
     }
 
 
+    @Override
+    public java.util.List<primitives.Point3D> findIntsersections(primitives.Ray ray) {
+        return null;
+    }
 }

@@ -47,6 +47,9 @@ public class SphereTest {
 
     }
 
+    @org.junit.Test
+    public void testFindIntsersections() {
+    }
 }
 
 
