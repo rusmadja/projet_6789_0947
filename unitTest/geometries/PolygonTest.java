@@ -120,8 +120,24 @@ public class PolygonTest {
         // and the two vectors are the same and they need to be different
         fail("the vector normal to the polygon need to be (0,0,1)  ");
     }
+    /**
+     *  EP: Three cases:
+     *    • Inside polygon/triangle
+     *    • Outside against edge
+     *    • Outside against vertex
+     */
+
 
     @org.junit.Test
-    public void testFindIntsersections() {
+    public void testFindIntsersections_EP() {
+    }
+
+    /**BVA: Three cases (the ray begins "before" the plane)
+            • On edge
+            • In vertex
+            • On edge's continuation
+     */
+    @org.junit.Test
+    public void testFindIntsersections_BVA() {
     }
 }

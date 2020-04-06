@@ -2,10 +2,11 @@ package geometries;
 
 import primitives.Point3D;
 import primitives.Vector;
+import primitives.*;
 
 import java.util.List;
 
-import static primitives.Util.isZero;
+import static primitives.Util.*;
 
 /**
  * Polygon class represents two-dimensional polygon in 3D Cartesian coordinate
@@ -90,7 +91,36 @@ public class Polygon implements Geometry {
 
 
     @Override
-    public java.util.List<primitives.Point3D> findIntsersections(primitives.Ray ray) {
+    public java.util.List<Point3D> findIntsersections(Ray ray) {
+
+        Vector vi;
+        Vector vk;
+        boolean All_Bigger_Than_0 = true;
+        boolean All_Smaller_Than_0 = true;
+        for ( int i = 0 ;i < _vertices.size(); i++)
+        {
+            //𝑣i = 𝑃i − 𝑃0
+            vi = this._vertices.get(i).subtract(ray.getPoint());
+            // if
+            if(i == _vertices.size()-1)
+                vk = this._vertices.get(0).subtract(ray.getPoint());
+            else{
+                vk = this._vertices.get(i+1).subtract(ray.getPoint());
+            }
+            //𝑁i = 𝑛𝑜𝑟𝑚𝑎𝑙𝑖𝑧𝑒 𝑣i × 𝑣k
+            Vector Ni = vi.crossProduct(vk).normalize();
+            if(Util.alignZero(ray.getDirection().dotProduct(Ni))== 0)
+                return null;
+            if(ray.getDirection().dotProduct(Ni) < 0)
+                All_Bigger_Than_0 = false ;
+            if(ray.getDirection().dotProduct(Ni) > 0)
+                All_Smaller_Than_0 = false ;
+        }
+
+        if( All_Bigger_Than_0 || All_Smaller_Than_0)
+            return this._plane.findIntsersections(ray);
+
         return null;
+
     }
 }

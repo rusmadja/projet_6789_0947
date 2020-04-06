@@ -77,4 +77,14 @@ public class Ray {
     public Vector getDirection() {
         return new Vector(_direction);
     }
+
+    /**
+     *
+     * @param t = the scale of scaleProduct operation
+     * @return P= P0 + t∙v
+     */
+    public Point3D getP(double t)
+    {
+        return new primitives.Point3D(this.getPoint().add(this.getDirection().scale(t)));
+    }
 }

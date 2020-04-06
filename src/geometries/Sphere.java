@@ -1,6 +1,7 @@
 package geometries;
 
 import primitives.*;
+import static  primitives.Util.*;
 
 
 public class Sphere extends RadialGeometry {
@@ -42,9 +43,39 @@ public class Sphere extends RadialGeometry {
         return v ;
     }
 
-
+    /**
+     * @param ray
+     * @return null if ...
+     * @return point3D if...
+     */
     @Override
-    public java.util.List<primitives.Point3D> findIntsersections(primitives.Ray ray) {
-        return null;
+    public java.util.List<primitives.Point3D> findIntsersections(Ray ray) {
+        //Ray points: 𝑃 = 𝑃0 + 𝑡 ∙ 𝑣, 𝑡 ≥ 0
+        //Sphere points: abs(𝑃² − 𝑂²)- r² = 0
+        /// start calcule
+        //𝑢 = 𝑂 − 𝑃0
+         Vector u = this.get_center().subtract(ray.getPoint());
+        //𝑡𝑚 = 𝑣 ∙ 𝑢
+        double tm = ray.getDirection().dotProduct(u);
+        //𝑑 = sqrt[ 𝑢.length()² - tm²]
+        double d = Math.sqrt(u.length()*u.length() - tm * tm );
+        //⇨ if (d>r) there are no intersections
+        if(d > this.get_radius())
+            return null;
+        else {
+            //𝑡ℎ = sqrt[𝑟² - d² ]
+            double th = Math.sqrt(this.get_radius() * this.get_radius() - d * d);
+            //𝑡1,2 = 𝑡𝑚 ± 𝑡ℎ, 𝑃𝑖 = 𝑃0 + 𝑡𝑖
+            double t1 = tm + th;
+            double t2 = tm - th;
+            java.util.List<primitives.Point3D> temp = new java.util.ArrayList<>();
+            Vector v = ray.getDirection();
+            if (isZero(t1) || t1 > 0)
+                temp.add(new primitives.Point3D(ray.getPoint().add(v.scale(t1))));
+            if (isZero(t2) || t2 > 0)
+                temp.add(new primitives.Point3D(ray.getPoint().add(v.scale(t2))));
+
+            return temp;
+        }
     }
 }

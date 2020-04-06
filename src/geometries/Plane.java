@@ -2,6 +2,9 @@ package geometries;
 
 import primitives.Point3D;
 import primitives.Vector;
+import primitives.*;
+
+import static primitives.Util.isZero;
 
 
 public class Plane implements Geometry {
@@ -44,7 +47,25 @@ public class Plane implements Geometry {
 
 
     @Override
-    public java.util.List<primitives.Point3D> findIntsersections(primitives.Ray ray) {
-        return null;
+    public java.util.List<primitives.Point3D> findIntsersections(primitives.Ray ray) throws ArithmeticException {
+
+        //Plane points: N ∙ 𝑄0 − 𝑃 = 0
+        //𝑁 ∙ 𝑣
+        double denominator = this.getNormal().dotProduct(ray.getDirection());
+        if(isZero(denominator))
+            throw new ArithmeticException("impossible to divide by 0");
+        //𝑁 ∙ 𝑄0 − 𝑃0
+        double numerator =  this.getNormal().dotProduct(this._p.subtract(ray.getPoint()));
+        //𝑡 = 𝑁 ∙ 𝑄0 − 𝑃0 / 𝑁 ∙ 𝑣
+        double t = numerator/denominator ;
+        java.util.List temp = new java.util.ArrayList();
+        //Check 𝑄0 = 𝑃0 , zeroes in denominator and numerator,take only 𝒕 > 0
+        Point3D P;
+        if(isZero(t) || t > 0 ) {
+            //Ray points: 𝑃 = 𝑃0 + 𝑡 ∙ 𝑣, 𝑡 ≥ 0
+            P = ray.getP(t);
+            temp.add(P);
+        }
+        return temp;
     }
 }
