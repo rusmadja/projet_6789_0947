@@ -22,7 +22,7 @@ public class Ray {
      * @param direction the direction of the ray.
      */
     public Ray(Point3D point, Vector direction) {
-        _point = new Point3D(point);
+        _point = new Point3D(point.get_x(),point.get_y(),point.get_z());
         _direction = new Vector(direction).normalized();
     }
     public Point3D getTargetPoint(double length) {
@@ -35,7 +35,7 @@ public class Ray {
      * @param other the object that being copied
      */
     public Ray(Ray other) {
-        this._point = new Point3D(other._point);
+        this._point = new Point3D(other._point.get_x(),other._point.get_y(), other._point.get_z());
         this._direction = other._direction.normalized();
     }
 

@@ -4,6 +4,7 @@ import primitives.Point3D;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Testing Triangle
@@ -37,6 +38,29 @@ public class TriangleTest{
             fail("isn't the same triangle and must have not the same normal ");
         }
 
+
+    }
+
+    @org.junit.Test
+    public void findIntsersections() {
+        Triangle triangle = new Triangle(new Point3D(5,5,0),
+                new Point3D(10,0,0),
+                new Point3D(0,0,0));
+        //===========================================================//
+        //===================EP: Three cases:=======================//
+        // TC01: Inside triangle (1 point)
+
+        // TC02:  Outside against edge (0 point)
+
+        // TC02: Outside against vertex (0 points)
+        //===========================================================//
+        //===BVA: Three cases (the ray begins "before" the plane)===//
+
+        // TC11:  On edge (0 points)
+
+        // TC12: In vertex (0 points)
+
+        // TC13: On edge's continuation (0 points)
 
     }
 }
