@@ -36,32 +36,35 @@ public class Triangle extends Polygon
 
     @Override
     public java.util.List<Point3D> findIntsersections(Ray ray) {
+        java.util.List<primitives.Point3D> ListOfPoint = _plane.findIntsersections(ray);
+        if(ListOfPoint.size() == 0)
+            return java.util.Collections.emptyList();
+        else {
+            //𝑣1 = 𝑃1 − 𝑃0
+            Vector v1 = this._vertices.get(0).subtract(ray.getPoint());
+            //𝑣2 = 𝑃2 − 𝑃0
+            Vector v2 = this._vertices.get(1).subtract(ray.getPoint());
+            //𝑣3 = 𝑃3 − 𝑃0
+            Vector v3 = this._vertices.get(2).subtract(ray.getPoint());
+            //𝑁1 = 𝑛𝑜𝑟𝑚𝑎𝑙𝑖𝑧𝑒 𝑣1 × 𝑣2
+            Vector N1 = v1.crossProduct(v2).normalize();
+            //𝑁2 = 𝑛𝑜𝑟𝑚𝑎𝑙𝑖𝑧𝑒 𝑣2 × 𝑣3
+            Vector N2 = v2.crossProduct(v3).normalize();
+            //𝑁3 = 𝑛𝑜𝑟𝑚𝑎𝑙𝑖𝑧𝑒 𝑣3 × 𝑣1
+            Vector N3 = v3.crossProduct(v1).normalize();
 
-        //𝑣1 = 𝑃1 − 𝑃0
-        Vector v1 = this._vertices.get(0).subtract(ray.getPoint());
-        //𝑣2 = 𝑃2 − 𝑃0
-        Vector v2 = this._vertices.get(1).subtract(ray.getPoint());
-        //𝑣3 = 𝑃3 − 𝑃0
-        Vector v3 = this._vertices.get(2).subtract(ray.getPoint());
-        //𝑁1 = 𝑛𝑜𝑟𝑚𝑎𝑙𝑖𝑧𝑒 𝑣1 × 𝑣2
-        Vector N1 = v1.crossProduct(v2).normalize();
-        //𝑁2 = 𝑛𝑜𝑟𝑚𝑎𝑙𝑖𝑧𝑒 𝑣2 × 𝑣3
-        Vector N2 = v2.crossProduct(v3).normalize();
-        //𝑁3 = 𝑛𝑜𝑟𝑚𝑎𝑙𝑖𝑧𝑒 𝑣3 × 𝑣1
-        Vector N3 = v3.crossProduct(v1).normalize();
+            boolean All_Bigger_Than_0 = Util.alignZero(ray.getDirection().dotProduct(N1)) > 0 &&
+                    Util.alignZero(ray.getDirection().dotProduct(N2)) > 0 &&
+                    Util.alignZero(ray.getDirection().dotProduct(N3)) > 0;
+            boolean All_Smaller_Than_0 = Util.alignZero(ray.getDirection().dotProduct(N1)) < 0 &&
+                    Util.alignZero(ray.getDirection().dotProduct(N2)) < 0 &&
+                    Util.alignZero(ray.getDirection().dotProduct(N3)) < 0;
 
-        boolean All_Bigger_Than_0 =      ray.getDirection().dotProduct(N1) < 0 &&
-                                        ray.getDirection().dotProduct(N1) < 0 &&
-                                        ray.getDirection().dotProduct(N1) < 0 ;
-        boolean All_Smaller_Than_0 =    ray.getDirection().dotProduct(N1) < 0 &&
-                                        ray.getDirection().dotProduct(N1) < 0 &&
-                                        ray.getDirection().dotProduct(N1) < 0 ;
+            if (All_Bigger_Than_0 || All_Smaller_Than_0)
+                return ListOfPoint;
 
-        if( All_Bigger_Than_0 || All_Smaller_Than_0)
-            return this._plane.findIntsersections(ray);
+            return java.util.Collections.emptyList();
 
-        return null;
-
-
+        }
     }
 }

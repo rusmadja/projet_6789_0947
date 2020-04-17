@@ -4,6 +4,7 @@ import primitives.Point3D;
 import primitives.Vector;
 import primitives.*;
 
+import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
 
@@ -52,20 +53,29 @@ public class Plane implements Geometry {
         //Plane points: N ∙ 𝑄0 − 𝑃 = 0
         //𝑁 ∙ 𝑣
         double denominator = this.getNormal().dotProduct(ray.getDirection());
-        if(isZero(denominator))
+        // zeroes in denominator
+        if (isZero(denominator))
             throw new ArithmeticException("impossible to divide by 0");
-        //𝑁 ∙ 𝑄0 − 𝑃0
-        double numerator =  this.getNormal().dotProduct(this._p.subtract(ray.getPoint()));
-        //𝑡 = 𝑁 ∙ 𝑄0 − 𝑃0 / 𝑁 ∙ 𝑣
-        double t = numerator/denominator ;
-        java.util.List temp = new java.util.ArrayList();
-        //Check 𝑄0 = 𝑃0 , zeroes in denominator and numerator,take only 𝒕 > 0
-        Point3D P;
-        if(isZero(t) || t > 0 ) {
-            //Ray points: 𝑃 = 𝑃0 + 𝑡 ∙ 𝑣, 𝑡 ≥ 0
-            P = ray.getP(t);
-            temp.add(P);
+
+        try { // if  Q0 = P0 that reject Illegal Argument Exception
+            //𝑁 ∙ (𝑄0 − 𝑃0)
+            double numerator = this.getNormal().dotProduct(this._p.subtract(ray.getPoint()));
+
+            //𝑡 = [𝑁 ∙ (𝑄0 − 𝑃0)] / [𝑁 ∙ 𝑣]
+            double t = numerator / denominator;
+            java.util.List temp = new java.util.ArrayList();
+
+            Point3D P;
+            // take only 𝒕 > 0
+            if (alignZero(t) > 0) {
+                //Ray points: 𝑃 = 𝑃0 + 𝑡 ∙ 𝑣, 𝑡 ≥ 0
+                P = ray.getP(t);
+                temp.add(P);
+            }
+            return temp;
+        }catch (IllegalArgumentException IAe ){
+            return java.util.Collections.EMPTY_LIST;
         }
-        return temp;
     }
+
 }

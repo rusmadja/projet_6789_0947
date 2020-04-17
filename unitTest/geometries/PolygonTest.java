@@ -6,6 +6,7 @@
 package geometries;
 
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import primitives.Point3D;
 import primitives.Vector;
 
@@ -129,15 +130,52 @@ public class PolygonTest {
 
 
     @org.junit.Test
-    public void testFindIntsersections_EP() {
-    }
+    public void findIntsersections() {
+        Polygon Polygon = new Polygon(new Point3D(0,0,0),
+                new Point3D(0,4,0),
+                new Point3D(4,4,0) ,  new Point3D(4,0,0));
+        //===========================================================//
+        //===================EP: Three cases:=======================//
+        // TC01: Inside Polygon (1 point)
+        primitives.Ray TC01 = new primitives.Ray(new primitives.Point3D(1.0,1.0,-1.0), new primitives.Vector(0.0,0.0,1.0));
+        java.util.List<primitives.Point3D> resultTC01 = Polygon.findIntsersections(TC01);
 
-    /**BVA: Three cases (the ray begins "before" the plane)
-            • On edge
-            • In vertex
-            • On edge's continuation
-     */
-    @org.junit.Test
-    public void testFindIntsersections_BVA() {
+        Assertions.assertEquals( 1, resultTC01.size(),"Wrong number of points");
+
+        Assertions.assertEquals(java.util.List.of(new primitives.Point3D(1,1,0)), resultTC01, "Ray crosses Polygon");
+        // TC021:  Outside against edge (0 point)
+        primitives.Ray TC021 = new primitives.Ray(new primitives.Point3D(5.0,2.0,-1.0), new primitives.Vector(0.0,0.0,1.0));
+        java.util.List<primitives.Point3D> resultTC021 = Polygon.findIntsersections(TC021);
+
+        Assertions.assertEquals( 0, resultTC021.size(),"Wrong number of points");
+
+        // TC022: Outside against vertex (0 points)
+        primitives.Ray TC022 = new primitives.Ray(new primitives.Point3D(5.0,-1.0,-1.0), new primitives.Vector(0.0,0.0,1.0));
+        java.util.List<primitives.Point3D> resultTC022 = Polygon.findIntsersections(TC022);
+
+        Assertions.assertEquals( 0, resultTC022.size(),"Wrong number of points");
+
+        //===========================================================//
+        //===BVA: Three cases (the ray begins "before" the plane)===//
+
+        // TC11:  On edge (0 points)
+        primitives.Ray TC11 = new primitives.Ray(new primitives.Point3D(2.0,4.0,-1.0), new primitives.Vector(0.0,0.0,1.0));
+        java.util.List<primitives.Point3D> resultTC11 = Polygon.findIntsersections(TC11);
+
+        Assertions.assertEquals( 0, resultTC11.size(),"Wrong number of points");
+
+        // TC12: In vertex (0 points)
+        primitives.Ray TC12 = new primitives.Ray(new primitives.Point3D(0.0,0.0,-1.0), new primitives.Vector(0.0,0.0,1.0));
+        java.util.List<primitives.Point3D> resultTC12 = Polygon.findIntsersections(TC12);
+
+        Assertions.assertEquals( 0, resultTC12.size(),"Wrong number of points");
+
+        // TC13: On edge's continuation (0 points)
+        primitives.Ray TC13 = new primitives.Ray(new primitives.Point3D(0.0,8.0,-1.0), new primitives.Vector(0.0,0.0,1.0));
+        java.util.List<primitives.Point3D> resultTC13 = Polygon.findIntsersections(TC13);
+
+        Assertions.assertEquals( 0, resultTC13.size(),"Wrong number of points");
+
+
     }
 }

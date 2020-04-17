@@ -5,6 +5,8 @@ import primitives.Point3D;
 import primitives.Vector;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * Testing Plane
  * @author Reouven & raphael
@@ -66,6 +68,81 @@ public class PlaneTest{
     }
 
     @org.junit.Test
-    public void testFindIntsersections() {
+    public void findIntsersections() {
+        geometries.Plane s1 = new Plane(new primitives.Point3D(1.0,0.0,0.0),
+                new primitives.Point3D(0.0,0.0,0.0),
+                new primitives.Point3D(0.0,0.0,1.0));
+        //EP: The Ray must be neither orthogonal nor parallel to the plane
+        //• Ray intersects the plane
+        primitives.Ray EP11 = new primitives.Ray(new primitives.Point3D(-1.0,-1.0,0.0), new primitives.Vector(1.0,1.0,0.0));
+        java.util.List<primitives.Point3D> resultEP11 = s1.findIntsersections(EP11);
+        
+        assertEquals( 1, resultEP11.size(),"Wrong number of points");
+
+        assertEquals(java.util.List.of(new primitives.Point3D(0,0,0)), resultEP11, "Ray crosses Plane");
+        //• Ray does not intersect the plane
+        primitives.Ray EP12 = new primitives.Ray(new primitives.Point3D(5.0,5.0,0.0), new primitives.Vector(1.0,1.0,0.0));
+        java.util.List<primitives.Point3D> resultEP12 = s1.findIntsersections(EP12);
+        
+        assertEquals( 0, resultEP12.size(),"Wrong number of points");
+        
+        //BVA: 7 cases
+        //• Ray is parallel to the plane
+        //• Two cases – the ray included  
+        primitives.Ray EP211 = new primitives.Ray(new primitives.Point3D(0.0,0.0,0.0), new primitives.Vector(1.0,0.0,0.0));
+        try{
+            java.util.List<primitives.Point3D> resultEP211 = s1.findIntsersections(EP211);
+            // if not reject Arithmetic exception that's mean that the ray is not parallel to the plane
+            // and so it's reject a fail test
+            fail("must be parallel because the ray is inside the plane ");
+        }
+        catch(ArithmeticException Ae) {}
+
+
+        //not included in the plane
+        primitives.Ray EP212 = new primitives.Ray(new primitives.Point3D(0.0,1.0,0.0), new primitives.Vector(1.0,0.0,0.0));
+        try {
+            java.util.List<primitives.Point3D> resultEP212 = s1.findIntsersections(EP212);
+            // if not reject Arithmetic exception that's mean that the ray is not parallel to the plane
+            // and so it's reject a fail test
+            fail("must be parallel ");
+        }
+        catch(ArithmeticException Ae) {}
+
+        //• Ray is orthogonal to the plane
+        //• Three cases – according to 𝑃0 (before, in, after the plane)
+        //========================BEFORE========================//
+        primitives.Ray EP221 = new primitives.Ray(new primitives.Point3D(0.0,-1.0,0.0), new primitives.Vector(0.0,5.0,0.0));
+        java.util.List<primitives.Point3D> resultEP221 = s1.findIntsersections(EP221);
+
+        assertEquals( 1, resultEP221.size(),"Wrong number of points");
+
+        assertEquals(java.util.List.of(new primitives.Point3D(0,0,0)), resultEP221, "Ray crosses Plane");
+        //======================== AFTER ========================//
+        primitives.Ray EP222 = new primitives.Ray(new primitives.Point3D(0.0,1.0,0.0), new primitives.Vector(0.0,5.0,0.0));
+        java.util.List<primitives.Point3D> resultEP222 = s1.findIntsersections(EP222);
+
+        assertEquals( 0, resultEP222.size(),"Wrong number of points");
+
+        //======================== IN ========================//
+        primitives.Ray EP223 = new primitives.Ray(new primitives.Point3D(0.0,0.0,0.0), new primitives.Vector(0.0,5.0,0.0));
+        java.util.List<primitives.Point3D> resultEP223 = s1.findIntsersections(EP223);
+
+        assertEquals( 0, resultEP223.size(),"Wrong number of points");
+
+        //• Ray is neither orthogonal nor parallel to and begins at the plane(𝑃0 is in the plane, but not the ray)
+
+        //======================== IN ========================//
+        primitives.Ray EP23 = new primitives.Ray(new primitives.Point3D(1.0,0.0,0.0), new primitives.Vector(5.0,5.0,0.0));
+        java.util.List<primitives.Point3D> resultEP23 = s1.findIntsersections(EP23);
+
+        assertEquals( 0, resultEP23.size(),"Wrong number of points");
+
+        //• Ray is neither orthogonal nor parallel to the plane and begins in the same point which appears as reference point in the plane (Q)
+        //======================== IN ========================//
+        primitives.Ray EP24 = new primitives.Ray(new primitives.Point3D(1.0,0.0,0.0), new primitives.Vector(5.0,5.0,0.0));
+        java.util.List<primitives.Point3D> resultEP24 = s1.findIntsersections(EP24);
+
+        assertEquals( 0, resultEP24.size(),"Wrong number of points");
     }
 }

@@ -43,24 +43,51 @@ public class TriangleTest{
 
     @org.junit.Test
     public void findIntsersections() {
-        Triangle triangle = new Triangle(new Point3D(5,5,0),
-                new Point3D(10,0,0),
-                new Point3D(0,0,0));
+        Triangle triangle = new Triangle(new Point3D(0,0,0),
+                new Point3D(1,2,0),
+                new Point3D(2,0,0));
         //===========================================================//
         //===================EP: Three cases:=======================//
         // TC01: Inside triangle (1 point)
+        primitives.Ray TC01 = new primitives.Ray(new primitives.Point3D(1.0,1.0,-1.0), new primitives.Vector(0.0,0.0,1.0));
+        java.util.List<primitives.Point3D> resultTC01 = triangle.findIntsersections(TC01);
 
-        // TC02:  Outside against edge (0 point)
+        assertEquals( 1, resultTC01.size(),"Wrong number of points");
 
-        // TC02: Outside against vertex (0 points)
+        assertEquals(java.util.List.of(new primitives.Point3D(1,1,0)), resultTC01, "Ray crosses Triangle");
+        // TC021:  Outside against edge (0 point)
+        primitives.Ray TC021 = new primitives.Ray(new primitives.Point3D(2.0,1.0,-1.0), new primitives.Vector(0.0,0.0,1.0));
+        java.util.List<primitives.Point3D> resultTC021 = triangle.findIntsersections(TC021);
+
+        assertEquals( 0, resultTC021.size(),"Wrong number of points");
+
+        // TC022: Outside against vertex (0 points)
+        primitives.Ray TC022 = new primitives.Ray(new primitives.Point3D(2.0,-0.5,-1.0), new primitives.Vector(0.0,0.0,1.0));
+        java.util.List<primitives.Point3D> resultTC022 = triangle.findIntsersections(TC022);
+
+        assertEquals( 0, resultTC022.size(),"Wrong number of points");
+
         //===========================================================//
         //===BVA: Three cases (the ray begins "before" the plane)===//
 
         // TC11:  On edge (0 points)
+        primitives.Ray TC11 = new primitives.Ray(new primitives.Point3D(1.0,0.0,-1.0), new primitives.Vector(0.0,0.0,1.0));
+        java.util.List<primitives.Point3D> resultTC11 = triangle.findIntsersections(TC11);
+
+        assertEquals( 0, resultTC11.size(),"Wrong number of points");
 
         // TC12: In vertex (0 points)
+        primitives.Ray TC12 = new primitives.Ray(new primitives.Point3D(1.0,2.0,-1.0), new primitives.Vector(0.0,0.0,1.0));
+        java.util.List<primitives.Point3D> resultTC12 = triangle.findIntsersections(TC12);
+
+        assertEquals( 0, resultTC12.size(),"Wrong number of points");
 
         // TC13: On edge's continuation (0 points)
+        primitives.Ray TC13 = new primitives.Ray(new primitives.Point3D(1.0,2.0,-1.0), new primitives.Vector(0.0,0.0,1.0));
+        java.util.List<primitives.Point3D> resultTC13 = triangle.findIntsersections(TC13);
+
+        assertEquals( 0, resultTC13.size(),"Wrong number of points");
+
 
     }
 }
