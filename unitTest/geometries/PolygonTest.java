@@ -16,7 +16,7 @@ import static org.junit.Assert.fail;
 /**
  * Testing Polygon
  * @author Dan
- *
+ * @author reouv and raph
  */
 public class PolygonTest {
 
