@@ -97,10 +97,12 @@ public class SphereTest {
         assertEquals( 1, resultTC11.size(),"Wrong number of points");
 
         assertEquals(java.util.List.of(p11), resultTC11, "Ray crosses sphere");
+
         // TC12: Ray starts at sphere and goes outside (0 points)
         List<primitives.Point3D> resultTC12 = sphere.findIntsersections(new primitives.Ray(new primitives.Point3D(1.6, 0.8, 0),
                 new primitives.Vector(1, 0, 0)));
         assertEquals( 0, resultTC12.size(),"Wrong number of points");
+
         // **** Group: Ray's line goes through the center
         // TC13: Ray starts before the sphere (2 points)
         primitives.Point3D p131 = new primitives.Point3D(2, 0, 0);
@@ -110,6 +112,7 @@ public class SphereTest {
         assertEquals( 2, resultTC13.size(),"Wrong number of points");
 
         assertEquals(java.util.List.of(p131, p132), resultTC13, "Ray crosses sphere");
+
         // TC14: Ray starts at sphere and goes inside (1 points)
         primitives.Point3D p14 = new primitives.Point3D(2, 0, 0);
         List<primitives.Point3D> resultTC14 = sphere.findIntsersections(new primitives.Ray(new primitives.Point3D(0, 0, 0),
@@ -117,6 +120,7 @@ public class SphereTest {
         assertEquals( 1, resultTC14.size(),"Wrong number of points");
 
         assertEquals(java.util.List.of(p14), resultTC14, "Ray crosses sphere");
+
         // TC15: Ray starts inside (1 points)
         primitives.Point3D p15 = new primitives.Point3D(2, 0, 0);
         List<primitives.Point3D> resultTC15 = sphere.findIntsersections(new primitives.Ray(new primitives.Point3D(0.5, 0, 0),
@@ -131,22 +135,24 @@ public class SphereTest {
         assertEquals( 1, resultTC16.size(),"Wrong number of points");
 
         assertEquals(java.util.List.of(p16), resultTC16, "Ray crosses sphere");
+
         // TC17: Ray starts at sphere and goes outside (0 points)
         List<primitives.Point3D> resultTC17 = sphere.findIntsersections(new primitives.Ray(new primitives.Point3D(1.8, 0.6, 0),
                 new primitives.Vector(1, 0, 0)));
         assertEquals( 0, resultTC17.size(),"Wrong number of points");
+
         // TC18: Ray starts after sphere (0 points)
         List<primitives.Point3D> resultTC18 = sphere.findIntsersections(new primitives.Ray(new primitives.Point3D(5, 0, 0),
                 new primitives.Vector(1, 0, 0)));
 
         assertEquals( 0, resultTC18.size(),"Wrong number of points");
+
         // **** Group: Ray's line is tangent to the sphere (all tests 0 points)
         // TC19: Ray starts before the tangent point
         List<primitives.Point3D> resultTC19 = sphere.findIntsersections(new primitives.Ray(new primitives.Point3D(2, -1, 0),
                 new primitives.Vector(0, 1, 0)));
         assertEquals( 0, resultTC19.size(),"Wrong number of points");
 
-        //assertEquals(java.util.List.of(p19), resultTC19, "Ray crosses sphere");
         // TC20: Ray starts at the tangent point
 
         List<primitives.Point3D> resultTC20 = sphere.findIntsersections(new primitives.Ray(new primitives.Point3D(1, 1, 0),
@@ -159,7 +165,7 @@ public class SphereTest {
         assertEquals( 0, resultTC21.size(),"Wrong number of points");
 
         // **** Group: Special cases
-        // TC19: Ray's line is outside, ray is orthogonal to ray start to sphere's center line
+        // TC22: Ray's line is outside, ray is orthogonal to ray start to sphere's center line
         List<primitives.Point3D> resultTC22 = sphere.findIntsersections(new primitives.Ray(new primitives.Point3D(1, 2, 0),
                 new primitives.Vector(1, 0, 0)));
         assertEquals( 0, resultTC21.size(),"Wrong number of points");
