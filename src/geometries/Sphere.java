@@ -65,7 +65,7 @@ public class Sphere extends RadialGeometry {
 
             //⇨ if (d>r) there are no intersections
             if (alignZero(d -  this._radius) >0)
-                return null;
+                return java.util.Collections.emptyList();
             else {
                 //𝑡ℎ = sqrt[𝑟² - d² ]
                 double th = Math.sqrt(this.get_radius() * this.get_radius() - d * d);
