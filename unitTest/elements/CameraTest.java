@@ -84,7 +84,7 @@ public class CameraTest {
                 rayList_camera_test2.add( camera_test2.constructRayThroughPixel(3,3,j,i,1,3,3));
                 rayList_camera_test3.add(camera_test3.constructRayThroughPixel(3,3,j,i,1,3,3));
                 rayList_camera_test4.add(camera_test4.constructRayThroughPixel(3,3,j,i,1,3,3));
-                rayList_camera_test5.add(camera_test4.constructRayThroughPixel(3,3,j,i,1,3,3));
+                rayList_camera_test5.add(camera_test5.constructRayThroughPixel(3,3,j,i,1,3,3));
             }
         }
 
@@ -93,6 +93,7 @@ public class CameraTest {
          * 3x3, HxW=3x3
          * camera point (0,0,0) distance with screen d=1
          * we have Two intersection points
+         * the sphere is forward the screen just the ray who through the middle of the screen through the sphere
          */
 
         geometries.Sphere sphere1 = new geometries.Sphere(1,new primitives.Point3D(0,0,3));
@@ -107,6 +108,7 @@ public class CameraTest {
          * 3x3, HxW=3x3
          * camera point (0,0,-0.5) distance with screen d=1
          * we have 18 intersection points
+         * all the 9 rays who through the screen intersect two times the sphere
          */
 
         geometries.Sphere sphere2 = new geometries.Sphere(2.5,new primitives.Point3D(0,0,2.5));
@@ -121,6 +123,8 @@ public class CameraTest {
          * 3x3, HxW=3x3
          * camera point (0,0,-0.5) distance with screen d=1
          * we have 10 intersection points
+         * only 5 rays who through the screen intersect two times the sphere
+         * excepted the rays who through corner of the screen
          */
         geometries.Sphere sphere3 = new geometries.Sphere(2,new primitives.Point3D(0,0,2));
         numberOfIntersection = 0;
@@ -134,6 +138,8 @@ public class CameraTest {
          * 3x3, HxW=3x3
          * camera point (0,0,-0.5) distance with screen d=1
          * we have 9 intersection points
+         * the screen and the camera are inside the sphere
+         * so all the 9 rays who through the screen intersect one times the sphere
          */
         geometries.Sphere sphere4 = new geometries.Sphere(4,new primitives.Point3D(0,0,2));
         numberOfIntersection = 0;
@@ -146,7 +152,8 @@ public class CameraTest {
          * Fifth test case (r=0.5)
          * 3x3, HxW=3x3
          * camera point (0,0,-0.5) distance with screen d=1
-         * we have 9 intersection points
+         * we have 0 intersection points
+         * the sphere is backward the view point so we can't have any rays intersections
          */
         geometries.Sphere sphere5 = new geometries.Sphere(0.5,new primitives.Point3D(0,0,-1));
         numberOfIntersection = 0;
@@ -184,6 +191,7 @@ public class CameraTest {
          * 3x3, HxW=3x3
          * camera point (0,0,0) distance with screen d=1
          * we have 9 intersection points
+         * all the 9 rays who through the screen intersect the plane
          */
 
         geometries.Plane plane1 = new geometries.Plane(new primitives.Point3D(0,0,3),new primitives.Point3D(1,0,3),new primitives.Point3D(0,1,3));
@@ -193,10 +201,11 @@ public class CameraTest {
         assertEquals("Wrong number of intersection point", 9,numberOfIntersection);
 
         /**
-         * Second test case
+         * Second test case the plane is not parallel to the screen
          * 3x3, HxW=3x3
          * camera point (0,0,0) distance with screen d=1
          * we have 9 intersection points
+         * all the 9 rays who through the screen intersect the plane despite the tilt of the screen
          */
 
         geometries.Plane plane2 = new geometries.Plane(new primitives.Point3D(0,0,3),new primitives.Point3D(1,0,2.5),new primitives.Point3D(0,5,2));
@@ -207,13 +216,15 @@ public class CameraTest {
         assertEquals("Wrong number of intersection point", 9,numberOfIntersection);
 
         /**
-         * Third test case
+         * Third test case the plane is not parallel to the screen
          * 3x3, HxW=3x3
          * camera point (0,0,-0.5) distance with screen d=1
          * we have 6 intersection points
+         * all the 6 rays who through the screen intersect the plane
+         * all bottom's rays of the screen don't intersect the plane
          */
 
-        geometries.Plane plane3 = new geometries.Plane(new primitives.Point3D(0,0,3),new primitives.Point3D(1,0,1),new primitives.Point3D(0,3,1));
+        geometries.Plane plane3 = new geometries.Plane(new primitives.Point3D(0,0,10),new primitives.Point3D(2,0,5),new primitives.Point3D(0,3,2.5));
          numberOfIntersection = 0;
         for (primitives.Ray ray :rayList_camera_test3)
             numberOfIntersection += plane3.findIntsersections(ray).size();
@@ -241,10 +252,10 @@ public class CameraTest {
         }
 
         /**
-         * First test case plane parallel to screen
+         * First test case triangle parallel to screen
          * 3x3, HxW=3x3
          * camera point (0,0,0) distance with screen d=1
-         * we have 9 intersection points
+         * we have 1 intersection points
          */
 
         geometries.Triangle triangle1 = new geometries.Triangle(new primitives.Point3D(0, -1, 2), new primitives.Point3D(1, 1, 2), new primitives.Point3D(-1, 1, 2));
@@ -254,10 +265,10 @@ public class CameraTest {
         assertEquals("Wrong number of intersection point", 1, numberOfIntersection);
 
         /**
-         * Second test case
+         * Second test case triangle parallel to screen
          * 3x3, HxW=3x3
          * camera point (0,0,0) distance with screen d=1
-         * we have 9 intersection points
+         * we have 2 intersection points
          */
 
         geometries.Triangle triangle2 = new geometries.Triangle(new primitives.Point3D(0, -20, 2), new primitives.Point3D(1, 1, 2), new primitives.Point3D(-1, 1, 2));

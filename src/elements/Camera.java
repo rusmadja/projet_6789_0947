@@ -62,26 +62,39 @@ public class Camera {
         if (alignZero(screenDistance) == 0) {
             throw new IllegalArgumentException("distance cannot be zero");
         }
-
+        // Image center
+        //Pc = P0 + d∙Vto
         Point3D Pc = _p0.add(_vTo.scale(screenDistance));
 
+        //Ratio (pixel width & height)
+        //Ry = h/Ny
+        //Rx = w/Nx
         double Ry = screenHeight / nY;
         double Rx = screenWidth / nX;
 
+        //yi = (i – Ny/2)∙Ry + Ry/2
+        //xj = (j – Nx/2)∙Rx + Rx/2
         double yi = ((i - nY / 2d) * Ry + Ry / 2d);
         double xj = ((j - nX / 2d) * Rx + Rx / 2d);
 
+        //Pixel[i,j] center
+        //The final equation : Pi,j = Pc + (xj∙vright – yi∙vup)
+        //pIJ = pCenter;
         Point3D Pij = Pc;
 
+        //if (xJ != 0) pIJ = pIJ.add(vRight.scale(xJ));
         if (!isZero(xj)) {
             Pij = Pij.add(_vRight.scale(xj));
         }
+        //if (yI != 0) pIJ = pIJ.add(vUp.scale(-yI));
         if (!isZero(yi)) {
             Pij = Pij.add(_vUp.scale(-yi));
         }
 
+        //vi,j = Pi,j – P0
         Vector Vij = Pij.subtract(_p0);
 
+        //Ray: {_p0 = P0, _direction = normalize(Vi,j) }
         return new Ray(_p0, Vij);
 
     }
