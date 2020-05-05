@@ -1,10 +1,11 @@
 package elements;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+import primitives.Point3D;
+import primitives.Ray;
+import primitives.Vector;
 
-import primitives.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Testing Camera Class
@@ -20,7 +21,6 @@ public class CameraTest {
     @Test
     public void testConstructRayThroughPixel() {
         Camera camera = new Camera(Point3D.ZERO, new Vector(0, 0, 1), new Vector(0, -1, 0));
-
         // ============ Equivalence Partitions Tests ==============
         // TC01: 3X3 Corner (0,0)
         assertEquals("Bad ray", new Ray(Point3D.ZERO, new Vector(-2, -2, 10)),
