@@ -44,7 +44,7 @@ public class RenderTests {
     @Test
     public void basicRenderTwoColorTestXML() {
 
-        Render render = new Render("basicRenderTestTwoColors.xml");
+        Render render = new Render("basicRenderTest2TwoColors.xml");
 
         render.renderImage();
         render.printGrid(50, java.awt.Color.YELLOW);

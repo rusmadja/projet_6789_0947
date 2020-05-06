@@ -19,6 +19,14 @@ public class Render {
         this._imageWriter = imageWriter;
         this._scene = scene;
     }
+
+    /**
+     *
+     * @param Path of the xml file
+     * and We construct the render class with it.
+     * we use help Class named : {@link primitives.convertXML#convertXML(String Path)}
+     *
+     */
     public Render(String Path) {
         convertXML converter = new convertXML(Path);
         _scene = converter.getScene();
@@ -105,10 +113,6 @@ public class Render {
     public void writeToImage() {
        _imageWriter.writeToImage();
     }
-    /**
-     * Filling the buffer according to the geometries that are in the scene.
-     * This function does not creating the picture file, but create the buffer pf pixels
-     */
 
 
 }
