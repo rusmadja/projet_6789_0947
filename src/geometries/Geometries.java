@@ -16,7 +16,7 @@ public class Geometries implements Intersectable {
     }
 
     /**
-     * Na le Hasbir befrotrot
+     *
      * @param ray
      * @return list of Point3D that intersect the osef
      */
