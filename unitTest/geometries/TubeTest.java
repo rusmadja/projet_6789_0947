@@ -1,14 +1,17 @@
 package geometries;
 
-import org.junit.Test;
-import org.junit.jupiter.api.DynamicTest;
-import primitives.*;
+import primitives.Point3D;
+import primitives.Ray;
+import primitives.Vector;
+
+import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * Testing Tube
+ *
  * @author Reouven & raphael
  */
-import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TubeTest {
 
@@ -147,6 +150,7 @@ public class TubeTest {
         java.util.List<primitives.Point3D> resultTC17 = tube.findIntsersections(TC17);
 
         assertEquals(0,resultTC17.size());
+
 
         // TC18: Ray starts after tube (0 points)
 
