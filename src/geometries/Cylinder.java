@@ -4,9 +4,6 @@ import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
@@ -71,7 +68,7 @@ public class Cylinder extends Tube {
 
 
     @Override
-    public java.util.List<primitives.Point3D> findIntsersections(primitives.Ray ray) {
-        return super.findIntsersections(ray);
+    public java.util.List<primitives.Point3D> findIntersections(primitives.Ray ray) {
+        return super.findIntersections(ray);
     }
 }

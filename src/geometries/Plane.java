@@ -48,7 +48,7 @@ public class Plane implements Geometry {
 
 
     @Override
-    public java.util.List<primitives.Point3D> findIntsersections(primitives.Ray ray) throws ArithmeticException {
+    public java.util.List<primitives.Point3D> findIntersections(primitives.Ray ray) throws ArithmeticException {
 
         //Plane points: N ∙ 𝑄0 − 𝑃 = 0
         //𝑁 ∙ 𝑣

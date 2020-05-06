@@ -49,7 +49,7 @@ public class Sphere extends RadialGeometry {
      * @return point3D if...
      */
     @Override
-    public java.util.List<primitives.Point3D> findIntsersections(Ray ray) {
+    public java.util.List<primitives.Point3D> findIntersections(Ray ray) {
         //Ray points: 𝑃 = 𝑃0 + 𝑡 ∙ 𝑣, 𝑡 ≥ 0
         //Sphere points: abs(𝑃² − 𝑂²)- r² = 0
         /// start calcule

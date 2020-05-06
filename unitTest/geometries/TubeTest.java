@@ -1,7 +1,5 @@
 package geometries;
 
-import org.junit.Test;
-import org.junit.jupiter.api.DynamicTest;
 import primitives.*;
 /**
  * Testing Tube
@@ -45,7 +43,7 @@ public class TubeTest {
         }
     }
     /**
-     * Test method for {@link geometries.Cylinder#findIntsersections(Ray)}.
+     * Test method for {@link geometries.Cylinder#findIntersections(Ray)}.
      * imagine a bottle standing on a table with a radius of 1
      */
     @org.junit.Test
@@ -58,14 +56,14 @@ public class TubeTest {
         // TC01: Ray's line is outside the tube (0 points)
 
         primitives.Ray TC01= new primitives.Ray(new primitives.Point3D(-2,0,0),new primitives.Vector(0,5,0));
-        java.util.List<primitives.Point3D> resultTC01 = tube.findIntsersections(TC01);
+        java.util.List<primitives.Point3D> resultTC01 = tube.findIntersections(TC01);
 
          assertEquals(0,resultTC01.size());
 
         // TC02: Ray starts before and crosses the tube (2 points)
 
         primitives.Ray TC02 = new primitives.Ray(new primitives.Point3D(-2,0,0.8),new primitives.Vector(3,0,0));
-        java.util.List<primitives.Point3D> resultTC02 = tube.findIntsersections(TC02);
+        java.util.List<primitives.Point3D> resultTC02 = tube.findIntersections(TC02);
 
         assertEquals(2,resultTC02.size());
         primitives.Point3D p1 = new primitives.Point3D(-0.5999999999999996,0.0,0.8);
@@ -74,7 +72,7 @@ public class TubeTest {
 
         // TC03: Ray starts inside the tube (1 point)
         primitives.Ray TC03= new primitives.Ray(new primitives.Point3D(0.5,0,0.8),new primitives.Vector(5,0,0));
-        java.util.List<primitives.Point3D> resultTC03 = tube.findIntsersections(TC03);
+        java.util.List<primitives.Point3D> resultTC03 = tube.findIntersections(TC03);
 
         assertEquals(1,resultTC03.size());
 
@@ -83,7 +81,7 @@ public class TubeTest {
 
         // TC04: Ray starts after the tube (0 points)...
         primitives.Ray TC04= new primitives.Ray(new primitives.Point3D(2,0,0),new primitives.Vector(5,0,0));
-        java.util.List<primitives.Point3D> resultTC04 = tube.findIntsersections(TC04);
+        java.util.List<primitives.Point3D> resultTC04 = tube.findIntersections(TC04);
 
         assertEquals(0,resultTC04.size());
 
@@ -92,7 +90,7 @@ public class TubeTest {
         // **** Group: Ray's line crosses the tube (but not the center)
         // TC11: Ray starts at tube and goes inside (1 points)
         primitives.Ray TC11= new primitives.Ray(new primitives.Point3D(-1,0,0),new primitives.Vector(3,0,1));
-        java.util.List<primitives.Point3D> resultTC11 = tube.findIntsersections(TC11);
+        java.util.List<primitives.Point3D> resultTC11 = tube.findIntersections(TC11);
 
         assertEquals(1,resultTC11.size());
 
@@ -101,14 +99,14 @@ public class TubeTest {
         
         // TC12: Ray starts at tube and goes outside (0 points)
         primitives.Ray TC12= new primitives.Ray(new primitives.Point3D(1,0,0),new primitives.Vector(3,0,1));
-        java.util.List<primitives.Point3D> resultTC12 = tube.findIntsersections(TC12);
+        java.util.List<primitives.Point3D> resultTC12 = tube.findIntersections(TC12);
 
         assertEquals(0,resultTC12.size());
         
         // **** Group: Ray's line goes through the center
         // TC13: Ray starts before the tube (2 points)
         primitives.Ray TC13 = new primitives.Ray(new primitives.Point3D(0,0,-2),new primitives.Vector(0,0,5));
-        java.util.List<primitives.Point3D> resultTC13 = tube.findIntsersections(TC13);
+        java.util.List<primitives.Point3D> resultTC13 = tube.findIntersections(TC13);
 
         assertEquals(2,resultTC13.size());
         primitives.Point3D p5 = new primitives.Point3D(0.0,0.0,-1.0);
@@ -117,7 +115,7 @@ public class TubeTest {
         
         // TC14: Ray starts at tube and goes inside (1 points)
         primitives.Ray TC14= new primitives.Ray(new primitives.Point3D(-1,0,0),new primitives.Vector(3,0,0));
-        java.util.List<primitives.Point3D> resultTC14 = tube.findIntsersections(TC14);
+        java.util.List<primitives.Point3D> resultTC14 = tube.findIntersections(TC14);
 
         assertEquals(1,resultTC14.size());
 
@@ -126,7 +124,7 @@ public class TubeTest {
 
         // TC15: Ray starts inside (1 points)
         primitives.Ray TC15= new primitives.Ray(new primitives.Point3D(0,0,-0.5),new primitives.Vector(0,0,2));
-        java.util.List<primitives.Point3D> resultTC15 = tube.findIntsersections(TC15);
+        java.util.List<primitives.Point3D> resultTC15 = tube.findIntersections(TC15);
 
         assertEquals(1,resultTC15.size());
 
@@ -135,7 +133,7 @@ public class TubeTest {
         
         // TC16: Ray starts at the center (1 points)
         primitives.Ray TC16= new primitives.Ray(new primitives.Point3D(0,0,0),new primitives.Vector(0,0,2));
-        java.util.List<primitives.Point3D> resultTC16 = tube.findIntsersections(TC16);
+        java.util.List<primitives.Point3D> resultTC16 = tube.findIntersections(TC16);
 
         assertEquals(1,resultTC16.size());
 
@@ -144,14 +142,14 @@ public class TubeTest {
 
         // TC17: Ray starts at tube and goes outside (0 points)
         primitives.Ray TC17= new primitives.Ray(new primitives.Point3D(1,0,0),new primitives.Vector(5,0,0));
-        java.util.List<primitives.Point3D> resultTC17 = tube.findIntsersections(TC17);
+        java.util.List<primitives.Point3D> resultTC17 = tube.findIntersections(TC17);
 
         assertEquals(0,resultTC17.size());
 
         // TC18: Ray starts after tube (0 points)
 
         primitives.Ray TC18= new primitives.Ray(new primitives.Point3D(5,0,0),new primitives.Vector(5,0,0));
-        java.util.List<primitives.Point3D> resultTC18 = tube.findIntsersections(TC18);
+        java.util.List<primitives.Point3D> resultTC18 = tube.findIntersections(TC18);
 
         assertEquals(0,resultTC18.size());
 
@@ -159,27 +157,27 @@ public class TubeTest {
         // TC19: Ray starts before the tangent point
         primitives.Ray TC19= new primitives.Ray(new primitives.Point3D(1,5,-1),new primitives.Vector(0,0,5));
 
-        java.util.List<primitives.Point3D> resultTC19 = tube.findIntsersections(TC19);
+        java.util.List<primitives.Point3D> resultTC19 = tube.findIntersections(TC19);
        
         assertEquals(0,resultTC19.size());
 
         // TC20: Ray starts at the tangent point
         primitives.Ray TC20= new primitives.Ray(new primitives.Point3D(1,0,0),new primitives.Vector(0,0,5));
 
-        java.util.List<primitives.Point3D> resultTC20 = tube.findIntsersections(TC20);
+        java.util.List<primitives.Point3D> resultTC20 = tube.findIntersections(TC20);
 
         assertEquals(0,resultTC20.size());
         // TC21: Ray starts after the tangent point
         primitives.Ray TC21= new primitives.Ray(new primitives.Point3D(1,0,2),new primitives.Vector(0,0,5));
 
-        java.util.List<primitives.Point3D> resultTC21 = tube.findIntsersections(TC21);
+        java.util.List<primitives.Point3D> resultTC21 = tube.findIntersections(TC21);
 
         assertEquals(0,resultTC21.size());
         // **** Group: Special cases
         // TC22: Ray's line is outside, ray is orthogonal to ray start to tube's center line
         primitives.Ray TC22= new primitives.Ray(new primitives.Point3D(2,0,0),new primitives.Vector(0,0,5));
 
-        java.util.List<primitives.Point3D> resultTC22 = tube.findIntsersections(TC22);
+        java.util.List<primitives.Point3D> resultTC22 = tube.findIntersections(TC22);
         assertEquals( 0, resultTC22.size(),"Wrong number of points");
 
     }

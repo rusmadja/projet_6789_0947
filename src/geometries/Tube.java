@@ -114,7 +114,7 @@ public class Tube extends RadialGeometry {
      */
 
     @Override
-    public java.util.List<primitives.Point3D> findIntsersections(primitives.Ray ray)  {
+    public java.util.List<primitives.Point3D> findIntersections(primitives.Ray ray)  {
         Vector VA = this._axisRay.getDirection();
         Vector v = ray.getDirection();
         Point3D p0 = ray.getPoint();
