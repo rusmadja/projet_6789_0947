@@ -1,7 +1,5 @@
 package primitives;
 
-import elements.AmbientLight;
-import elements.Camera;
 import geometries.Geometries;
 import geometries.Polygon;
 import geometries.Sphere;
@@ -74,11 +72,11 @@ public class convertXML
             //we take the background's data and we initialise the scene's background
             //we uses split function to break the string who content the rgb values
             String[] scene_background = scene.getAttribute("background-color").split(" ");;
-            _scene.setBackground( new Color(Integer.parseInt(scene_background[0]),
-                                                     Integer.parseInt(scene_background[1])
-                                                    ,Integer.parseInt(scene_background[2])));
+            //_scene.setBackground( new Color(Integer.parseInt(scene_background[0]),
+            //                                         Integer.parseInt(scene_background[1])
+            //                                        ,Integer.parseInt(scene_background[2])));
             // we extract another scene's attribute: distance
-            _scene.setDistance(Integer.parseInt(scene.getAttribute("screen-distance")));
+            //_scene.setDistance(Integer.parseInt(scene.getAttribute("screen-distance")));
 
             /* PART 2 EXTRACTION OF ALL OTHERS NODES */
             final Element image = (Element)scene.getElementsByTagName("image").item(0);
@@ -99,10 +97,10 @@ public class convertXML
             String[]P0  = camera.getAttribute("P0").split(" ");
             String[]Vto = camera.getAttribute("Vto").split(" ");
             String[]Vup = camera.getAttribute("Vup").split(" ");
-            _scene.setCamera(new Camera(
-                    new Point3D(Double.parseDouble(P0[0]),Double.parseDouble(P0[1]),Double.parseDouble(P0[2])),
-                    new Vector(Double.parseDouble(Vto[0]),Double.parseDouble(Vto[1]),Double.parseDouble(Vto[2])),
-                    new Vector(Double.parseDouble(Vup[0]),Double.parseDouble(Vup[1]),Double.parseDouble(Vup[2]))));
+            //_scene.setCamera(new Camera(
+                   // new Point3D(Double.parseDouble(P0[0]),Double.parseDouble(P0[1]),Double.parseDouble(P0[2])),
+                    //new Vector(Double.parseDouble(Vto[0]),Double.parseDouble(Vto[1]),Double.parseDouble(Vto[2])),
+                    //new Vector(Double.parseDouble(Vup[0]),Double.parseDouble(Vup[1]),Double.parseDouble(Vup[2]))));
 
             /*PART 2.3 EXTRACTION OF THE Ambient-Light'S ATTRIBUTES */
             String[] ambient_lights = ambient_light.getAttribute("color").split(" ");
@@ -110,7 +108,7 @@ public class convertXML
                                                     Integer.parseInt(ambient_lights[0]),
                                                     Integer.parseInt(ambient_lights[1]),
                                                     Integer.parseInt(ambient_lights[2]));
-            _scene.setAmbientLight(new AmbientLight( ambient_light_color , 1));
+            //_scene.setAmbientLight(new AmbientLight( ambient_light_color , 1));
 
             /*PART 2.4 EXTRACTION OF THE GEOMETRIES'S ATTRIBUTES */
             _geometries = new Geometries();

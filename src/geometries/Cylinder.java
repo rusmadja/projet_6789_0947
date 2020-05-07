@@ -4,6 +4,8 @@ import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.List;
+
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
@@ -16,16 +18,18 @@ public class Cylinder extends Tube {
      */
     private double _height;
 
-    /** Cylinder constructor
+    /**
+     * Cylinder constructor
      *
      * @param _radius
-     * @param _axisRay
+     * @param _ray
      * @param _height
      */
-    public Cylinder(double _radius, Ray _axisRay, double _height) {
-        super(_radius, _axisRay);
+    public Cylinder(double _radius, Ray _ray, double _height) {
+        super(_radius, _ray);
         this._height = _height;
     }
+
     public Cylinder(Cylinder other) {
         super(other._radius, other._axisRay);
         this._height = other._height;
@@ -68,7 +72,16 @@ public class Cylinder extends Tube {
 
 
     @Override
-    public java.util.List<primitives.Point3D> findIntersections(primitives.Ray ray) {
-        return super.findIntersections(ray);
+    public List<GeoPoint> findIntersections(Ray ray) {
+        List<GeoPoint> intersections = super.findIntersections(ray);
+        if (intersections != null) {
+            for (GeoPoint geoPoint : intersections) {
+                geoPoint._geometry = this;
+            }
+        }
+        return intersections;
     }
+
+
+
 }

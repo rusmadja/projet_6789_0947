@@ -5,10 +5,13 @@
 
 package geometries;
 
+import geometries.Intersectable.GeoPoint;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import primitives.Point3D;
 import primitives.Vector;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -138,43 +141,43 @@ public class PolygonTest {
         //===================EP: Three cases:=======================//
         // TC01: Inside Polygon (1 point)
         primitives.Ray TC01 = new primitives.Ray(new primitives.Point3D(1.0,1.0,-1.0), new primitives.Vector(0.0,0.0,1.0));
-        java.util.List<primitives.Point3D> resultTC01 = Polygon.findIntersections(TC01);
+        List<GeoPoint> resultTC01 = Polygon.findIntersections(TC01);
 
         Assertions.assertEquals( 1, resultTC01.size(),"Wrong number of points");
 
-        Assertions.assertEquals(java.util.List.of(new primitives.Point3D(1,1,0)), resultTC01, "Ray crosses Polygon");
+        Assertions.assertEquals(new primitives.Point3D(1,1,0), resultTC01.get(0).getPoint(), "Ray crosses Polygon");
         // TC021:  Outside against edge (0 point)
         primitives.Ray TC021 = new primitives.Ray(new primitives.Point3D(5.0,2.0,-1.0), new primitives.Vector(0.0,0.0,1.0));
-        java.util.List<primitives.Point3D> resultTC021 = Polygon.findIntersections(TC021);
+        List<GeoPoint> resultTC021 = Polygon.findIntersections(TC021);
 
-        Assertions.assertEquals( 0, resultTC021.size(),"Wrong number of points");
+        Assertions.assertEquals( null, resultTC021,"Wrong number of points");
 
         // TC022: Outside against vertex (0 points)
         primitives.Ray TC022 = new primitives.Ray(new primitives.Point3D(5.0,-1.0,-1.0), new primitives.Vector(0.0,0.0,1.0));
-        java.util.List<primitives.Point3D> resultTC022 = Polygon.findIntersections(TC022);
+        List<GeoPoint> resultTC022 = Polygon.findIntersections(TC022);
 
-        Assertions.assertEquals( 0, resultTC022.size(),"Wrong number of points");
+        Assertions.assertEquals( null, resultTC022,"Wrong number of points");
 
         //===========================================================//
         //===BVA: Three cases (the ray begins "before" the plane)===//
 
         // TC11:  On edge (0 points)
         primitives.Ray TC11 = new primitives.Ray(new primitives.Point3D(2.0,4.0,-1.0), new primitives.Vector(0.0,0.0,1.0));
-        java.util.List<primitives.Point3D> resultTC11 = Polygon.findIntersections(TC11);
+        List<GeoPoint> resultTC11 = Polygon.findIntersections(TC11);
 
-        Assertions.assertEquals( 0, resultTC11.size(),"Wrong number of points");
+        Assertions.assertEquals( null, resultTC11,"Wrong number of points");
 
         // TC12: In vertex (0 points)
         primitives.Ray TC12 = new primitives.Ray(new primitives.Point3D(0.0,0.0,-1.0), new primitives.Vector(0.0,0.0,1.0));
-        java.util.List<primitives.Point3D> resultTC12 = Polygon.findIntersections(TC12);
+        List<GeoPoint> resultTC12 = Polygon.findIntersections(TC12);
 
-        Assertions.assertEquals( 0, resultTC12.size(),"Wrong number of points");
+        Assertions.assertEquals( null, resultTC12,"Wrong number of points");
 
         // TC13: On edge's continuation (0 points)
         primitives.Ray TC13 = new primitives.Ray(new primitives.Point3D(0.0,8.0,-1.0), new primitives.Vector(0.0,0.0,1.0));
-        java.util.List<primitives.Point3D> resultTC13 = Polygon.findIntersections(TC13);
+        List<GeoPoint> resultTC13 = Polygon.findIntersections(TC13);
 
-        Assertions.assertEquals( 0, resultTC13.size(),"Wrong number of points");
+        Assertions.assertEquals( null, resultTC13,"Wrong number of points");
 
 
     }

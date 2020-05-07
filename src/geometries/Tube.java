@@ -1,9 +1,7 @@
 package geometries;
 
-import primitives.Point3D;
-import primitives.Ray;
-import primitives.Util;
-import primitives.Vector;
+import elements.Material;
+import primitives.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,10 +32,30 @@ public class Tube extends RadialGeometry {
      * @throws Exception
      *         in case of a negative radius
      */
-    public Tube(double _radius, Ray _axisRay) {
-        super(_radius);
-        this._axisRay = new Ray(_axisRay);
+    /**
+     * constructor for a new Cylinder object
+     *
+     * @param _radius       the radius of the tube
+     * @param _ray          the direction of the tube from a center point
+     * @param _material     the material of the tube
+     * @param emissionLight the emission light of the tube
+     * @throws Exception in case of a negative radius
+     */
+    public Tube(Color emissionLight, Material _material, double _radius, Ray _ray) {
+        super(Color.BLACK, _radius);
+        this._material = _material;
+        this._axisRay = new Ray(_ray);
+
     }
+
+    public Tube(double _radius, Ray _ray) {
+        this(Color.BLACK, new Material(0, 0, 0), _radius, _ray);
+    }
+
+    public Tube(Color emissionLight, double _radius, Ray _ray) {
+        this(emissionLight, new Material(0, 0, 0), _radius, _ray);
+    }
+
 
     /**
      * @return ray
@@ -112,20 +130,19 @@ public class Tube extends RadialGeometry {
      *                  One of the planes is defined by a pair (C,-V) and the other by (C+V*maxm,V).
      *                  We hit the planes like a typical plane; the dot products we have already calculated, we only need to do the division(s).
      */
-
     @Override
-    public java.util.List<primitives.Point3D> findIntersections(primitives.Ray ray)  {
+    public java.util.List<GeoPoint> findIntersections(primitives.Ray ray)  {
         Vector VA = this._axisRay.getDirection();
         Vector v = ray.getDirection();
         Point3D p0 = ray.getPoint();
 
-       
+
 
         double V_dot_Va = v.dotProduct(VA);
         Vector Va_scale_V_dot_Va;
         Vector vMinusVa_scale_V_dot_Va;
         // if the ray is orthogonal to the axis
-        if (alignZero(V_dot_Va) == 0) 
+        if (alignZero(V_dot_Va) == 0)
             vMinusVa_scale_V_dot_Va = v;
         else {
             Va_scale_V_dot_Va = VA.scale(V_dot_Va);
@@ -133,9 +150,9 @@ public class Tube extends RadialGeometry {
                 vMinusVa_scale_V_dot_Va = v.subtract(Va_scale_V_dot_Va);
             }
             // if the rays is parallel to axis it throws Illegal Argument Exception
-            catch (IllegalArgumentException e)  
+            catch (IllegalArgumentException e)
             {
-                return Collections.emptyList();
+                return null;
             }
         }
         // A = (v-(v°va)°va) * (v-(v°va)°va)
@@ -146,8 +163,8 @@ public class Tube extends RadialGeometry {
             deltaP = p0.subtract(this._axisRay.getPoint());
         } catch (IllegalArgumentException e1) { // the ray begins at axis P0
             if (alignZero(V_dot_Va )== 0) // the ray is orthogonal to Axis
-                return List.of(ray.getP(_radius));
-            return List.of(ray.getP(Math.sqrt(_radius * _radius / vMinusVa_scale_V_dot_Va.lengthSquared())));
+                return List.of(new GeoPoint(this, ray.getP(_radius)));
+            return List.of(new GeoPoint(this, ray.getP(Math.sqrt(_radius * _radius / vMinusVa_scale_V_dot_Va.lengthSquared()))));
         }
 
         double deltaP_dot_VA = deltaP.dotProduct(VA);
@@ -159,7 +176,7 @@ public class Tube extends RadialGeometry {
             try {
                 dPMinusVA_scale_deltaP_dot_VA = deltaP.subtract(VA_scale_deltaP_dot_VA);
             } catch (IllegalArgumentException e) {
-                return List.of(ray.getP(Math.sqrt(_radius * _radius / a)));
+                return List.of(new GeoPoint(this, ray.getP(Math.sqrt(_radius * _radius / a))));
             }
         }
         // c = (dp - va*(dp°vA))*(dp - va*(dp°vA)) - radius*radius
@@ -178,21 +195,21 @@ public class Tube extends RadialGeometry {
 
         // the ray is tangent to the tube
         if (isZero(Math.sqrt(delta)))
-            return Collections.emptyList(); 
+            return Collections.emptyList();
         // we are looking for the 2 solutions of the equation   a*t^2 + b*t + c = 0
         double t1 = (-b - Math.sqrt(delta) )/ 2 * a ;
         double t2 = (-b + Math.sqrt(delta) )/ 2 * a ;
 
-        List<primitives.Point3D> toReturn = new ArrayList<primitives.Point3D>();
+        List<GeoPoint> toReturn = new ArrayList<>();
 
         if (alignZero(t1 )> 0)
-            toReturn.add(ray.getP(t1));
+            toReturn.add(new GeoPoint(this, p0.add(v.scale(t1))));
         if (alignZero(t2) > 0)
-            toReturn.add(ray.getP(t2));
+            toReturn.add(new GeoPoint(this, p0.add(v.scale(t2))));
 
         return toReturn ;
     }
 
+
 }
   
-

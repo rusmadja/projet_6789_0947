@@ -1,10 +1,11 @@
 package elements;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+import primitives.Point3D;
+import primitives.Ray;
+import primitives.Vector;
 
-import primitives.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Testing Camera Class
@@ -97,9 +98,10 @@ public class CameraTest {
          */
 
         geometries.Sphere sphere1 = new geometries.Sphere(1,new primitives.Point3D(0,0,3));
-        for (primitives.Ray ray :rayList_camera_test1)
-           numberOfIntersection += sphere1.findIntersections(ray).size();
-        
+        for (primitives.Ray ray :rayList_camera_test1) {
+            if(sphere1.findIntersections(ray) != null)
+                numberOfIntersection += sphere1.findIntersections(ray).size();
+        }
         assertEquals("Wrong number of intersection point", 2,numberOfIntersection);
 
 
@@ -113,9 +115,10 @@ public class CameraTest {
 
         geometries.Sphere sphere2 = new geometries.Sphere(2.5,new primitives.Point3D(0,0,2.5));
         numberOfIntersection = 0;
-        for (primitives.Ray ray :rayList_camera_test2)
-            numberOfIntersection += sphere2.findIntersections(ray).size();
-
+        for (primitives.Ray ray :rayList_camera_test2) {
+            if (sphere2.findIntersections(ray) != null)
+                numberOfIntersection += sphere2.findIntersections(ray).size();
+        }
         assertEquals("Wrong number of intersection point", 18,numberOfIntersection);
 
         /**
@@ -129,7 +132,8 @@ public class CameraTest {
         geometries.Sphere sphere3 = new geometries.Sphere(2,new primitives.Point3D(0,0,2));
         numberOfIntersection = 0;
         for (primitives.Ray ray :rayList_camera_test3)
-            numberOfIntersection += sphere3.findIntersections(ray).size();
+            if(sphere3.findIntersections(ray) != null)
+                numberOfIntersection += sphere3.findIntersections(ray).size();
 
         assertEquals("Wrong number of intersection point", 10,numberOfIntersection);
 
@@ -144,7 +148,8 @@ public class CameraTest {
         geometries.Sphere sphere4 = new geometries.Sphere(4,new primitives.Point3D(0,0,2));
         numberOfIntersection = 0;
         for (primitives.Ray ray :rayList_camera_test4)
-            numberOfIntersection += sphere4.findIntersections(ray).size();
+            if(sphere4.findIntersections(ray) != null)
+                numberOfIntersection += sphere4.findIntersections(ray).size();
 
         assertEquals("Wrong number of intersection point", 9,numberOfIntersection);
 
@@ -158,7 +163,8 @@ public class CameraTest {
         geometries.Sphere sphere5 = new geometries.Sphere(0.5,new primitives.Point3D(0,0,-1));
         numberOfIntersection = 0;
         for (primitives.Ray ray :rayList_camera_test5)
-            numberOfIntersection += sphere5.findIntersections(ray).size();
+            if(sphere5.findIntersections(ray) != null)
+                numberOfIntersection += sphere5.findIntersections(ray).size();
 
         assertEquals("Wrong number of intersection point", 0,numberOfIntersection);
 
@@ -227,7 +233,8 @@ public class CameraTest {
         geometries.Plane plane3 = new geometries.Plane(new primitives.Point3D(0,0,10),new primitives.Point3D(2,0,5),new primitives.Point3D(0,3,2.5));
          numberOfIntersection = 0;
         for (primitives.Ray ray :rayList_camera_test3)
-            numberOfIntersection += plane3.findIntersections(ray).size();
+            if(plane3.findIntersections(ray)!=null)
+                numberOfIntersection += plane3.findIntersections(ray).size();
 
         assertEquals("Wrong number of intersection point", 6,numberOfIntersection);
 
@@ -260,7 +267,8 @@ public class CameraTest {
 
         geometries.Triangle triangle1 = new geometries.Triangle(new primitives.Point3D(0, -1, 2), new primitives.Point3D(1, 1, 2), new primitives.Point3D(-1, 1, 2));
         for (primitives.Ray ray : rayList_camera_test1)
-            numberOfIntersection += triangle1.findIntersections(ray).size();
+            if(triangle1.findIntersections(ray) != null)
+                numberOfIntersection += triangle1.findIntersections(ray).size();
 
         assertEquals("Wrong number of intersection point", 1, numberOfIntersection);
 
@@ -274,7 +282,8 @@ public class CameraTest {
         geometries.Triangle triangle2 = new geometries.Triangle(new primitives.Point3D(0, -20, 2), new primitives.Point3D(1, 1, 2), new primitives.Point3D(-1, 1, 2));
         numberOfIntersection = 0;
         for (primitives.Ray ray : rayList_camera_test2)
-            numberOfIntersection += triangle2.findIntersections(ray).size();
+            if(triangle2.findIntersections(ray) != null)
+                numberOfIntersection += triangle2.findIntersections(ray).size();
 
         assertEquals("Wrong number of intersection point", 2, numberOfIntersection);
 
