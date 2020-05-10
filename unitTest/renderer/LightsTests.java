@@ -20,9 +20,9 @@ public class LightsTests {
     @Test
     public void sphereDirectional() {
         Scene scene = new Scene.SceneBuilder("Test scene")
-                .addAmbientLight(new AmbientLight(Color.WHITE, 1))
+                .addAmbientLight(new AmbientLight(new Color(250,25,25), 1))
                 .addBackground(Color.BLACK)
-                .addCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0)))
+                .addCamera(new Camera(new Point3D(0, 0, -100), new Vector(0, 0, 1), new Vector(0, -1, 0)))
                 .addDistance(100)
                 .build();
 
@@ -44,14 +44,14 @@ public class LightsTests {
     @Test
     public void spherePoint() {
         Scene scene = new Scene.SceneBuilder("Test scene")
-                .addAmbientLight(new AmbientLight(Color.WHITE, 1))
+                .addAmbientLight(new AmbientLight(new Color(250,25,25), 1))
                 .addBackground(Color.BLACK)
-                .addCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0)))
+                .addCamera(new Camera(new Point3D(0, 0, -50), new Vector(0, 0, 1), new Vector(0, -1, 0)))
                 .addDistance(100)
                 .build();
 
         scene.addGeometries(
-                new Sphere(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 100), 50, new Point3D(0, 0, 50)));
+                new Sphere(new Color(java.awt.Color.BLUE), new Material(1, 1, 50), 50, new Point3D(0, 0, 50)));
 
         scene.addLights(new PointLight(new Color(500, 300, 0), new Point3D(-50, 50, -50), 1, 0.00001, 0.000001));
 
