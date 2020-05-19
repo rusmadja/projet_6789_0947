@@ -3,7 +3,6 @@ package elements;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
-
 import static primitives.Util.isZero;
 
 public class Camera {
@@ -64,7 +63,7 @@ public class Camera {
             Pij = Pij.add(_vRight.scale(xj));
         }
         if (!isZero(yi)) {
-            Pij = Pij.add(_vUp.scale(-yi)); // Pij.add(_vUp.scale(-yi))
+            Pij = Pij.add(_vUp.scale(-yi));
         }
 
         Vector Vij = Pij.subtract(_p0);
