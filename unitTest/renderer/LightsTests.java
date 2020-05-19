@@ -23,7 +23,7 @@ public class LightsTests {
                 .addAmbientLight(new AmbientLight(new Color(250,25,25), 1))
                 .addBackground(Color.BLACK)
                 .addCamera(new Camera(new Point3D(0, 0, -100), new Vector(0, 0, 1), new Vector(0, -1, 0)))
-                .addDistance(100)
+                .addDistance(1000)
                 .build();
 
         scene.addGeometries(
@@ -47,7 +47,7 @@ public class LightsTests {
                 .addAmbientLight(new AmbientLight(new Color(250,25,25), 1))
                 .addBackground(Color.BLACK)
                 .addCamera(new Camera(new Point3D(0, 0, -50), new Vector(0, 0, 1), new Vector(0, -1, 0)))
-                .addDistance(100)
+                .addDistance(1000)
                 .build();
 
         scene.addGeometries(
@@ -71,7 +71,7 @@ public class LightsTests {
                 .addAmbientLight(new AmbientLight(Color.WHITE, 1))
                 .addBackground(Color.BLACK)
                 .addCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0)))
-                .addDistance(100)
+                .addDistance(1000)
                 .build();
 
         scene.addGeometries(
@@ -96,7 +96,7 @@ public class LightsTests {
                 .addAmbientLight(new AmbientLight(Color.WHITE, 0.15))
                 .addBackground(Color.BLACK)
                 .addCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0)))
-                .addDistance(100)
+                .addDistance(1000)
                 .build();
 
 
@@ -124,7 +124,7 @@ public class LightsTests {
                 .addAmbientLight(new AmbientLight(Color.WHITE, 0.15))
                 .addBackground(Color.BLACK)
                 .addCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0)))
-                .addDistance(100)
+                .addDistance(1000)
                 .build();
 
         scene.addGeometries(
@@ -153,7 +153,7 @@ public class LightsTests {
                 .addAmbientLight(new AmbientLight(Color.WHITE, 0.15))
                 .addBackground(Color.BLACK)
                 .addCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0)))
-                .addDistance(100)
+                .addDistance(1000)
                 .build();
 
         scene.addGeometries(
