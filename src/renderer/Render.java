@@ -24,6 +24,8 @@ public class Render {
     private final Scene _scene;
 
     private static final double DELTA = 0.1;
+    private static final int MAX_CALC_COLOR_LEVEL = 10;
+    private static final double MIN_CALC_COLOR_K = 0.001;
 
     public Render(ImageWriter imageWriter, Scene scene) {
         this._imageWriter = imageWriter;
@@ -66,7 +68,7 @@ public class Render {
                     _imageWriter.writePixel(collumn, row, background);
                 } else {
                     GeoPoint closestPoint = getClosestPoint(intersectionPoints);
-                    _imageWriter.writePixel(collumn, row, calcColor(closestPoint).getColor());
+                    _imageWriter.writePixel(collumn, row, calcColor(closestPoint, level).getColor());
                 }
             }
         }
@@ -89,7 +91,37 @@ public class Render {
         return pt;
     }
 
-    private Color calcColor(GeoPoint coloredPoint) {
+    /**
+     * Find intersections of a ray with the scene geometries and get the
+     * intersection point that is closest to the ray head. If there are no
+     * intersections, null will be returned.
+     *
+     * @param ray intersecting the scene
+     * @return the closest point
+     */
+    private GeoPoint findClosestIntersection(Ray ray) {
+        if (ray == null) {
+            return null;
+        }
+        GeoPoint closestPoint = null;
+        double closestDistance = Double.MAX_VALUE;
+        Point3D ray_p0 = ray.getPoint();
+
+        List<GeoPoint> intersections = _scene.getGeometries().findIntersections(ray);
+        if (intersections == null)
+            return null;
+
+        for (GeoPoint geoPoint : intersections) {
+            double distance = ray_p0.distance(geoPoint.getPoint());
+            if (distance < closestDistance) {
+                closestPoint = geoPoint;
+                closestDistance = distance;
+            }
+        }
+        return closestPoint;
+    }
+
+    private Color calcColor(GeoPoint coloredPoint, Ray inRay, int level, double k) {
         List<LightSource> lightSources = _scene.getLightSources();
         Color result = _scene.getAmbientLight().getIntensity();
         result = result.add(coloredPoint.getGeometry().getEmissionLight());
@@ -108,7 +140,6 @@ public class Render {
                 double nl = alignZero(n.dotProduct(l));
                 double nv = alignZero(n.dotProduct(v));
                 if (n.dotProduct(l) * n.dotProduct(v) > 0) {
-//                if (sign(nl) == sign(nv)) {
                     if (unshaded(l, n, coloredPoint)) {
                         Color ip = lightSource.getIntensity(coloredPoint.getPoint());
                         result = result.add(
@@ -118,7 +149,24 @@ public class Render {
                 }
             }
         }
+        if (level == 1) {
+            return Color.BLACK;
+        }
 
+        if (kkr > MIN_CALC_COLOR_K) {
+            Ray reflectedRay = constructReflectedRay(pointGeo, inRay, n);
+            GeoPoint reflectedPoint = findClosestIntersection(reflectedRay);
+            if (reflectedPoint != null) {
+                result = result.add(calcColor(reflectedPoint, reflectedRay, level - 1, kkr).scale(kr));
+            }
+        }
+        if (kkt > MIN_CALC_COLOR_K) {
+            Ray refractedRay = constructRefractedRay(pointGeo, inRay, n);
+            GeoPoint refractedPoint = findClosestIntersection(refractedRay);
+            if (refractedPoint != null) {
+                result = result.add(calcColor(refractedPoint, refractedRay, level - 1, kkt).scale(kt));
+            }
+        }
         return result;
     }
 
@@ -151,6 +199,7 @@ public class Render {
         // [rs,gs,bs](-V.R)^p
         return ip.scale(ks * Math.pow(minusVR, p));
     }
+
 
     /**
      * Calculate Diffusive component of light reflection.
