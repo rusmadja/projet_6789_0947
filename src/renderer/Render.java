@@ -186,22 +186,23 @@ public class Render {
         List<GeoPoint> intersections = _scene.getGeometries().findIntersections(lightRay);
         return intersections == null;
     }
-
-   /* private boolean unshaded(LightSource light, Vector l, Vector n, GeoPoint geopoint) {
+    private boolean unshaded(LightSource light, Vector l, Vector n, GeoPoint geopoint) {
         Vector lightDirection = l.scale(-1); // from point to light source
         Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA);
         Point3D point = geopoint.getPoint().add(delta);
         Ray lightRay = new Ray(point, lightDirection);
         List<GeoPoint> intersections = _scene.getGeometries().findIntersections(lightRay);
+
         if (intersections == null) {
             return true;
         }
         double lightDistance = light.getDistance(geopoint.getPoint());
         for (GeoPoint gp : intersections) {
-            double temp = gp.getPoint().distance(geopoint.getPoint()) - lightDistance;
-            if (alignZero(temp) <= 0)
+            if (alignZero(gp.getPoint().distance(geopoint.getPoint()) - lightDistance) <= 0)
                 return false;
         }
+
         return true;
-    }*/
+    }
+
 }
