@@ -6,7 +6,7 @@ import static primitives.Util.isZero;
  * Ray class
  */
 public class Ray {
-
+    private static final double DELTA = 0.1;
     /**
      * The point from which the ray starts.
      */
@@ -25,6 +25,25 @@ public class Ray {
         _point = new Point3D(point.get_x(),point.get_y(),point.get_z());
         _direction = new Vector(direction).normalized();
     }
+
+    /**
+     * TODO
+     * @param point
+     * @param direction
+     * @param n
+     * this.ray = head+ normal.scale(±DELTA)
+     */
+    public Ray(Point3D point, Vector direction, Vector n) {
+
+        _direction = new Vector(direction).normalized();
+
+        double nv = n.dotProduct(direction);
+
+        Vector normalDelta = n.scale((nv > 0 ? DELTA : -DELTA));
+        _point = point.add(normalDelta);
+
+    }
+
     public Point3D getTargetPoint(double length) {
         return isZero(length ) ? _point : new Point3D(_point).add(_direction.scale(length));
     }

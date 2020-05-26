@@ -1,7 +1,7 @@
 package geometries;
 
-import primitives.*;
-
+import primitives.Point3D;
+import primitives.Ray;
 
 import java.util.List;
 
@@ -10,6 +10,16 @@ import java.util.List;
  * to intersect from a ray to their entity (Shape)
  */
 public interface Intersectable {
+
+   /**
+    * @param ray ray pointing toward a Gepmtry
+    * @return List<GeoPoint> return values
+    */
+   default List<GeoPoint> findIntersections(Ray ray){
+      return findIntersections(ray, Double.POSITIVE_INFINITY);
+   }
+
+   List<GeoPoint> findIntersections(Ray ray,double MAXDISTANCE);
 
    public static class GeoPoint {
 
@@ -27,11 +37,6 @@ public interface Intersectable {
       public Geometry getGeometry() {
          return  _geometry;
       }
-   }  /**
-    *
-    * @param ray ray pointing toward a Gepmtry
-    * @return List<Point3D> return values
-    */
-   List<GeoPoint> findIntersections(Ray ray);
+   }
 
 }

@@ -131,7 +131,7 @@ public class Tube extends RadialGeometry {
      *                  We hit the planes like a typical plane; the dot products we have already calculated, we only need to do the division(s).
      */
     @Override
-    public java.util.List<GeoPoint> findIntersections(primitives.Ray ray)  {
+    public java.util.List<GeoPoint> findIntersections(primitives.Ray ray, double maxDouble)  {
         Vector VA = this._axisRay.getDirection();
         Vector v = ray.getDirection();
         Point3D p0 = ray.getPoint();

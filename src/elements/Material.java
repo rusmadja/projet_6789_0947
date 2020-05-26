@@ -8,7 +8,7 @@ public class Material {
     private int _nShininess;
 
 
-    public Material(double kD, double kS, double kR, double kT, int nShininess) {
+    public Material(double kD, double kS, int nShininess, double kT, double kR) {
         _kD = kD;
         _kS = kS;
         _kR = kR;
@@ -17,7 +17,7 @@ public class Material {
     }
 
     public Material(double _kD, double _kS, int _nShininess) {
-        this(_kD,_kS,0,0,_nShininess);
+        this(_kD,_kS,_nShininess,0,0);
     }
 
     public double getkD() {

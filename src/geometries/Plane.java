@@ -28,7 +28,6 @@ public class Plane extends Geometry {
         N.normalize();
 
         _normal = N;
-//        _normal = N.scale(-1);
 
     }
 
@@ -58,7 +57,7 @@ public class Plane extends Geometry {
     }
 
     @Override
-    public List<GeoPoint> findIntersections(Ray ray) {
+    public List<GeoPoint> findIntersections(Ray ray, double maxDistance) {
         //Plane points: N ∙ 𝑄0 − 𝑃 = 0
         //𝑁 ∙ 𝑣
         double denominator = this.getNormal().dotProduct(ray.getDirection());
@@ -72,14 +71,15 @@ public class Plane extends Geometry {
 
             //𝑡 = [𝑁 ∙ (𝑄0 − 𝑃0)] / [𝑁 ∙ 𝑣]
             double t = numerator / denominator;
+            double tdist = alignZero(maxDistance - t);
             List<GeoPoint> temp = null;
 
             Point3D P;
             // take only 𝒕 > 0
-            if (alignZero(t) > 0) {
+            if (alignZero(t) > 0 || tdist <= 0) {
                 //Ray points: 𝑃 = 𝑃0 + 𝑡 ∙ 𝑣, 𝑡 ≥ 0
                 P = ray.getP(t);
-                if(temp == null) {
+                if (temp == null) {
                     temp = new ArrayList<>();
                     temp.add(new GeoPoint(this, P));
                 }
@@ -89,56 +89,5 @@ public class Plane extends Geometry {
             return null;
         }
     }
-    /*
-     /*Vector p0Q;
-        try {
-            p0Q = _p.subtract(ray.getPoint());
-        } catch (IllegalArgumentException e) {
-            return null; // ray starts from point Q - no intersections
-        }
 
-        double nv = _normal.dotProduct(ray.getDirection());
-        if (isZero(nv)) // ray is parallel to the plane - no intersections
-            return null;
-
-        double t = alignZero(_normal.dotProduct(p0Q) / nv);
-
-        if (t <= 0) {
-            return null;
-        }
-
-        GeoPoint geo = new GeoPoint(this, ray.getTargetPoint(t));
-        return List.of(geo);
-
-    @Override
-    public java.util.List<primitives.Point3D> findIntersections(primitives.Ray ray) throws ArithmeticException {
-
-        //Plane points: N ∙ 𝑄0 − 𝑃 = 0
-        //𝑁 ∙ 𝑣
-        double denominator = this.getNormal().dotProduct(ray.getDirection());
-        // zeroes in denominator
-        if (isZero(denominator))
-            throw new ArithmeticException("impossible to divide by 0");
-
-        try { // if  Q0 = P0 that reject Illegal Argument Exception
-            //𝑁 ∙ (𝑄0 − 𝑃0)
-            double numerator = this.getNormal().dotProduct(this._p.subtract(ray.getPoint()));
-
-            //𝑡 = [𝑁 ∙ (𝑄0 − 𝑃0)] / [𝑁 ∙ 𝑣]
-            double t = numerator / denominator;
-            java.util.List temp = new java.util.ArrayList();
-
-            Point3D P;
-            // take only 𝒕 > 0
-            if (alignZero(t) > 0) {
-                //Ray points: 𝑃 = 𝑃0 + 𝑡 ∙ 𝑣, 𝑡 ≥ 0
-                P = ray.getP(t);
-                temp.add(P);
-            }
-            return temp;
-        }catch (IllegalArgumentException IAe ){
-            return java.util.Collections.EMPTY_LIST;
-        }
-    }
-     */
 }
