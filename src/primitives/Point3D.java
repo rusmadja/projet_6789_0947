@@ -37,6 +37,9 @@ public class Point3D {
         this(new Coordinate(_x), new Coordinate(_y), new Coordinate(_z));
     }
 
+    /**
+     * Getters
+     */
     public Coordinate get_x() {
         return new Coordinate(_x);
     }
@@ -49,6 +52,10 @@ public class Point3D {
         return new Coordinate(_z);
     }
 
+    /**
+     * @param p
+     * @return a new vector which is the subtraction of our verctor's head and a Point 3D
+     */
     public Vector subtract(Point3D p) {
         return new Vector(new Point3D(
                 this._x._coord - p._x._coord,
@@ -56,21 +63,44 @@ public class Point3D {
                 this._z._coord - p._z._coord));
     }
 
+    /**
+     * @param other
+     * @return distance between two Point 3D without the sqrt() :
+     * (Bx-Ax)² + (By-Ay)² + (Bz-Az)²
+     */
     public double distanceSquared(Point3D other)
     {
         return ( (other._x._coord - this._x._coord) * (other._x._coord - this._x._coord) +
                 (other._y._coord - this._y._coord) * (other._y._coord - this._y._coord) +
                 (other._z._coord - this._z._coord) * (other._z._coord - this._z._coord));
     }
+
+    /**
+     * @param other
+     * @return distance between two Point 3D with the sqrt():
+     *  sqrt( (Bx-Ax)² + (By-Ay)² + (Bz-Az)² )
+     */
     public double distance (Point3D other){
         return Math.sqrt(distanceSquared(other));
     }
+
+    /**
+     * @param v
+     * @return a new Point 3D which is the new vector's head after the addition of a Vector with our Point 3D
+     * ( Px + Vx )
+     * ( Py + Vy )
+     * ( Pz + Vz )
+     */
     public Point3D add(Vector v) {
         return new Point3D(this._x._coord + v._head._x._coord,
                 this._y._coord + v._head._y._coord,
                 this._z._coord + v._head._z._coord);
     }
 
+    /**
+     * @return true or false if the 2 Points 3D are equals
+     * A == B ?
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -81,6 +111,9 @@ public class Point3D {
                 _z.equals(point3D._z);
     }
 
+    /**
+     * Print the props of the Point3D
+     */
     @Override
     public String toString() {
         return "Point3D{" +
