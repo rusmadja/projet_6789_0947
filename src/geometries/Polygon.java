@@ -27,6 +27,14 @@ public class Polygon extends Geometry {
      */
     protected Plane _plane;
 
+    public List<Point3D> get_vertices() {
+        return _vertices;
+    }
+
+    public Plane get_plane() {
+        return _plane;
+    }
+
     /**
      * Polygon constructor based on vertices list. The list must be ordered by edge
      * path. The polygon must be convex.
@@ -133,4 +141,5 @@ public class Polygon extends Geometry {
         return intersections;
 
     }
+
 }

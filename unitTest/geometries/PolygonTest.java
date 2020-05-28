@@ -96,7 +96,7 @@ public class PolygonTest {
         Polygon pl = new Polygon(new Point3D(0, 0, 1), new Point3D(1, 0, 0), new Point3D(0, 1, 0),
                 new Point3D(-1, 1, 1));
         double sqrt3 = Math.sqrt(1d / 3); //=> sqrt3 = 0.5773......
-        // if pl.gerNormal return (0.57,0.57,0.57) it's gooooooodddd
+        // if pl.getNormal return (0.57,0.57,0.57) it's gooooooodddd
         assertEquals( new Vector(sqrt3, sqrt3, sqrt3), pl.getNormal(new Point3D(0, 1, 1)));
     }
     @Test

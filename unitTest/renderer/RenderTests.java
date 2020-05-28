@@ -3,8 +3,10 @@ package renderer;
 
 import elements.AmbientLight;
 import elements.Camera;
+import elements.Material;
 import geometries.Sphere;
 import geometries.Triangle;
+import Private.Cube;
 import org.junit.jupiter.api.Test;
 import primitives.Color;
 import primitives.Point3D;
@@ -37,7 +39,7 @@ public class RenderTests {
                 .addBackground(new Color(75, 127, 250))
                 .build();
 
-        scene.addGeometries(new Sphere(50, new Point3D(0, 0, 100)));
+      scene.addGeometries(new Sphere(50, new Point3D(0, 0, 100)));
 
         scene.addGeometries(
                 new Triangle(new Point3D(100, 0, 100), new Point3D(0, 100, 100), new Point3D(100, 100, 100)),
@@ -45,6 +47,7 @@ public class RenderTests {
                 new Triangle(new Point3D(-100, 0, 100), new Point3D(0, 100, 100), new Point3D(-100, 100, 100)),
                 new Triangle(new Point3D(-100, 0, 100), new Point3D(0, -100, 100), new Point3D(-100, -100, 100)));
 
+        //scene.addGeometries( new Cube(Color.BLACK,new Material(0,0,0),4,4,4))
         ImageWriter imageWriter = new ImageWriter("base render test 800X500", WIDTH, HEIGHT, NX, NY);
         Render render = new Render(imageWriter, scene);
 
