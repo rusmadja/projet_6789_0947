@@ -128,7 +128,8 @@ public class Diamond extends Geometries {
                            new Point3D(x,y+hauteur,z-(longueur/2)),
                            new Point3D(x,y+(hauteur+(hauteur/8)),z-(longueur/8)));
 
-        P1 = new Polygon(new Point3D(x,y+(hauteur+(hauteur/8)),z-(longueur/8)),
+        P1 = new Polygon(emissionLight,material,
+                         new Point3D(x,y+(hauteur+(hauteur/8)),z-(longueur/8)),
                          new Point3D(x+(longueur/4),y+(hauteur+(hauteur/8)),z),
                          new Point3D(x,y+(hauteur+(hauteur/8)),z+(longueur/8)),
                          new Point3D(x-(longueur/4),y+(hauteur+(hauteur/8)),z));
@@ -202,7 +203,6 @@ public class Diamond extends Geometries {
 
         List<GeoPoint> GeoPoint_P1= P1.findIntersections(ray,MAXDISTANCE);
         if(GeoPoint_P1 != null ) intersections.add(GeoPoint_P1.get(0));
-
 
         return intersections;
     }

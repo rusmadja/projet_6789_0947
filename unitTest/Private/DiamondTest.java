@@ -64,9 +64,9 @@ public class DiamondTest {
         scene = new Scene.SceneBuilder("Test scene")
                 .addAmbientLight(new AmbientLight(Color.BLACK, 0.5))
                 .addCamera(new Camera(
-                        new Point3D(0, -10, -100),
-                        new Vector(0, 0.2, 1),
-                        new Vector(0,1 ,-0.2 )))
+                        new Point3D(0, 20, -400),
+                        new Vector(0, 0, 1),
+                        new Vector(0,1 ,0 )))
                 .addDistance(1000)
                 .addBackground(Color.BLACK)
                 .build();
@@ -82,7 +82,7 @@ public class DiamondTest {
                              new Diamond(
                         new Color(115, 200, 150),
                         new Material(0, 0, 30),
-                        new Point3D(0, 2, 0), 32, 28)
+                        new Point3D(0, -10, 0), 32, 28)
         );
 
         scene.addLights(
