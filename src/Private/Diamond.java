@@ -15,6 +15,7 @@ import java.util.List;
 public class Diamond extends Geometries {
 
     // 8 triangles of the low part
+    // 8 triangles of the low part
     Triangle T1,T2,T3,T4,T5,T6,T7,T8;
     // 12 small triangles of high top
     Triangle T11,T12,T22,T33,T34,T44,T55,T56,T66,T77,T78,T88;
