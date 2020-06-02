@@ -5,7 +5,6 @@ import elements.Camera;
 import elements.Material;
 import elements.SpotLight;
 import geometries.Intersectable;
-import geometries.Polygon;
 import org.junit.Test;
 import primitives.Color;
 import primitives.Point3D;
@@ -17,7 +16,7 @@ import scene.Scene;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class DiamondTest {
 
@@ -64,31 +63,31 @@ public class DiamondTest {
         scene = new Scene.SceneBuilder("Test scene")
                 .addAmbientLight(new AmbientLight(Color.BLACK, 0.5))
                 .addCamera(new Camera(
-                        new Point3D(0, 20, -400),
-                        new Vector(0, 0, 1),
-                        new Vector(0,1 ,0 )))
+                        new Point3D(0, -50, -35),
+                        new Vector(0, 2, 1),
+                        new Vector(0,1 ,-2 )))
                 .addDistance(1000)
                 .addBackground(Color.BLACK)
                 .build();
 
         scene.addGeometries( //
-                             new Polygon(new Color(100, 100, 100), new Material(0, 0.8, 40),
+                             /*new Polygon(new Color(100, 100, 100), new Material(0, 0.8, 40),
                                          new Point3D(-150,10, -200),
                                          new Point3D(150, 10,-200),
                                          new Point3D(150, 10,2000),
                                          new Point3D(-150, 10, 2000)
 
-                             ),
+                             ),*/
                              new Diamond(
                         new Color(115, 200, 150),
-                        new Material(0, 0, 30),
-                        new Point3D(0, -10, 0), 32, 28)
+                        new Material(0.5, 0.5, 30,0.6,0),
+                        new Point3D(0, 10, 0), 12, 10)
         );
 
         scene.addLights(
-        new SpotLight(new Color(700, 400, 400),
-                      new Point3D(0, 10, -100),
-                      new Vector(0, 0, 1),
+        new SpotLight(new Color(100, 250, 250),
+                      new Point3D(0, -100, 0),
+                      new Vector(0, 1, 0),
                       1, 4E-4, 2E-5));
 
 

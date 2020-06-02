@@ -5,7 +5,7 @@ import elements.Camera;
 import elements.Material;
 import elements.SpotLight;
 import geometries.Intersectable.GeoPoint;
-import geometries.Triangle;
+import geometries.Sphere;
 import org.junit.Test;
 import primitives.Color;
 import primitives.Point3D;
@@ -108,9 +108,15 @@ public class CubeTest {
                 new Triangle(Color.BLACK, new Material(0, 0.8, 60), //
                         new Point3D(-150, 150, 115), new Point3D(-70, -70, 140), new Point3D(75, -75, 150)), */ //
                 new Cube(new Color(java.awt.Color.BLUE),
-                        new Material(0.5, 0.5, 30),
+                        new Material(0.5, 0.5, 30,0.6,0),
                         new Point3D(0, 0, 115),
-                        100,100,100));
+                        100,100,100),
+            new Sphere(new Color(java.awt.Color.BLUE),
+                new Material(0.5, 0.5, 30),
+                    20,new Point3D(10,10,75)
+                )
+        );
+
 
         scene.addLights(new SpotLight(new Color(700, 400, 400), //
                 new Point3D(40, -40, -115), new Vector(-1, 1, 4), 1, 4E-4, 2E-5));
