@@ -81,6 +81,7 @@ public class Cube extends Geometries
 
     }
 
+
     public Vector getNormal(Point3D p) {
         return null;
     }

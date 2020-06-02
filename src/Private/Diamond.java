@@ -22,7 +22,7 @@ public class Diamond extends Geometries {
     //1 polygon the top
     Polygon P1;
 
-    Diamond(Color emissionLight, Material material, Point3D position, int longueur, int hauteur)
+    Diamond(Color emissionLight, Material material, Point3D position, double longueur, double hauteur)
     {
         double x = position.get_x().get();
         double y = position.get_y().get();

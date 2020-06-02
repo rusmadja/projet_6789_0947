@@ -72,7 +72,8 @@ public class CubeTable extends Geometries {
     public List<Intersectable.GeoPoint> findIntersections(Ray ray, double MAXDISTANCE) {
 
         List<Intersectable.GeoPoint> intersections = new LinkedList<Intersectable.GeoPoint>();
-List<GeoPoint> _geopoints = up_table.findIntersections(ray, MAXDISTANCE);
+
+        List<GeoPoint> _geopoints = up_table.findIntersections(ray, MAXDISTANCE);
         for (GeoPoint p:_geopoints ) { intersections.add(p); }
 
         _geopoints =front_left_foot_table.findIntersections(ray, MAXDISTANCE);
