@@ -17,6 +17,12 @@ import static geometries.Intersectable.GeoPoint;
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
+/**
+ * Renderer create pixel color from scene with 3D shapes
+ * need ImageWriter & Scene
+ *
+ *  @author Reouven & Raphael
+ */
 
 public class Render {
     private final ImageWriter _imageWriter;
@@ -47,6 +53,10 @@ public class Render {
         _imageWriter.writeToImage();
     }
 
+    /**
+     * create an image with every pixel color from the scene's 3D objects
+     */
+
     public void renderImage() {
         Camera camera = _scene.getCamera();
         Intersectable geometries = _scene.getGeometries();
@@ -74,9 +84,9 @@ public class Render {
     }
 
     /**
-     * TODO
-     * @param intersectionPoints
-     * @return
+     * get the closest point to the camera
+     * @param intersectionPoints    the list of intersection points
+     * @return                      the closest point
      */
     private GeoPoint getClosestPoint(List<GeoPoint> intersectionPoints) {
         Point3D p0 = _scene.getCamera().getP0();
@@ -123,11 +133,13 @@ public class Render {
         }
         return closestPoint;
     }
+
+
     /**
-     * TODO
-     * @param coloredPoint
+     * Calculate the color in a point
+     * @param coloredPoint  the point to calculate the color
      * @param inRay
-     * @return
+     * @return              the color intensity
      */
     private Color calcColor(GeoPoint coloredPoint, Ray inRay){
         Color color = calcColor(coloredPoint, inRay, MAX_CALC_COLOR_LEVEL, 1.0);
@@ -135,12 +147,12 @@ public class Render {
         return color;
     }
     /**
-     * TODO
-     * @param coloredPoint
+     * Calculate the color in a point
+     * @param coloredPoint  the point to calculate the color
      * @param inRay
      * @param level
      * @param k
-     * @return
+     * @return              the color intensity
      */
     private Color calcColor(GeoPoint coloredPoint, Ray inRay, int level, double k) {
         if (level == 0 || k<MIN_CALC_COLOR_K)
@@ -276,6 +288,7 @@ public class Render {
     private boolean sign(double val) {
         return (val > 0d);
     }
+
     private boolean unshaded(Vector l, Vector n, GeoPoint geopoint) {
         Vector lightDirection = l.scale(-1); // from point to light source
         Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : - DELTA);
@@ -284,6 +297,16 @@ public class Render {
         List<GeoPoint> intersections = _scene.getGeometries().findIntersections(lightRay);
         return intersections == null;
     }
+
+    /**
+     * check if there is an object who make some shade in the scene
+     *
+     * @param light      the light source
+     * @param l          direction from light to point
+     * @param n          normal to surface at the point
+     * @param geopoint   check point
+     * @return           false if there is a shadow / true if unshaded
+     */
     private boolean unshaded(LightSource light, Vector l, Vector n, GeoPoint geopoint) {
         Vector lightDirection = l.scale(-1); // from point to light source
         Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA);
@@ -303,11 +326,11 @@ public class Render {
         return true;
     }
     /**
-     * TODO checker cette fonction
-     * @param light
-     * @param l
-     * @param n
-     * @param geopoint
+     *
+     * @param light      the light source
+     * @param l          direction from light to point
+     * @param n          normal to surface at the point
+     * @param geopoint   check point
      * @return
      */
     private double transparency(LightSource light, Vector l, Vector n, GeoPoint geopoint) {
