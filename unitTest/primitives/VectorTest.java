@@ -136,7 +136,7 @@ public class VectorTest {
         assertTrue("crossProduct() result is not orthogonal to 2nd operand", isZero(vr.dotProduct(v3)));
 
         // =============== Boundary Values Tests ==================
-        // test zero vector from cross-productof co-lined vectors
+        // test zero vector from cross-product of co-lined vectors
         try {
             v1.crossProduct(v2);
             fail("crossProduct() for parallel vectors does not throw an exception");
