@@ -58,6 +58,7 @@ public class Camera {
         double yi = ((i - nY / 2d) * Ry + Ry / 2d);
         double xj = ((j - nX / 2d) * Rx + Rx / 2d);
 
+
         Point3D Pij = Pc;
 
         if (!isZero(xj)) {
