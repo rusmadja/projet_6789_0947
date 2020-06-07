@@ -21,7 +21,7 @@ public class Cube extends Geometries
     Polygon Polygon_right_side ;
     Polygon Polygon_front ;
 
-    public Cube(Color emissionLight, Material material, Point3D position, int longueur, int hauteur, int profondeur)
+    public Cube(Color emissionLight, Material material, Point3D position, double longueur, double hauteur, double profondeur)
     {
         double x = position.get_x().get();
         double y = position.get_y().get();

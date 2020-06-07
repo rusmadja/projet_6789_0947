@@ -6,6 +6,7 @@ import elements.Material;
 import elements.SpotLight;
 import geometries.Intersectable;
 import geometries.Polygon;
+import geometries.Sphere;
 import geometries.Triangle;
 import org.junit.Test;
 import primitives.Color;
@@ -21,7 +22,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class GunTest {
+public class Wolf_1Test {
 
     @Test
     public void testConstructor() {
@@ -29,7 +30,7 @@ public class GunTest {
             List<Triangle> list = new ArrayList<Triangle>();
             Color emissionLight = new Color(0, 0, 200);
             Material material=    new Material(0, 0, 1);
-            Gun test = new Gun(
+            Wolf_1 test = new Wolf_1(
                     new Color(0, 0, 200),
                     new Material(0, 0, 1));
 
@@ -43,20 +44,20 @@ public class GunTest {
     }
     @Test
     public void findIntersections() {
-        Gun test = new Gun(
+        Wolf_1 test = new Wolf_1(
                 new Color(0, 0, 200),
                 new Material(0, 0, 1));
-           Ray ray = new Ray(new Point3D(0,0,-1000),new Vector(0,0,1)) ;
+        Ray ray = new Ray(new Point3D(0,0,-1000),new Vector(0,0,1)) ;
 
-           List<Intersectable.GeoPoint> TesterList = test.findIntersections(ray, Double.POSITIVE_INFINITY);
+        List<Intersectable.GeoPoint> TesterList = test.findIntersections(ray, Double.POSITIVE_INFINITY);
 
-           assertEquals( "bad number intersection",TesterList.size() , 1 );
+        assertEquals( "bad number intersection",TesterList.size() , 1 );
 
 
     }
 
     @Test
-    public void test1_7() {
+    public void test1_8() {
          /*
                 Y axis – screen top to bottom
                 X axis – screen left to right
@@ -65,31 +66,36 @@ public class GunTest {
         Scene scene;
         scene = new Scene.SceneBuilder("Test scene")
                 .addAmbientLight(new AmbientLight(Color.BLACK, 0.5))
-                .addCamera(new Camera(
+                /*.addCamera(new Camera(
                         new Point3D(-1000, 50, -1000),
                         new Vector(1, 0, 1),
+                        new Vector(0,1 ,0 )))*/
+               /* .addCamera(new Camera( // vue de face
+                        new Point3D(0, 50, -8000),
+                        new Vector(0, 0, 1),
+                        new Vector(0,1 ,0 )))*/
+                .addCamera(new Camera( // vue de profile
+                        new Point3D(-8000, 50, 0),
+                        new Vector(1, 0, 0),
                         new Vector(0,1 ,0 )))
-                .addDistance(1000)
+                .addDistance(2000)
                 .addBackground(Color.BLACK)
                 .build();
 
         scene.addGeometries( //
-                             new Polygon(new Color(100,120,120), new Material(0, 0.8, 60),
-                                         new Point3D(-150,-50, -200),
-                                         new Point3D(150, -50,-200),
-                                         new Point3D(150, -50,200),
-                                         new Point3D(-150, -50, 200)
+                             new Sphere(new Color(100, 120, 120), new Material(0, 0.8, 60,1,0),200,
+                                        new Point3D(0, 112.7280955, -13.568478)),
 
-                             ),
-                             new Gun(
-                                     new Color(200, 000, 000),
-                                     new Material(0, 0, 30)),
-                             new Gun_2(
-                                     new Color(000, 200, 000),
-                                     new Material(0, 0, 30)),
-                             new Gun_3(
-                                     new Color(000, 000, 200),
-                                     new Material(0, 0, 30))
+                             new Cube(new Color(100, 120, 120), new Material(0, 0.8, 60),
+                                        new Point3D(-200, -160, -220), 400, 159.59,420),
+
+                             new Wolf_1(
+                                  new Color(167, 103, 38),
+                                 new Material(0, 0, 30)),
+                             new Wolf_2(
+                                     new Color(167, 103, 38),
+                                    new Material(0, 0, 30))
+
         );
 
         scene.addLights(new SpotLight(new Color(700, 400, 400),
@@ -99,7 +105,7 @@ public class GunTest {
 
 
 
-        ImageWriter imageWriter = new ImageWriter("test1.7", 200, 200, 600, 600);
+        ImageWriter imageWriter = new ImageWriter("test1.8", 200, 200, 600, 600);
         Render render = new Render(imageWriter, scene);
 
         render.renderImage();
