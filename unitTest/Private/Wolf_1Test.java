@@ -32,7 +32,7 @@ public class Wolf_1Test {
             Material material=    new Material(0, 0, 1);
             Wolf_1 test = new Wolf_1(
                     new Color(0, 0, 200),
-                    new Material(0, 0, 1));
+                    new Material(0, 0, 1),new Point3D(0,0,0),1);
 
 
 
@@ -46,7 +46,7 @@ public class Wolf_1Test {
     public void findIntersections() {
         Wolf_1 test = new Wolf_1(
                 new Color(0, 0, 200),
-                new Material(0, 0, 1));
+                new Material(0, 0, 1),new Point3D(0,0,0),1);
         Ray ray = new Ray(new Point3D(0,0,-1000),new Vector(0,0,1)) ;
 
         List<Intersectable.GeoPoint> TesterList = test.findIntersections(ray, Double.POSITIVE_INFINITY);
@@ -91,10 +91,10 @@ public class Wolf_1Test {
 
                              new Wolf_1(
                                   new Color(167, 103, 38),
-                                 new Material(0, 0, 30)),
-                             new Wolf_2(
-                                     new Color(167, 103, 38),
-                                    new Material(0, 0, 30))
+                                 new Material(0, 0, 30),new Point3D(0,0,0),1)
+                             //new Wolf_2(
+                               //      new Color(167, 103, 38),
+                                 //   new Material(0, 0, 30),new Point3D(0,0,0),1)
 
         );
 
