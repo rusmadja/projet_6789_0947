@@ -30,7 +30,7 @@ public class TreeTest {
             Material material = new Material(0, 0, 1);
             Tree test = new Tree(
                     new Color(0, 0, 200),
-                    new Material(0, 0, 1));
+                    new Material(0, 0, 1) , new Point3D(0,0,0),1);
 
 
         } catch (IllegalArgumentException e) {
@@ -44,7 +44,7 @@ public class TreeTest {
     public void findIntersections() {
         Tree test = new Tree(
                 new Color(0, 0, 200),
-                new Material(0, 0, 1));
+                new Material(0, 0, 1),new Point3D(0,0,0),1);
         Ray ray = new Ray(new Point3D(0, 0, -1000), new Vector(0, 0, 1));
 
         List<Intersectable.GeoPoint> TesterList = test.findIntersections(ray, Double.POSITIVE_INFINITY);
@@ -68,14 +68,14 @@ public class TreeTest {
                         new Point3D(-1000, 50, -1000),
                         new Vector(1, 0, 1),
                         new Vector(0,1 ,0 )))*/
-                /*.addCamera(new Camera( // vue de face
+                .addCamera(new Camera( // vue de face
                         new Point3D(0, 50, -8000),
                         new Vector(0, 0, 1),
-                        new Vector(0,1 ,0 )))*/
-                .addCamera(new Camera( // vue de profile
+                        new Vector(0,1 ,0 )))
+                /*.addCamera(new Camera( // vue de profile
                                        new Point3D(-8000, 50, 0),
                                        new Vector(1, 0, 0),
-                                       new Vector(0, 1, 0)))
+                                       new Vector(0, 1, 0)))*/
                 .addDistance(2000)
                 .addBackground(Color.BLACK)
                 .build();
@@ -84,15 +84,15 @@ public class TreeTest {
                              /*new Sphere(new Color(100, 120, 120), new Material(0, 0.8, 60,1,0),200,
                                         new Point3D(0, 112.7280955, -13.568478)),
 
-                             new Cube(new Color(100, 120, 120), new Material(0, 0.8, 60),
-                                      new Point3D(-200, -160, -220), 400, 159.59,420),*/
+                             */new Cube(new Color(100, 120, 120), new Material(0, 0.8, 60),
+                                      new Point3D(0, -10, 0), 10, 10,10),
 
                              new Tree( // tronc
                                      new Color(136, 66, 29),
-                                     new Material(0, 0, 30)),
+                                     new Material(0, 0, 30),new Point3D(-60,0,0),1), // deplace le tronc de 60 a droite
                              new Tree_2( // feuille
                                      new Color(52, 201, 36),
-                                     new Material(0, 0, 30))
+                                     new Material(0, 0, 30),new Point3D(-60,0,0),1) // // deplace les feuille de 60 a droite
 
 
         );
