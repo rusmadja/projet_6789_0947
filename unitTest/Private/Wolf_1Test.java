@@ -20,6 +20,7 @@ import scene.Scene;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Math.sqrt;
 import static org.junit.Assert.*;
 
 public class Wolf_1Test {
@@ -70,15 +71,23 @@ public class Wolf_1Test {
                         new Point3D(-1000, 50, -1000),
                         new Vector(1, 0, 1),
                         new Vector(0,1 ,0 )))*/
-               /* .addCamera(new Camera( // vue de face
+                /*.addCamera(new Camera( // vue de face
                         new Point3D(0, 50, -8000),
                         new Vector(0, 0, 1),
                         new Vector(0,1 ,0 )))*/
-                .addCamera(new Camera( // vue de profile
+                /*.addCamera(new Camera( // vue de profile
                         new Point3D(-8000, 50, 0),
                         new Vector(1, 0, 0),
-                        new Vector(0,1 ,0 )))
-                .addDistance(2000)
+                        new Vector(0,1 ,0 )))*/
+               /* .addCamera(new Camera( // vue de haut
+                        new Point3D(0, -1000, 0),
+                        new Vector(0, 1, 0),
+                        new Vector(1,0 ,0 )))*/
+                .addCamera(new Camera( // vue de haut gauche
+                         new Point3D(-500, 800, -520),
+                         new Vector(1, -1, 1),
+                         new Vector(sqrt(2)/2 ,sqrt(2) ,sqrt(2)/2  )))
+                .addDistance(180)
                 .addBackground(Color.BLACK)
                 .build();
 
@@ -89,10 +98,13 @@ public class Wolf_1Test {
                              new Cube(new Color(100, 120, 120), new Material(0, 0.8, 60),
                                         new Point3D(-200, -160, -220), 400, 159.59,420),
 
+                             new Cube(new Color(132, 132, 132), new Material(0.5, 0.5, 30,0,1),
+                                      new Point3D(-500, -160, -520), 1000, 1000,1040)
 
-                             new Wolf_1(
+
+                             /*new Wolf_1(
                                   new Color(Color.BLACK),
-                                 new Material(0.5, 0.5, 30),new Point3D(0,0,0),1)
+                                 new Material(0.5, 0.5, 30),new Point3D(0,0,0),1)*/
                              //new Wolf_2(
                                //      new Color(167, 103, 38),
                                  //   new Material(0, 0, 30),new Point3D(0,0,0),1)
@@ -114,4 +126,6 @@ public class Wolf_1Test {
 
 
     }
+
+
 }
