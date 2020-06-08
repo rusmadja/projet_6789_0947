@@ -83,15 +83,16 @@ public class Wolf_1Test {
                 .build();
 
         scene.addGeometries( //
-                             new Sphere(new Color(100, 120, 120), new Material(0, 0.8, 60,1,0),200,
+                             new Sphere(new Color(100, 120, 120), new Material(0.5, 0.5, 30,0.6,0),200,
                                         new Point3D(0, 112.7280955, -13.568478)),
 
                              new Cube(new Color(100, 120, 120), new Material(0, 0.8, 60),
                                         new Point3D(-200, -160, -220), 400, 159.59,420),
 
+
                              new Wolf_1(
-                                  new Color(167, 103, 38),
-                                 new Material(0, 0, 30),new Point3D(0,0,0),1)
+                                  new Color(Color.BLACK),
+                                 new Material(0.5, 0.5, 30),new Point3D(0,0,0),1)
                              //new Wolf_2(
                                //      new Color(167, 103, 38),
                                  //   new Material(0, 0, 30),new Point3D(0,0,0),1)
