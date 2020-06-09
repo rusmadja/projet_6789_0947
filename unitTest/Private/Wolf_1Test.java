@@ -103,13 +103,20 @@ public class Wolf_1Test {
                                       new Point3D(-1500, -160, -1560), 3000, 3000,3120),
 
                              new Damier(new Material(0.5, 0.5, 30),
-                                new Point3D(-1500, -159.9999, -1560), 3000,3120)
+                                new Point3D(-1500, -159.9999, -1560), 3000,3120),
                              /*new Wolf_1(
                                   new Color(Color.BLACK),
                                  new Material(0.5, 0.5, 30),new Point3D(0,0,0),1)*/
                              //new Wolf_2(
                                //      new Color(167, 103, 38),
                                  //   new Material(0, 0, 30),new Point3D(0,0,0),1)
+                             new Tree( // tronc
+                                       new Color(136, 66, 29),
+                                       new Material(0, 0, 30),new Point3D(-40,0,-90),2.7), // deplace le tronc de 60 a droite
+                             new Tree_2( // feuille
+                                        new Color(52, 201, 36),
+                                        new Material(0, 0, 30),new Point3D(-40,0,-90),2.7) // // deplace les feuille de 60 a droite
+
 
         );
 
