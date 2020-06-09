@@ -3,6 +3,7 @@ package Private;
 import elements.Material;
 import geometries.Geometries;
 import geometries.Intersectable;
+import geometries.Polygon;
 import geometries.Triangle;
 import primitives.Color;
 import primitives.Point3D;
@@ -727,10 +728,14 @@ public class Wolf_1 extends Geometries {
 
         List<Intersectable.GeoPoint> intersections = new LinkedList<Intersectable.GeoPoint>();
 
-        for (Triangle t : list) {
+        /*for (Triangle t : list) {
             if (t.findIntersections(ray, MAXDISTANCE) != null)
                 intersections.add(t.findIntersections(ray, MAXDISTANCE).get(0));
-        }
+        }*/
+        for (Triangle x :list
+        ) {
+            List<GeoPoint> _geopoints = x.findIntersections(ray, MAXDISTANCE);
+            if(_geopoints != null )intersections.add(_geopoints.get(0)); }
 
         return intersections;
     }

@@ -84,7 +84,7 @@ public class Wolf_1Test {
                         new Vector(0, 1, 0),
                         new Vector(1,0 ,0 )))*/
                 .addCamera(new Camera( // vue de haut gauche
-                         new Point3D(-500, 800, -520),
+                         new Point3D(-1499, 2400, -1559),
                          new Vector(1, -1, 1),
                          new Vector(sqrt(2)/2 ,sqrt(2) ,sqrt(2)/2  )))
                 .addDistance(180)
@@ -92,16 +92,18 @@ public class Wolf_1Test {
                 .build();
 
         scene.addGeometries( //
-                             new Sphere(new Color(100, 120, 120), new Material(0.5, 0.5, 30,0.6,0),200,
-                                        new Point3D(0, 112.7280955, -13.568478)),
+                             new Sphere(new Color(100, 120, 120), new Material(0.5, 0.5, 30,0.6,0),400,
+                                        new Point3D(0, 224.7280955, -13.568478)),
 
-                             new Cube(new Color(100, 120, 120), new Material(0, 0.8, 60),
-                                        new Point3D(-200, -160, -220), 400, 159.59,420),
+                            // cube du bas
+                             new Cube(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30),
+                                    new Point3D(-400, -160, -440), 800, 159.59, 840),
 
-                             new Cube(new Color(132, 132, 132), new Material(0.5, 0.5, 30,0,1),
-                                      new Point3D(-500, -160, -520), 1000, 1000,1040)
+                             new Cube(new Color(96, 96, 96), new Material(0.5, 0.5, 30,0,1),
+                                      new Point3D(-1500, -160, -1560), 3000, 3000,3120),
 
-
+                             new Damier(new Material(0.5, 0.5, 30),
+                                new Point3D(-1500, -159.9999, -1560), 3000,3120)
                              /*new Wolf_1(
                                   new Color(Color.BLACK),
                                  new Material(0.5, 0.5, 30),new Point3D(0,0,0),1)*/
@@ -111,10 +113,15 @@ public class Wolf_1Test {
 
         );
 
-        scene.addLights(new SpotLight(new Color(700, 400, 400),
-                                      new Point3D(0, -250, 50),
-                                      new Vector(0.5, 1, 0),
-                                      1, 4E-4, 2E-5));
+        scene.addLights(new SpotLight(new Color(400,240,0),
+                                      new Point3D(-500, 2700, 0),
+                                      new Vector(500, -2588, -13),
+                                      1, 0.00004, 0.00001));
+
+        scene.addLights(new SpotLight(new Color(java.awt.Color.GREEN),
+                                      new Point3D(500, 2700, 0),
+                                      new Vector(-500, -2588, -13),
+                                      1, 0.00004, 0.00001));
 
 
 
