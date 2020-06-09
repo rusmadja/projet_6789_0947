@@ -84,16 +84,16 @@ public class Wolf_1Test {
                         new Vector(0, 1, 0),
                         new Vector(1,0 ,0 )))*/
                 .addCamera(new Camera( // vue de haut gauche
-                         new Point3D(-1499, 2400, -1559),
-                         new Vector(1, -1, 1),
-                         new Vector(sqrt(2)/2 ,sqrt(2) ,sqrt(2)/2  )))
+                         new Point3D(-1499, 1200, -1559),
+                         new Vector(1, -0.5, 1),
+                         new Vector(0.5  ,2,0.5   )))
                 .addDistance(180)
                 .addBackground(Color.BLACK)
                 .build();
 
         scene.addGeometries( //
-                             new Sphere(new Color(100, 120, 120), new Material(0.5, 0.5, 30,0.6,0),400,
-                                        new Point3D(0, 224.7280955, -13.568478)),
+                             new Sphere(new Color(100, 120, 120), new Material(0.5, 0.5, 30,0.6,0),500,
+                                        new Point3D(-50, 324.7280955, -43.568478)),
 
                             // cube du bas
                              new Cube(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30),
@@ -112,10 +112,10 @@ public class Wolf_1Test {
                                  //   new Material(0, 0, 30),new Point3D(0,0,0),1)
                              new Tree( // tronc
                                        new Color(136, 66, 29),
-                                       new Material(0, 0, 30),new Point3D(-40,0,-90),2.7), // deplace le tronc de 60 a droite
+                                       new Material(0, 0, 30),new Point3D(-50,0,-43),3.5), // deplace le tronc de 60 a droite
                              new Tree_2( // feuille
                                         new Color(52, 201, 36),
-                                        new Material(0, 0, 30),new Point3D(-40,0,-90),2.7) // // deplace les feuille de 60 a droite
+                                       new Material(0, 0, 30),new Point3D(-50,0,-43),3.5) // // deplace les feuille de 60 a droite
 
 
         );
