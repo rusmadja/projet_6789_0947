@@ -15,7 +15,7 @@ import static primitives.Util.isZero;
  * Polygon class represents two-dimensional polygon in 3D Cartesian coordinate
  * system
  *
- * @author Dan
+ * @author Dan and reouven & raphael
  */
 public class Polygon extends Geometry {
     /**
@@ -102,6 +102,8 @@ public class Polygon extends Geometry {
     public Vector getNormal(Point3D point) {
         return _plane.getNormal();
     }
+
+
 
     @Override
     public List<GeoPoint> findIntersections(Ray ray, double maxDistance) {

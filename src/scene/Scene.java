@@ -66,6 +66,11 @@ public class Scene {
         _lights.add(light);
     }
 
+    public Scene setCamera(Camera camera) {
+        this._camera = camera;
+        return this;
+    }
+
     public static class SceneBuilder {
         private String name;
         private Color background;

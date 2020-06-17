@@ -25,21 +25,16 @@ public class Tube extends RadialGeometry {
      * constructor for a new Cylinder object
      *
      * @param _radius
-     *         the radius of the cylinder
-     * @param _axisRay
-     *         the direction of the cylinder from a center point
+     *         the radius of the tube
+     * @param _ray
+     *         the direction of the tube from a center point
+     * @param _material
+     *         the material of the tube
+     * @param emissionLight
+     *         the emission light of the tube
      *
      * @throws Exception
      *         in case of a negative radius
-     */
-    /**
-     * constructor for a new Cylinder object
-     *
-     * @param _radius       the radius of the tube
-     * @param _ray          the direction of the tube from a center point
-     * @param _material     the material of the tube
-     * @param emissionLight the emission light of the tube
-     * @throws Exception in case of a negative radius
      */
     public Tube(Color emissionLight, Material _material, double _radius, Ray _ray) {
         super(Color.BLACK, _radius);
@@ -121,21 +116,25 @@ public class Tube extends RadialGeometry {
     /**
      * Function for finding intersections points with an infinite
      * tube.
-     * @param ray The ray that we check if it intersects the tube.
+     *
+     * @param ray
+     *         The ray that we check if it intersects the tube.
+     *
      * @return A list of intersection points, if any.
-     *                  There are two points on the cylinder that we hit (it can be the same point twice).
-     *                  We have to calculate two m values and test whether they fall in the range of [0,maxm].
-     *                  If any falls out, we can either throw the point that corresponds to it away (the cylinder will have a hole)
-     *                  or we can cap the cylinder with planes.
-     *                  One of the planes is defined by a pair (C,-V) and the other by (C+V*maxm,V).
-     *                  We hit the planes like a typical plane; the dot products we have already calculated, we only need to do the division(s).
+     *         There are two points on the cylinder that we hit (it can be the same point twice).
+     *         We have to calculate two m values and test whether they fall in the range of [0,maxm].
+     *         If any falls out, we can either throw the point that corresponds to it away (the cylinder will have a
+     *         hole)
+     *         or we can cap the cylinder with planes.
+     *         One of the planes is defined by a pair (C,-V) and the other by (C+V*maxm,V).
+     *         We hit the planes like a typical plane; the dot products we have already calculated, we only need to do
+     *         the division(s).
      */
     @Override
-    public java.util.List<GeoPoint> findIntersections(primitives.Ray ray, double maxDouble)  {
+    public java.util.List<GeoPoint> findIntersections(primitives.Ray ray, double maxDouble) {
         Vector VA = this._axisRay.getDirection();
         Vector v = ray.getDirection();
         Point3D p0 = ray.getPoint();
-
 
 
         double V_dot_Va = v.dotProduct(VA);
@@ -150,8 +149,7 @@ public class Tube extends RadialGeometry {
                 vMinusVa_scale_V_dot_Va = v.subtract(Va_scale_V_dot_Va);
             }
             // if the rays is parallel to axis it throws Illegal Argument Exception
-            catch (IllegalArgumentException e)
-            {
+            catch (IllegalArgumentException e) {
                 return null;
             }
         }
@@ -162,9 +160,9 @@ public class Tube extends RadialGeometry {
         try {
             deltaP = p0.subtract(this._axisRay.getPoint());
         } catch (IllegalArgumentException e1) { // the ray begins at axis P0
-            if (alignZero(V_dot_Va )== 0) // the ray is orthogonal to Axis
-                return List.of(new GeoPoint(this, ray.getP(_radius)));
-            return List.of(new GeoPoint(this, ray.getP(Math.sqrt(_radius * _radius / vMinusVa_scale_V_dot_Va.lengthSquared()))));
+            if (alignZero(V_dot_Va) == 0) // the ray is orthogonal to Axis
+                return List.of(new GeoPoint(this, ray.getPointAtDistance(_radius)));
+            return List.of(new GeoPoint(this, ray.getPointAtDistance(Math.sqrt(_radius * _radius / vMinusVa_scale_V_dot_Va.lengthSquared()))));
         }
 
         double deltaP_dot_VA = deltaP.dotProduct(VA);
@@ -176,7 +174,7 @@ public class Tube extends RadialGeometry {
             try {
                 dPMinusVA_scale_deltaP_dot_VA = deltaP.subtract(VA_scale_deltaP_dot_VA);
             } catch (IllegalArgumentException e) {
-                return List.of(new GeoPoint(this, ray.getP(Math.sqrt(_radius * _radius / a))));
+                return List.of(new GeoPoint(this, ray.getPointAtDistance(Math.sqrt(_radius * _radius / a))));
             }
         }
         // c = (dp - va*(dp°vA))*(dp - va*(dp°vA)) - radius*radius
@@ -197,17 +195,17 @@ public class Tube extends RadialGeometry {
         if (isZero(Math.sqrt(delta)))
             return Collections.emptyList();
         // we are looking for the 2 solutions of the equation   a*t^2 + b*t + c = 0
-        double t1 = (-b - Math.sqrt(delta) )/ 2 * a ;
-        double t2 = (-b + Math.sqrt(delta) )/ 2 * a ;
+        double t1 = (-b - Math.sqrt(delta)) / 2 * a;
+        double t2 = (-b + Math.sqrt(delta)) / 2 * a;
 
         List<GeoPoint> toReturn = new ArrayList<>();
 
-        if (alignZero(t1 )> 0)
+        if (alignZero(t1) > 0)
             toReturn.add(new GeoPoint(this, p0.add(v.scale(t1))));
         if (alignZero(t2) > 0)
             toReturn.add(new GeoPoint(this, p0.add(v.scale(t2))));
 
-        return toReturn ;
+        return toReturn;
     }
 
 

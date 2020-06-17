@@ -1,10 +1,11 @@
 
 package primitives;
 
+import static java.lang.StrictMath.abs;
+
 /**
- * Vector is the
- *
- *
+ * Vector is the representing in a 3D plane
+ * create from a 3D point
  *
  * @author Reouven and Raphael
  */
@@ -32,33 +33,52 @@ public class Vector {
         this(p1.subtract(p2));
     }
 
+    /**
+     * Constructor with 3  values
+     *
+     * @param x value on X axe
+     * @param y value on Y axe
+     * @param z value on Z axe
+     *
+     */
     public Vector(double x,double y, double z) {
         this(new Point3D(x,y,z));
     }
 
     /**
-     * @return
+     * getter for the head point
+     *
+     * @return header point of the vector
      */
     public Point3D get_head() {
         return new Point3D(_head._x._coord, _head._y._coord, _head._z._coord);
     }
 
     /**
-     * @param vector
+     * add 2 vectors, mine and another
+     *
+     * @param vector vector
+     * @return new vector:
      */
     public Vector add(Vector vector) {
         return new Vector( this._head.add(vector));
     }
 
     /**
-     * @param vector
+     * sub 2 vectors, mine and another
+     *
+     * @param vector vector
+     * @return new vector:
      */
     public Vector subtract(Vector vector) {
         return this._head.subtract(vector._head);
     }
 
     /**
-     * @param factorScale
+     * scale my vector with the value
+     *
+     * @param factorScale the value of scal
+     * @return new vector:
      */
     public Vector scale(double factorScale) {
         return new Vector(
@@ -68,10 +88,7 @@ public class Vector {
                         new Coordinate(factorScale * _head._z._coord)));
     }
 
-    /**
-     * @param o
-     * @return
-     */
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -81,6 +98,8 @@ public class Vector {
     }
 
     /**
+     * dot product of my vector and the param
+     *
      * @param v
      * @return
      * U . V
@@ -92,6 +111,7 @@ public class Vector {
     }
 
     /**
+     * cross product of my vector and the param
      * @param v
      * @return
      * U x V
@@ -149,10 +169,38 @@ public class Vector {
         return this;
     }
 
+    /**
+     * normalizing the vector I keep the same direction
+     *
+     * @return the vector normalized
+     */
     public Vector normalized() {
         Vector vector = new Vector(this);
         vector.normalize();
         return vector;
+    }
+
+    /**
+     * create an orthogonal vector => dotProduct of orthogonal
+     * vectors == 0
+     *
+     * @return an orthogonal vector
+     */
+    public Vector CreateOrtogonal() {
+        double x = _head.get_x()._coord;
+        double y = _head.get_y()._coord;
+        double z = _head.get_z()._coord;
+
+        double absX=abs(_head.get_x()._coord);
+        double absY=abs(_head.get_y()._coord);
+        double absZ=abs(_head.get_z()._coord);
+
+        return (absX <= absY && absX<= absZ)?
+                new Vector(0, -z, y).normalize():
+                ((absY<= absX&& absY<= absZ)?
+                        new Vector(-z, 0, x).normalize():
+                        new Vector(-y, x, 0).normalize()
+                );
     }
 
     @Override

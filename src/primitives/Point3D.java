@@ -1,12 +1,10 @@
 package primitives;
 
-import java.util.Objects;
-
 /**
  * Class Point3D is the basic class representing a point in a
  * 3D system.
  *
- * @author reouv&raph
+ * @author reouven & raphael
  */
 public class Point3D {
     Coordinate _x;

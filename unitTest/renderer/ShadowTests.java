@@ -182,7 +182,7 @@ public class ShadowTests {
                         new Point3D(0, 0, -1000),
                         new Vector(0, 0, 1),
                         new Vector(0, -1, 0)))
-                .addDistance(1000)
+                .addDistance(1100)
                 .addBackground(Color.BLACK)
                 .build();
 

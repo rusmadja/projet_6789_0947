@@ -4,6 +4,7 @@ import elements.AmbientLight;
 import elements.Camera;
 import elements.Material;
 import elements.SpotLight;
+import geometries.Polygon;
 import geometries.Sphere;
 import geometries.Triangle;
 import org.junit.jupiter.api.Test;
@@ -161,4 +162,48 @@ public class ReflectionRefractionTests {
 		render.renderImage();
 		render.writeToImage();
 	}
+@Test
+	public void twoSpheresGlossy() {
+		Scene scene = new Scene.SceneBuilder("Test scene")
+				.addAmbientLight(new AmbientLight(Color.BLACK, 0))
+				.addCamera(
+						new Camera(
+								new Point3D(0, -500, 50),
+								new Vector(0, 1, 0),
+								new Vector(0, 0, -1)))
+				.addDistance(500)
+				.addBackground(Color.BLACK)
+				.build();
+
+		scene.addGeometries(
+				new Sphere(
+						new Color(java.awt.Color.BLUE),
+						new Material(0.4, 0.3, 100, 0.3, 0),
+						50,
+						new Point3D(0, 0, 50)),
+				new Sphere(
+						new Color(java.awt.Color.RED),
+						new Material(0.5, 0.5, 100),
+						25,
+						new Point3D(0, 0, 50)),
+				new Polygon(
+						new Color(java.awt.Color.GRAY),
+						new Material(0.5, 0.5, 100,1,0,0,0),
+						new Point3D(-60 ,-60 ,50),new Point3D(-50 ,-60 ,100),
+						new Point3D(100 ,-60 ,50)
+				));
+		scene.addLights(
+				new SpotLight(
+						new Color(1000, 600, 0),
+						new Point3D(-100, 100, -500),
+						new Vector(-1, 1, 2),
+						1, 0.0004, 0.0000006));
+
+		ImageWriter imageWriter = new ImageWriter("twoSpheres1", 150, 150, 500, 500);
+		Render render = new Render(imageWriter, scene);
+
+		render.renderImage();
+		render.writeToImage();
+	}
+
 }

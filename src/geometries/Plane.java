@@ -78,7 +78,7 @@ public class Plane extends Geometry {
             // take only 𝒕 > 0
             if (alignZero(t) > 0 || tdist <= 0) {
                 //Ray points: 𝑃 = 𝑃0 + 𝑡 ∙ 𝑣, 𝑡 ≥ 0
-                P = ray.getP(t);
+                P = ray.getPointAtDistance(t);
                 if (temp == null) {
                     temp = new ArrayList<>();
                     temp.add(new GeoPoint(this, P));
