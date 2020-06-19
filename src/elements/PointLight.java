@@ -36,7 +36,7 @@ public class PointLight extends Light implements LightSource {
     double _kC; // Constant attenuation
     double _kL; // Linear attenuation
     double _kQ; // Quadratic attenuation
-
+    double radius = 4;
     public PointLight(Color colorIntensity, Point3D position, double kC, double kL, double kQ) {
         this._intensity = colorIntensity;
         this._position = new Point3D(position);
@@ -77,5 +77,15 @@ public class PointLight extends Light implements LightSource {
     @Override
     public double getDistance(Point3D point) {
         return this.getL(point).get_head().distance(point);
+    }
+
+    @Override
+    public double getRadius() {
+        return this.radius;
+    }
+
+    public PointLight    setRadius(double radius) {
+        this.radius = radius;
+        return this;
     }
 }

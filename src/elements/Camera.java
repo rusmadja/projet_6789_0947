@@ -21,7 +21,8 @@ public class Camera {
     Vector _vTo;
     Vector _vUp;
     Vector _vRight;
-    private int _superSampling =0;
+    private static Random rnd = new Random();
+    private int _superSampling =3;
     private double _aperture = 0d;
     private double _focus = 0;
     private int _dofSampling = 0;
@@ -275,7 +276,7 @@ public class Camera {
     }
 
 
-    private static Random rnd = new Random();
+
 
     /**
      * Create rays from the view plane and pass in the focal point
@@ -287,9 +288,8 @@ public class Camera {
         Vector v = pnt.subtract(_p0);
         if (_dofSampling == 0)
             return List.of(new Ray(_p0, v));
-
-        v.normalize();
-        Point3D f = pnt.add(v.scale(_focus / _vTo.dotProduct(v)));
+        double scale =_focus / _vTo.dotProduct(v);
+        Point3D f = pnt.add(v.normalize().scale(scale));
 
         List<Ray> rays = new LinkedList<>();
         for (int i = _dofSampling; i > 0; --i) {

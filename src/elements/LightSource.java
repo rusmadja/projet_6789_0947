@@ -1,6 +1,8 @@
 package elements;
 
-import primitives.*;
+import primitives.Color;
+import primitives.Point3D;
+import primitives.Vector;
 
 /**
  * Interface for common actions of light sources
@@ -8,6 +10,7 @@ import primitives.*;
  * @author Dan Zilberstein
  */
 public interface LightSource  {
+
     /**
      * Get light source intensity as it reaches a point I<sub>P</sub>
      *
@@ -26,4 +29,6 @@ public interface LightSource  {
     public Vector getL(Point3D p);
 
     double getDistance(Point3D point);
+
+    double getRadius();
 }

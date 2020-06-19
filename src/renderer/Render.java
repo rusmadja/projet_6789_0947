@@ -1,6 +1,7 @@
 package renderer;
 
 import elements.Camera;
+import elements.DirectionalLight;
 import elements.LightSource;
 import elements.Material;
 import primitives.Color;
@@ -28,9 +29,29 @@ public class Render {
     private static boolean isTransparency = true;
     private static final int MAX_CALC_COLOR_LEVEL = 30;
     private static final double MIN_CALC_COLOR_K = 0.001;
-    private int _superSampling = 10;
-    private double _glossyBlurryDistance = 5d;
-    private int _threads = 200;
+    private int _superSampling = 5;
+    private double _glossyBlurryDistance = 1d;
+    private int _threads = 50;
+
+    public Render setIsTransparency(boolean isTransparency) {
+        Render.isTransparency = isTransparency;
+        return this;
+    }
+
+    public Render setSuperSampling(int superSampling) {
+        _superSampling = superSampling;
+        return this;
+    }
+
+    public Render setGlossyBlurryDistance(double glossyBlurryDistance) {
+        _glossyBlurryDistance = glossyBlurryDistance;
+        return this;
+    }
+
+    public Render setThreads(int threads) {
+        _threads = threads;
+        return this;
+    }
 
     public Render(ImageWriter imageWriter, Scene scene) {
         this._imageWriter = imageWriter;
@@ -139,6 +160,7 @@ public class Render {
         if (ray == null) {
             return null;
         }
+
         GeoPoint closestPoint = null;
         double closestDistance = Double.MAX_VALUE;
         Point3D ray_p0 = ray.getPoint();
@@ -213,7 +235,7 @@ public class Render {
                 double ktr = 0;
 
                 if(isTransparency)
-                    ktr = transparency(lightSource, l, n, coloredPoint);
+                    ktr = transparencySoftShadow(lightSource, l, n, alignZero(nl*nv)>=0 , nv , coloredPoint);
                 else if (nl * nv > 0)
                     ktr = unshaded(lightSource, l, n, coloredPoint);
 
@@ -425,12 +447,14 @@ public class Render {
     }
 
     /**
-     *
-     * @param light
+     * @Meaning the goal of this function is to make a 3D shape transparency if a
+     * sphere in behind a triangle we can make the triangle transparent in order
+     * to be able to see the sphere who is behind
+     * @param light light source
      * @param l
      * @param n
      * @param geopoint
-     * @return
+     * @return ktr more or less shadow to the point I want the transparency
      */
     private double transparency(LightSource light, Vector l, Vector n, GeoPoint geopoint) {
         Vector lightDirection = l.scale(-1); // from point to light source
@@ -453,6 +477,55 @@ public class Render {
             }
         }
         return ktr;
+    }
+    /**
+     *
+     * @param
+     * @param l
+     * @param n
+     * @param geopoint
+     * @return
+     */
+    private double transparencySoftShadow(LightSource light, Vector l, Vector n, boolean nvnl, double nv, GeoPoint geopoint) {
+        Vector lightDirection = l.scale(-1); // from point to light source
+        double radius = light.getRadius();
+        double distance =  light.getDistance(geopoint.getPoint());
+        List<Ray> lightRays;
+        Ray lightRay = new Ray(geopoint.getPoint(), lightDirection, n);
+
+        if(light instanceof DirectionalLight)
+        {
+            return transparency(light,l,n,geopoint);
+        }
+        if (_superSampling == 1 || isZero(radius)) {
+            if (nvnl)
+                return 0d;
+            lightRays = List.of(lightRay);
+        } else {
+            lightRays = Ray.ConstructRayBeam(geopoint.getPoint(), lightRay.getDirection(), n, -nv, distance, radius, _superSampling);
+        }
+
+
+        double totalKtr = 0d;
+        for (Ray ray : lightRays) {
+            List<GeoPoint> intersections = _scene.getGeometries().findIntersections(ray, distance);
+            if (intersections == null) {
+                totalKtr += 1d;
+                continue;
+            }
+
+            double ktr = 1d;
+            for (GeoPoint gp : intersections) {
+                ktr = ktr * gp.getGeometry().getMaterial().getkT();
+                if (ktr < MIN_CALC_COLOR_K) {
+                    ktr = 0;
+                    break;
+                }
+            }
+            totalKtr += ktr;
+        }
+        totalKtr /=lightRays.size();
+        return  totalKtr;
     }
 
 

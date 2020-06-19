@@ -26,7 +26,7 @@ public class test_SuperSampling {
                                 new Point3D(25, -12, 350),
                                 new Vector(0, 0, -1),
                                 new Vector(0, -1, 0)))
-                .addDistance(500)
+                .addDistance(300)
                 .addBackground(Color.BLACK)
                 .build();
 
@@ -54,6 +54,7 @@ public class test_SuperSampling {
         ImageWriter imageWriter = new ImageWriter("testSuperSamplingWithLight", 150, 150, 500, 500);
         Render render = new Render(imageWriter, scene);
 
+
         render.renderImage();
         render.writeToImage();
     }
@@ -79,7 +80,7 @@ public class test_SuperSampling {
                         new Point3D(75, 20, 300),
                         new Point3D(75, 20, -100)),
                 new Sphere(
-                        new Color(java.awt.Color.BLUE),
+                        new Color(java.awt.Color.RED),
                         new Material(0.5, 0.5, 30,1,0,0,0.5),
                         25,
                         new Point3D(30, -5, 50))

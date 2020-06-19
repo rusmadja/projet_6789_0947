@@ -25,6 +25,7 @@ import primitives.Vector;
 public class SpotLight extends PointLight {
     Vector _direction;
     double _concentration;
+    double radius = 4;
 
     public SpotLight(Color colorIntensity, Point3D position, Vector direction, double kC, double kL, double kQ, double concentration) {
         super(colorIntensity, position, kC, kL, kQ);
@@ -56,5 +57,13 @@ public class SpotLight extends PointLight {
 
         return (pointlightIntensity.scale(factor));
     }
+    @Override
+    public double getRadius() {
+        return this.radius;
+    }
 
+    public SpotLight setRadius(double radius) {
+        this.radius = radius;
+        return this;
+    }
 }
