@@ -61,7 +61,7 @@ public class Render {
     /**
      * Function : printGrid
      * Meaning : print a grid in function of interval received
-     * Return : this function doesn't return anything
+     * @Return : this function doesn't return anything
      */
     public void printGrid(int interval, java.awt.Color color) {
         int Nx = _imageWriter.getNx();
@@ -78,7 +78,7 @@ public class Render {
     /**
      * Function : writeToImage
      * Meaning : finalize the picture creation by creating the file and saving it in HDD
-     * Return : this function doesn't return anything
+     * @Return : this function doesn't return anything
      */
     public void writeToImage() {
         _imageWriter.writeToImage();
@@ -88,7 +88,7 @@ public class Render {
      * Function : renderImage
      * Parameter : this function doesn't take in parameter anything
      * Meaning : pick up all of point3D from _scene and realize image representing it
-     * Return : this function doesn’t return anything
+     * @Return : this function doesn’t return anything
      */
     public void renderImage() {
         Camera camera = _scene.getCamera();
@@ -127,9 +127,10 @@ public class Render {
     }
 
     /**
-     * not usualy
+     *
+     * this fonction check the closest point from p0 in the list of instersectionPoints
      * @param intersectionPoints
-     * @return
+     * @return the closest Point
      */
     private GeoPoint getClosestPoint(List<GeoPoint> intersectionPoints) {
         Point3D p0 = _scene.getCamera().getP0();
@@ -180,9 +181,11 @@ public class Render {
     }
 
     /**
-     * TODO
-     * @param inRay
-     * @return
+     * Calculate the color  in a ray. every ray send from the camera
+     * come back with a color that color the pixel who the ray arrive
+     *
+     * @param inRay the ray list
+     * @return the color level
      */
     private Color calcColor(List<Ray> inRay){
         return calcColor( inRay,MAX_CALC_COLOR_LEVEL,1,1);
@@ -203,12 +206,12 @@ public class Render {
     }
 
     /**
-         * TODO
-         * @param coloredPoint
-         * @param inRay
+         * Calculate the color level to the GeoPoint
+         * @param coloredPoint the point to calculate de color
+         * @param inRay  the ray in the point
          * @param level
          * @param k
-         * @return
+         * @return the color in the point
          */
     private Color calcColor(GeoPoint coloredPoint, Ray inRay, int level, double k) {
         if (level == 0 || k<MIN_CALC_COLOR_K)
