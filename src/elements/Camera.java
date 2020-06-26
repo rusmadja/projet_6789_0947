@@ -22,7 +22,7 @@ public class Camera {
     Vector _vUp;
     Vector _vRight;
     private static Random rnd = new Random();
-    private int _superSampling =3;
+    private int _superSampling =1;
     private double _aperture = 0d;
     private double _focus = 0;
     private int _dofSampling = 0;
@@ -213,7 +213,8 @@ public class Camera {
                     p = pIJ.add(_vRight.scale(x));
                 if (!isZero(y))
                     p = p.add(_vUp.scale(y));
-                rays.addAll(constructFocalRays(p));
+                rays.add(new Ray(p,new Vector(p.subtract(_p0)).normalized()));
+               // rays.addAll(constructFocalRays(p));
             }
         }
         return rays;
@@ -285,25 +286,7 @@ public class Camera {
      * @return list of rays
      */
     private List<Ray> constructFocalRays(Point3D pnt) {
-        Vector v = pnt.subtract(_p0);
-        if (_dofSampling == 0)
-            return List.of(new Ray(_p0, v));
-        double scale =_focus / _vTo.dotProduct(v);
-        Point3D f = pnt.add(v.normalize().scale(scale));
-
-        List<Ray> rays = new LinkedList<>();
-        for (int i = _dofSampling; i > 0; --i) {
-            double x = rnd.nextDouble() * 2 - 1;
-            double y = Math.sqrt(1 - x * x);
-            Point3D p = pnt;
-            double mult = (rnd.nextDouble() - 0.5) * _aperture;
-            if (!isZero(x))
-                p.add(_vRight.scale(x * mult));
-            if (!isZero(y))
-                p.add(_vUp.scale(y * mult));
-            rays.add(new Ray(p, f.subtract(p)));
-        }
-        return rays;
+       return null;
     }
 
 }

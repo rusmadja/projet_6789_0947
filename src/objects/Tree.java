@@ -1,4 +1,4 @@
-package objects;
+package Private;
 
 import elements.Material;
 import geometries.Geometries;

@@ -4,6 +4,7 @@ import elements.Camera;
 import elements.DirectionalLight;
 import elements.LightSource;
 import elements.Material;
+import geometries.Intersectable;
 import primitives.Color;
 import primitives.Point3D;
 import primitives.Ray;
@@ -11,8 +12,6 @@ import primitives.Vector;
 import scene.Scene;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static geometries.Intersectable.GeoPoint;
 import static primitives.Util.alignZero;
@@ -29,9 +28,108 @@ public class Render {
     private static boolean isTransparency = true;
     private static final int MAX_CALC_COLOR_LEVEL = 30;
     private static final double MIN_CALC_COLOR_K = 0.001;
-    private int _superSampling = 5;
-    private double _glossyBlurryDistance = 1d;
-    private int _threads = 50;
+    private int _superSampling = 1;
+    private double _glossyBlurryDistance = 0d;
+    private int _threads = 20;
+    private final int SPARE_THREADS = 2; // Spare threads if trying to use all the cores
+    private boolean _print = false; // printing progress percentage
+    /**
+     * Pixel is an internal helper class whose objects are associated with a Render object that
+     * they are generated in scope of. It is used for multithreading in the Renderer and for follow up
+     * its progress.<br/>
+     * There is a main follow up object and several secondary objects - one in each thread.
+     *
+     * @author Dan
+     */
+    private class Pixel {
+        private long _maxRows = 0;
+        private long _maxCols = 0;
+        private long _pixels = 0;
+        public volatile int row = 0;
+        public volatile int col = -1;
+        private long _counter = 0;
+        private int _percents = 0;
+        private long _nextCounter = 0;
+
+        /**
+         * The constructor for initializing the main follow up Pixel object
+         *
+         * @param maxRows the amount of pixel rows
+         * @param maxCols the amount of pixel columns
+         */
+        public Pixel(int maxRows, int maxCols) {
+            _maxRows = maxRows;
+            _maxCols = maxCols;
+            _pixels = maxRows * maxCols;
+            _nextCounter = _pixels / 100;
+            if (Render.this._print) synchronized (System.out) {
+                System.out.printf("\r %02d%%", _percents);
+            }
+        }
+
+        /**
+         * Default constructor for secondary Pixel objects
+         */
+        public Pixel() {
+        }
+
+        /**
+         * Internal function for thread-safe manipulating of main follow up Pixel object - this function is
+         * critical section for all the threads, and main Pixel object data is the shared data of this critical
+         * section.<br/>
+         * The function provides next pixel number each call.
+         *
+         * @param target target secondary Pixel object to copy the row/column of the next pixel
+         * @return the progress percentage for follow up: if it is 0 - nothing to print, if it is -1 - the task is
+         * finished, any other value - the progress percentage (only when it changes)
+         */
+        private synchronized int nextP(Pixel target) {
+            ++col;
+            ++_counter;
+            if (col < _maxCols) {
+                target.row = this.row;
+                target.col = this.col;
+                if (_print && _counter == _nextCounter) {
+                    ++_percents;
+                    _nextCounter = _pixels * (_percents + 1) / 100;
+                    return _percents;
+                }
+                return 0;
+            }
+            ++row;
+            if (row < _maxRows) {
+                col = 0;
+                if (_print && _counter == _nextCounter) {
+                    ++_percents;
+                    _nextCounter = _pixels * (_percents + 1) / 100;
+                    return _percents;
+                }
+                return 0;
+            }
+            return -1;
+        }
+
+        /**
+         * Public function for getting next pixel number into secondary Pixel object.
+         * The function prints also progress percentage in the console window.
+         *
+         * @param target target secondary Pixel object to copy the row/column of the next pixel
+         * @return true if the work still in progress, -1 if it's done
+         */
+        public boolean nextPixel(Pixel target) {
+            int percents = nextP(target);
+            if (_print && percents > 0)
+                synchronized (System.out) {
+                    System.out.printf("\r %02d%%", percents);
+                }
+            if (percents >= 0)
+                return true;
+            if (_print) synchronized (System.out) {
+                System.out.printf("\r %02d%%", 100);
+            }
+            return false;
+        }
+    }
 
     public Render setIsTransparency(boolean isTransparency) {
         Render.isTransparency = isTransparency;
@@ -90,11 +188,11 @@ public class Render {
      * Meaning : pick up all of point3D from _scene and realize image representing it
      * @Return : this function doesn’t return anything
      */
-    public void renderImage() {
+   /* public void renderImage() {
         Camera camera = _scene.getCamera();
         /*Intersectable geometries = _scene.getGeometries();
         java.awt.Color background = _scene.getBackground().getColor();
-        AmbientLight ambientLight = _scene.getAmbientLight();*/
+        AmbientLight ambientLight = _scene.getAmbientLight();
         double distance = _scene.getDistance();
         int Nx = _imageWriter.getNx();
         int Ny = _imageWriter.getNy();
@@ -123,6 +221,43 @@ public class Render {
                     Thread.sleep(1);
                 } catch (Exception e) {}
             }
+        }
+    }*/
+    private volatile int max = 0;
+    public void renderImage() {
+        final Camera camera = _scene.getCamera();
+        final Intersectable geometries = _scene.getGeometries();
+        final java.awt.Color background = _scene.getBackground().getColor();
+        double distance = _scene.getDistance();
+        int Nx = _imageWriter.getNx();
+        int Ny = _imageWriter.getNy();
+        double width = _imageWriter.getWidth();
+        double height = _imageWriter.getHeight();
+
+        // Multi-threading
+        final Pixel thePixel = new Pixel(Ny, Nx);
+        // Generate threads
+        Thread[] threads = new Thread[_threads];
+        for (int i = _threads - 1; i >= 0; --i) {
+            threads[i] = new Thread(() -> {
+                Pixel pixel = new Pixel();
+                max = 0;
+                while (thePixel.nextPixel(pixel)) {
+                    List<Ray> rays = camera.constructRaysThroughPixel(Nx, Ny, pixel.col, pixel.row, distance, width, height);
+                    if(rays!=null)
+                        _imageWriter.writePixel( pixel.col, pixel.row, calcColor(rays).getColor());
+
+                }
+            });
+        }
+        for (Thread thread : threads) thread.start();
+        for (Thread thread : threads)
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+            }
+        if (_print) synchronized (System.out) {
+            System.out.printf("\r100%%\n");
         }
     }
 
@@ -529,6 +664,17 @@ public class Render {
         }
         totalKtr /=lightRays.size();
         return  totalKtr;
+    }
+    public Render setMultithreading(int threads) {
+        if (threads < 0)
+            throw new IllegalArgumentException("Multithreading parameter must be 0 or higher");
+        if (threads != 0)
+            _threads = threads;
+        else {
+            int cores = Runtime.getRuntime().availableProcessors() - SPARE_THREADS;
+            _threads = cores <= 2 ? 1 : cores;
+        }
+        return this;
     }
 
 
