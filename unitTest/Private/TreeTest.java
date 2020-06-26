@@ -121,7 +121,7 @@ public class TreeTest {
                              new Cube(new Color(100, 120, 120), new Material(0, 0.8, 60),
                                       new Point3D(0, -10, 0), 10, 10,10),*/
 
-                            /* new Wolf_1(
+                             new Wolf_1(
                                   new Color(60,60,60),
                                  new Material(0.5, 0.5, 30),new Point3D(0,0,0),1),
                              new Wolf_2(
@@ -129,7 +129,7 @@ public class TreeTest {
                                 new Material(0, 0, 30),new Point3D(0,0,0),1),
                              new Wolf_3(
                                      new Color(100,100,100),
-                                     new Material(0, 0, 30),new Point3D(0,0,0),1),*/
+                                     new Material(0, 0, 30),new Point3D(0,0,0),1),
 
                              new Tree( // tronc
                                      new Color(136, 66, 29),
@@ -143,10 +143,10 @@ public class TreeTest {
                              new Polygon(
                                         new Color(192,192,192),
                                           new Material(0.5, 0.5, 30,0,0.6),
-                                        new Point3D(-1500, 0, -1560),
-                                         new Point3D(-1500, 0, 1560),
-                                         new Point3D(1500, 0, 1560),
-                                         new Point3D(1500, 0, -1560))
+                                        new Point3D(-11500, 0, -11560),
+                                         new Point3D(-11500, 0, 11560),
+                                         new Point3D(11500, 0, 11560),
+                                         new Point3D(11500, 0, -11560))
 
         );
 
