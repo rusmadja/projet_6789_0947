@@ -55,7 +55,7 @@ public class DamierTest {
         //         new Point3D(-50, 0, 150), new Vector(0, 1, 0), 1, 4E-4, 2E-5));
 
         ImageWriter imageWriter = new ImageWriter("test1.10", 200, 200, 600, 600);
-        Render render = new Render(imageWriter, scene);
+        Render render = new Render(imageWriter, scene).setMultithreading(20);
 
         render.renderImage();
         render.writeToImage();
