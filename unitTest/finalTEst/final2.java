@@ -1,9 +1,6 @@
 package finalTEst;
 
-import elements.AmbientLight;
-import elements.Camera;
-import elements.Material;
-import elements.SpotLight;
+import elements.*;
 import geometries.Cube;
 import geometries.Polygon;
 import objects.*;
@@ -51,40 +48,40 @@ public class final2 {
                 .build();
         scene.addGeometries( //
                 // cube du bas
-                 new Wolf_1(new Color(212,175,55),
+                 new Cerfs(new Color(212,175,55),
                          new Material(0.5, 0.5, 120),
-                         new Point3D(0,330,0),4.5),
-               new Wolf_2(
-                     new Color(207,181,59),
+                         new Point3D(0,330,0),1),
+               new Cerfs_2(
+                     new Color(212,175,55),
                         new Material(0.5, 0.5, 120),
-                        new Point3D(0,330,0),4.5),
+                        new Point3D(0,330,0),1),
 
-                new Wolf_3(
-                        new Color(197,179,88),
+                new Cerfs_3(
+                        new Color(212,175,55),
                         new Material(0.5, 0.5, 120),
-                        new Point3D(0,330,0),4.5),
-                new Cube(new Color(java.awt.Color.GREEN), new Material(0.1, 0.2, 15),
+                        new Point3D(0,330,0),1),
+                new Cube(new Color(java.awt.Color.GRAY), new Material(0.1, 0.2, 15),
                         new Point3D(-450, 280, -490), 900, 50, 940),
 
-                new Cube(new Color(java.awt.Color.BLUE), new Material(0.1, 0.2, 15),
+                new Cube(new Color(java.awt.Color.DARK_GRAY), new Material(0.1, 0.2, 15),
                         new Point3D(-400, -120, -440), 800, 400, 840),
 
-                new Cube(new Color(java.awt.Color.YELLOW), new Material(0.1, 0.2, 15),
+                new Cube(new Color(java.awt.Color.LIGHT_GRAY), new Material(0.1, 0.2, 15),
                         new Point3D(-330, -50, 380), 660, 260, 40),
 
-                new Polygon(new Color(java.awt.Color.RED) ,
+                new Polygon(new Color(java.awt.Color.DARK_GRAY) ,
                         new Point3D(-400, -120, -440),new Point3D(400, -120, -440),
                        new Point3D(450, -160, -490), new Point3D(-450, -160, -490)),
 
-                new Polygon(new Color(java.awt.Color.RED) ,
+                new Polygon(new Color(java.awt.Color.DARK_GRAY) ,
                         new Point3D(400, -120, -440),new Point3D(450, -160, -490),
                         new Point3D(450, -160, 450), new Point3D(400, -120, 400)),
 
-                new Polygon(new Color(java.awt.Color.RED) ,
+                new Polygon(new Color(java.awt.Color.DARK_GRAY) ,
                         new Point3D(-400, -120, -440),new Point3D(-450, -160, -490),
                         new Point3D(-450, -160, 450), new Point3D(-400, -120, 400)),
 
-                new Polygon(new Color(java.awt.Color.RED) ,
+                new Polygon(new Color(java.awt.Color.DARK_GRAY) ,
                         new Point3D(450, -160, 450), new Point3D(400, -120, 400),
                         new Point3D(-400, -120, 400), new Point3D(-450, -160, 450)),
 
@@ -96,15 +93,25 @@ public class final2 {
                         new Point3D(1500, -159.9999, 1560),
                         new Point3D(1500, -159.9999, -1560))
         );
-        scene.addLights(new SpotLight(new Color(400,240,0),
-                new Point3D(-500, 2700, 0),
+        scene.addLights(new SpotLight(new Color(212,175,55),
+                new Point3D(1499, 1100, 1559),
+                new Vector(-1, -0.5, -1),
+                1, 0.00004, 0.000001));
+        scene.addLights(new SpotLight(new Color(0,0,250),
+                new Point3D(-1500, -159.9999, 1560),
+                new Vector(1500, 490, -1560),
+                1, 0.00004, 0.000001));
+        scene.addLights(new SpotLight(new Color(0,250,0),
+                new Point3D(1500, -159.9999, 1560),
                 new Vector(500, -2588, -13),
-                1, 0.00004, 0.00001));
-
-        scene.addLights(new SpotLight(new Color(java.awt.Color.GREEN),
-                new Point3D(500, 2700, 0),
-                new Vector(-500, -2588, -13),
-                1, 0.00004, 0.00001));
+                1, 0.00004, 0.000001));
+        scene.addLights(new SpotLight(new Color(250,0,0),
+                new Point3D(1500, -159.9999, -1560),
+                new Vector(500, -2588, -13),
+                1, 0.00004, 0.000001));
+        scene.addLights(new PointLight(new Color(java.awt.Color.WHITE),
+                new Point3D(0, 700, 0),
+                1, 0.00004, 0.000001));
 
 
 

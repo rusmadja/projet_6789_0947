@@ -40,4 +40,59 @@ public abstract class Util {
     public static double alignZero(double number) {
         return getExp(number) < ACCURACY ? 0.0 : number;
     }
+
+    public static Point3D getMax(Point3D ... vertice) {
+        double x = Double.MIN_VALUE;
+        double y = Double.MIN_VALUE;
+        double z = Double.MIN_VALUE;
+        for (var p:
+             vertice) {
+            if(p!=null){
+                double thisx = p.get_x().get();
+                double thisy = p.get_y().get();
+                double thisz = p.get_z().get();
+                if (x < thisx)
+                    x = thisx;
+                if (y < thisy)
+                    y = thisy;
+                if (z < thisz)
+                    z = thisz;
+            }
+        }
+        return new Point3D(x,y,z);
+    }
+    public static Point3D getMin(Point3D ... vertice) {
+        double x = Double.MAX_VALUE;
+        double y = Double.MAX_VALUE;
+        double z = Double.MAX_VALUE;
+        for (var p:
+                vertice) {
+            if(p!=null) {
+                double thisx = p.get_x().get();
+                double thisy = p.get_y().get();
+                double thisz = p.get_z().get();
+                if (x >= thisx)
+                    x = thisx;
+                if (y >= thisy)
+                    y = thisy;
+                if (z >= thisz)
+                    z = thisz;
+            }
+        }
+        return new Point3D(x,y,z);
+    }
+    public static Point3D getMax(Point3D point3D , double radius) {
+        double x = point3D.get_x().get() + radius;
+        double y = point3D.get_y().get() + radius;
+        double z = point3D.get_z().get() + radius;
+
+        return new Point3D(x,y,z);
+    }
+    public static Point3D getMin(Point3D point3D , double radius) {
+        double x = point3D.get_x().get() - radius ;
+        double y = point3D.get_y().get() - radius ;
+        double z = point3D.get_z().get() - radius ;
+
+        return new Point3D(x,y,z);
+    }
 }

@@ -1,10 +1,7 @@
 package geometries;
 
 import elements.Material;
-import primitives.Color;
-import primitives.Point3D;
-import primitives.Ray;
-import primitives.Vector;
+import primitives.*;
 
 import java.util.List;
 
@@ -22,6 +19,7 @@ public class Polygon extends Geometry {
      * List of polygon's vertices
      */
     protected List<Point3D> _vertices;
+
     /**
      * Associated plane in which the polygon lays
      */
@@ -50,7 +48,7 @@ public class Polygon extends Geometry {
      */
     public Polygon(Color emissionLight, Material material, Point3D... vertices) {
 
-        super(emissionLight,material);
+        super(emissionLight,material, Util.getMax(vertices),Util.getMin(vertices));
 
         if (vertices.length < 3)
             throw new IllegalArgumentException("A polygon can't have less than 3 vertices");
@@ -95,7 +93,6 @@ public class Polygon extends Geometry {
     }
     public Polygon(Point3D... vertices) {
         this(Color.BLACK,new Material(0,0,0),vertices);
-//        this(new Color(java.awt.Color.RED),new Material(0,0,0),vertices);
     }
 
     @Override

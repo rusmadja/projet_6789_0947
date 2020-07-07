@@ -4,14 +4,17 @@ import elements.Camera;
 import elements.DirectionalLight;
 import elements.LightSource;
 import elements.Material;
+import geometries.Geometry;
 import geometries.Intersectable;
 import primitives.Color;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
+import scene.Grid3D;
 import scene.Scene;
 
 import java.util.List;
+import java.util.Map;
 
 import static geometries.Intersectable.GeoPoint;
 import static primitives.Util.alignZero;
@@ -23,6 +26,7 @@ import static primitives.Util.isZero;
 public class Render {
     private final ImageWriter _imageWriter;
     private final Scene _scene;
+    private Grid3D _grid;
     private double sceneDistance = 0;
     private static final double DELTA = 0.1;
     private static boolean isTransparency = true;
@@ -33,6 +37,10 @@ public class Render {
     private int _threads = 20;
     private final int SPARE_THREADS = 2; // Spare threads if trying to use all the cores
     private boolean _print = false; // printing progress percentage
+
+    public void setGrid(int voxellSizeX, int voxellSizeY, int voxellSizeZ) {
+        this._grid = new Grid3D(_scene.getGeometries(), voxellSizeX, voxellSizeY, voxellSizeZ);
+    }
     /**
      * Pixel is an internal helper class whose objects are associated with a Render object that
      * they are generated in scope of. It is used for multithreading in the Renderer and for follow up
@@ -41,6 +49,7 @@ public class Render {
      *
      * @author Dan
      */
+
     private class Pixel {
         private long _maxRows = 0;
         private long _maxCols = 0;
@@ -154,6 +163,7 @@ public class Render {
     public Render(ImageWriter imageWriter, Scene scene) {
         this._imageWriter = imageWriter;
         this._scene = scene;
+        this._grid = new Grid3D(_scene.getGeometries(), 1, 1, 1);
     }
 
     /**
@@ -188,41 +198,7 @@ public class Render {
      * Meaning : pick up all of point3D from _scene and realize image representing it
      * @Return : this function doesn’t return anything
      */
-   /* public void renderImage() {
-        Camera camera = _scene.getCamera();
-        /*Intersectable geometries = _scene.getGeometries();
-        java.awt.Color background = _scene.getBackground().getColor();
-        AmbientLight ambientLight = _scene.getAmbientLight();
-        double distance = _scene.getDistance();
-        int Nx = _imageWriter.getNx();
-        int Ny = _imageWriter.getNy();
-        double width = _imageWriter.getWidth();
-        double height = _imageWriter.getHeight();
 
-
-        ExecutorService executor = Executors.newFixedThreadPool(_threads);
-        for (int i = 0; i < Ny; ++i) { // go by pixel rows
-            final int row = i;
-            final Runnable rowTask = () -> {
-                for (int j = 0; j < Nx; ++j) { // go by pixel in row
-                    List<Ray> rays = camera.constructRaysThroughPixel(Nx, Ny, j, row, distance, width, height);
-                    _imageWriter.writePixel(j, row, calcColor(rays).getColor());
-                }
-            };
-            if (_threads == 1)
-                rowTask.run();
-            else
-                executor.execute(rowTask);
-        }
-        if (_threads != 1) {
-            executor.shutdown();
-            while (!executor.isTerminated()) {
-                try {
-                    Thread.sleep(1);
-                } catch (Exception e) {}
-            }
-        }
-    }*/
     private volatile int max = 0;
     public void renderImage() {
         final Camera camera = _scene.getCamera();
@@ -314,7 +290,40 @@ public class Render {
         }
         return closestPoint;
     }
+    private GeoPoint _getClosestPoint(Map<Geometry, List<Point3D>> intersectionPoints) {
 
+        if (intersectionPoints == null) {
+            throw new IllegalArgumentException("The list of points cannot be null");
+        }
+        // initialization
+        double currentDistance, minDistance = Double.MAX_VALUE;
+        Point3D P0 = new Point3D(_scene.getCamera().getP0());
+        GeoPoint closestPoint = null;
+        // for each intersection point if it's closes from the previous one - keep it
+        // and compare to the next point
+        for (Map.Entry<Geometry, List<Point3D>> entry : intersectionPoints.entrySet()) {
+            for (Point3D p : entry.getValue()) {
+                currentDistance = P0.distance(p);
+                if (currentDistance < minDistance) {
+                    closestPoint = new GeoPoint((Geometry) entry.getKey(), new Point3D(p));
+                    minDistance = currentDistance;
+                }
+            }
+        }
+        return closestPoint;
+
+    }
+
+    /**
+     *
+     * @param ray
+     * @return - The closest intersection point
+     */
+    private GeoPoint _findClosestIntersection(Ray ray) {
+        //Map<Geometry, List<Point3D>> intersectionPoints = _scene.getGeometries().findIntersections(reflectedRay);
+       List<GeoPoint> intersectionPoints =  _grid.findIntersection(ray);
+        return intersectionPoints.isEmpty() ? null : getClosestPoint(intersectionPoints);
+    }
     /**
      * Calculate the color  in a ray. every ray send from the camera
      * come back with a color that color the pixel who the ray arrive
@@ -331,7 +340,6 @@ public class Render {
         Color color = Color.BLACK;
         double k_factor = k* factor;
         for (Ray ray:inRay) {
-            //if(ray.getPointAtDistance())
             GeoPoint gp = findClosestIntersection(ray);
             color = color.add(gp == null ? bkg : calcColor(gp, ray, level-1 ,k_factor));
         }

@@ -78,7 +78,6 @@ public class Point3D {
                 _y.equals(point3D._y) &&
                 _z.equals(point3D._z);
     }
-
     @Override
     public String toString() {
         return "Point3D{" +

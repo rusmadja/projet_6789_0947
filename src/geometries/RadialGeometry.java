@@ -1,6 +1,8 @@
 package geometries;
 
+import elements.Material;
 import primitives.Color;
+import primitives.Point3D;
 
 import static primitives.Util.isZero;
 
@@ -22,7 +24,12 @@ public abstract class RadialGeometry extends Geometry{
             throw new IllegalArgumentException("radius "+ _radius +" is not valid");
         this._radius = _radius;
     }
-
+    public RadialGeometry(Color emissionLight, Material material, double _radius, Point3D max,Point3D min) {
+        super(emissionLight,material,max,min);
+        if (isZero(_radius) || (_radius < 0.0))
+            throw new IllegalArgumentException("radius "+ _radius +" is not valid");
+        this._radius = _radius;
+    }
     public RadialGeometry(RadialGeometry other){
         super(Color.BLACK);
         this._radius= other._radius;

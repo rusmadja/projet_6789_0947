@@ -20,7 +20,8 @@ public interface Intersectable {
    }
 
    List<GeoPoint> findIntersections(Ray ray,double MAXDISTANCE);
-
+   Point3D getMax();
+   Point3D getMin();
    public static class GeoPoint {
 
       Geometry _geometry;
